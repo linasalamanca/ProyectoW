@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div th:insert="fragments/menus.html :: menuPrincipal"></div>
+
+    <h1>Estrellas</h1>
+    <a th:href="@{/estrella/search}">Buscar</a>
+
+    <table class="estrella-list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CoordenadaX</th>
+                <th>CoordenadaY</th>
+                <th>CoordenadaZ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="e : ${estrella}" th:if="${e.id}">
+                <td th:text="${e.id}"></td>
+                <td th:text="${e.coordenadaX}"></td>
+                <td th:text="${e.coordenadaY}"></td>
+                <td th:text="${e.coordenadaZ}"></td>
+                <td>
+                    <a th:href="@{/estrella/view/{id}(id=${e.id})}">Ver</a>
+                
+                </td>
+                <td>
+                    <a th:href="@{/estrella/edit-form/{id}(id=${e.id})}">Editar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

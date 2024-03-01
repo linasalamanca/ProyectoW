@@ -26,48 +26,48 @@ public class EstrellaController {
     Logger loggy = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private EstrellaService estrellitaService;
+    private EstrellaService estrellaService;
 
     @GetMapping("/list")
     public String listarEstrellas(Model model){
-        List<Estrella> estrellitas = estrellitaService.listarEstrellas();
-        loggy.info("estrella" + estrellitas.size());
-        model.addAttribute("estrella",estrellitas);
+        List<Estrella> estrella = estrellaService.listarEstrellas();
+        loggy.info("estrella" + estrella.size());
+        model.addAttribute("estrella",estrella);
         return "estrella-list";
     }
 
      @GetMapping("/view/{id}")
      String verEstrellas(Model model, @PathVariable("id") Long id){
-        Estrella estrellita = estrellitaService.buscar(id);
-        loggy.info("estrella" + estrellita);
+        Estrella estrella = estrellaService.buscar(id);
+        loggy.info("estrella" + estrella);
 
-        model.addAttribute("estrella", estrellita);
+        model.addAttribute("estrella", estrella);
         return "estrella-edit";
      }
 
      @GetMapping("/edit-form/{id}")
      public String formularioEditarEstrella(Model model, @PathVariable Long id){
-        Estrella estrellita = estrellitaService.buscar(id);
-        model.addAttribute("estrella", estrellita);
+        Estrella estrella = estrellaService.buscar(id);
+        model.addAttribute("estrella", estrella);
         return "estrella-edit";
      }
 
      @PostMapping(value = "/save")
-     public String guardarNave(@Valid Estrella estrellita, BindingResult result, Model model){
+     public String guardarNave(@Valid Estrella estrella, BindingResult result, Model model){
         if(result.hasErrors()){
             return "estrella-edit";
         }
-        estrellitaService.guardarNave(estrellita);
+        estrellaService.guardarNave(estrella);
         return "redirect:/estrella/list";
      }
 
      @GetMapping("/search")
      public String listaNaves(@RequestParam(required = false) String searchText, Model model){
-        List<Estrella> estrellitas;
+        List<Estrella> estrellas;
         if(searchText == null || searchText.trim().equals("")){
             loggy.info("No hay texto de búsqueda, retornando todo");
-            estrellitas = estrellitaService.listarEstrellas();
-            model.addAttribute("estrella", estrellitas);
+            estrellas = estrellaService.listarEstrellas();
+            model.addAttribute("estrella", estrellas);
         }
 
     return "estrella-search";
