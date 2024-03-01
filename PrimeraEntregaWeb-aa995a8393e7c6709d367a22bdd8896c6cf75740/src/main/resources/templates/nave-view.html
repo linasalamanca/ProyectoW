@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+
+</head>
+
+<body>
+    <h1>Nave</h1>
+    <p th:text="|Nombre: ${nave.nombre}|"></p>
+    <p th:text="|Dinero: ${nave.dinero}|"></p>
+    <p th:text="|CoordenadaX: ${nave.coordenadaX}|"></p>
+    <p th:text="|CoordenadaX: ${nave.coordenadaY}|"></p>
+    <p th:text="|CoordenadaX: ${nave.coordenadaZ}|"></p>
+    <p th:text="|CoordenadaX: ${nave.tiempo}|"></p>
+    <a th:href="@{/nave/list}">Volver</a>
+</body>
+
+</html>

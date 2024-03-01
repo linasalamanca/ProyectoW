@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div class="formcontainer">
+        <h1>Nave</h1>
+        <form action="#" th:action="@{/nave/save}" th:object="${nave}" method="post">
+            <input type="hidden" th:field="*{nombre}" id="nombre">
+            <label for="naveDinero">Nombre: </label>
+            <input type="text" th:field="*{dinero}" id="naveDinero">
+            <span th:if="${#fields.hasErrors('dinero')}" th:errors="*{dinero}"
+                th:class="${#fields.hasErrors('dinero')} ? 'error' : ''"></span>
+            <label for="naveCoordenadaX">Apellido: </label>
+            <input type="text" th:field="*{CoordenadaX}" id="naveCoordenadaX">
+            <span th:if="${#fields.hasErrors('CoordenadaX')}" th:errors="*{CoordenadaX}"
+                th:class="${#fields.hasErrors('CoordenadaX')} ? 'error' : ''"></span>
+            <label for="naveCoordenadaY">Email: </label>
+            <input type="text" th:field="*{CoordenadaY}" id="naveCoordenadaY">
+            <span th:if="${#fields.hasErrors('CoordenadaY')}" th:errors="*{CoordenadaY}"
+                th:class="${#fields.hasErrors('CoordenadaY')} ? 'error' : ''"></span>
+            <label for="naveCoordenadaZ">Email: </label>
+            <input type="text" th:field="*{CoordenadaZ}" id="naveCoordenadaZ">
+            <span th:if="${#fields.hasErrors('CoordenadaZ')}" th:errors="*{CoordenadaZ}"
+                th:class="${#fields.hasErrors('CoordenadaZ')} ? 'error' : ''"></span>
+            <label for="naveTiempo">Email: </label>
+            <input type="text" th:field="*{tiempo}" id="naveTiempo">
+            <span th:if="${#fields.hasErrors('tiempo')}" th:errors="*{tiempo}"
+                    th:class="${#fields.hasErrors('tiempo')} ? 'error' : ''"></span>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <a th:href="@{/nave/list}">Cancelar</a>
+</body>
+
+</html>

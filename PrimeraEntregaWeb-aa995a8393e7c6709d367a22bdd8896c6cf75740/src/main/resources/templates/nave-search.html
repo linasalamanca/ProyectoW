@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+
+    <form method="get" action="#" th:action="@{/nave/search}">
+        <label for="searchText">Buscar por apellido</label>
+        <input type="text" id="searchText" name="searchText">
+        <button type="submit">Search</button>
+    </form>
+
+    <h1>Persons</h1>
+    <table class="entity-list">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Ver</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr th:each="p : ${persons}" th:if="${p.firstName}">
+                <td th:text="${p.firstName}"></td>
+                <td th:text="${p.lastName}"></td>
+                <td th:text="${p.email}"></td>
+                <td>
+                    <a th:href="@{/person/view/{id}(id=${p.id})}">Ver</a>
+                </td>
+                <td>
+                    <a th:href="@{/person/edit-form/{id}(id=${p.id})}">Editar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

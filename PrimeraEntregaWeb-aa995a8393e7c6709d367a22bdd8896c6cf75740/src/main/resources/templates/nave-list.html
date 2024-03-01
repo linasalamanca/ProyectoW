@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div th:insert="fragments/menus.html :: menuPrincipal"></div>
+
+    <h1>Naves</h1>
+    <a th:href="@{/nave/search}">Buscar</a>
+
+    <table class="nave-list">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Dinero</th>
+                <th>CoordenadaX</th>
+                <th>CoordenadaY</th>
+                <th>CoordenadaZ</th>
+                <th>Tiempo</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr th:each="p : ${nave}" th:if="${p.nombre}">
+                <td th:text="${p.nombre}"></td>
+                <td th:text="${p.dinero}"></td>
+                <td th:text="${p.coordenadaX}"></td>
+                <td th:text="${p.coordenadaY}"></td>
+                <td th:text="${p.coordenadaZ}"></td>
+                <td th:text="${p.Tiempo}"></td>
+                <td>
+                    <a th:href="@{/nave/view/{nombre}(nombre=${p.nombre})}">Ver</a>
+                
+                </td>
+                <td>
+                    <a th:href="@{/nave/edit-form/{nombre}(nombre=${p.nombre})}">Editar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>
