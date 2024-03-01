@@ -21,8 +21,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="p : ${estrella}" th:if="${p.coordenadaX}">
-
+            <tr th:each="p : ${estrella}" th:if="${p.id}">
+                <td th:text="${p.id}"></td>
                 <td th:text="${p.coordenadaX}"></td>
                 <td th:text="${p.coordenadaY}"></td>
                 <td th:text="${p.coordenadaZ}"></td>
