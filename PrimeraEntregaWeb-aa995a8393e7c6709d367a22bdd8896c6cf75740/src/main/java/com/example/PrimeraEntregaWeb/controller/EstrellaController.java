@@ -29,48 +29,48 @@ public class EstrellaController {
     private EstrellaService estrellaService;
 
     @GetMapping("/list")
-    public String listarEstrellas(Model model){
+    public String listarEstrellas(Model model) {
         List<Estrella> estrella = estrellaService.listarEstrellas();
         loggy.info("estrella" + estrella.size());
-        model.addAttribute("estrella",estrella);
+        model.addAttribute("estrella", estrella);
         return "estrella-list";
     }
 
-     @GetMapping("/view/{id}")
-     String verEstrellas(Model model, @PathVariable("id") Long id){
+    @GetMapping("/view/{id}")
+    String verEstrellas(Model model, @PathVariable("id") Long id) {
         Estrella estrella = estrellaService.buscar(id);
         loggy.info("estrella" + estrella);
 
         model.addAttribute("estrella", estrella);
-        return "estrella-edit";
-     }
+        return "estrella-view";
+    }
 
-     @GetMapping("/edit-form/{id}")
-     public String formularioEditarEstrella(Model model, @PathVariable Long id){
+    @GetMapping("/edit-form/{id}")
+    public String formularioEditarEstrella(Model model, @PathVariable Long id) {
         Estrella estrella = estrellaService.buscar(id);
         model.addAttribute("estrella", estrella);
         return "estrella-edit";
-     }
+    }
 
-     @PostMapping(value = "/save")
-     public String guardarNave(@Valid Estrella estrella, BindingResult result, Model model){
-        if(result.hasErrors()){
+    @PostMapping(value = "/save")
+    public String guardarNave(@Valid Estrella estrella, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             return "estrella-edit";
         }
         estrellaService.guardarNave(estrella);
         return "redirect:/estrella/list";
-     }
+    }
 
-     @GetMapping("/search")
-     public String listaNaves(@RequestParam(required = false) String searchText, Model model){
+    @GetMapping("/search")
+    public String listaNaves(@RequestParam(required = false) String searchText, Model model) {
         List<Estrella> estrellas;
-        if(searchText == null || searchText.trim().equals("")){
+        if (searchText == null || searchText.trim().equals("")) {
             loggy.info("No hay texto de búsqueda, retornando todo");
             estrellas = estrellaService.listarEstrellas();
             model.addAttribute("estrella", estrellas);
         }
 
-    return "estrella-search";
-     }
+        return "estrella-search";
+    }
 
 }
