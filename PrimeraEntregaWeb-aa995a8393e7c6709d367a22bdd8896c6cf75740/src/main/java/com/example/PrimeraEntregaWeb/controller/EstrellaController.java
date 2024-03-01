@@ -42,7 +42,7 @@ public class EstrellaController {
         loggy.info("estrella" + estrella);
 
         model.addAttribute("estrella", estrella);
-        return "estrella-edit";
+        return "estrella-view";
      }
 
      @GetMapping("/edit-form/{id}")
