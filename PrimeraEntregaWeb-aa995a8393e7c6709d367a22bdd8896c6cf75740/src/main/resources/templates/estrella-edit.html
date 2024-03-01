@@ -10,15 +10,15 @@
         <h1>Estrella</h1>
         <form action="#" th:action="@{/estrella/save}" th:object="${estrella}" method="post">
             <input type="hidden" th:field="*{id}" id="id">
-            <label for="estrellaId">Id: </label>
+            <label for="Coordenada X">CoordenadaX: </label>
             <input type="text" th:field="*{CoordenadaX}" id="estrellaCoordenadaX">
             <span th:if="${#fields.hasErrors('CoordenadaX')}" th:errors="*{CoordenadaX}"
                 th:class="${#fields.hasErrors('CoordenadaX')} ? 'error' : ''"></span>
-            <label for="estrellaCoordenadaY">Apellido: </label>
+            <label for="estrellaCoordenadaY">Coordenada Y: </label>
             <input type="text" th:field="*{CoordenadaY}" id="estrellaCoordenadaY">
             <span th:if="${#fields.hasErrors('CoordenadaY')}" th:errors="*{CoordenadaY}"
                 th:class="${#fields.hasErrors('CoordenadaY')} ? 'error' : ''"></span>
-            <label for="estrellaCoordenadaZ">Email: </label>
+            <label for="estrellaCoordenadaZ">Coordenada Z: </label>
             <input type="text" th:field="*{CoordenadaZ}" id="estrellaCoordenadaZ">
             <span th:if="${#fields.hasErrors('CoordenadaZ')}" th:errors="*{CoordenadaZ}"
                 th:class="${#fields.hasErrors('CoordenadaZ')} ? 'error' : ''"></span>
