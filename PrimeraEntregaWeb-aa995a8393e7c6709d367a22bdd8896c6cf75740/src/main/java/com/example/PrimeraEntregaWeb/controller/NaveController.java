@@ -36,7 +36,7 @@ public class NaveController {
     }
 
     @GetMapping("/view/{nombre}")
-    String verNaves(Model model, @PathVariable("nombre") String nombre) {
+    String verNaves(Model model, @PathVariable("") String nombre) {
         Nave nave = naveServicio.buscarNave(nombre);
         log.info("nave " + nave);
 

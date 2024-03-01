@@ -13,45 +13,52 @@ public class Estrella {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(name = "coordenadaX", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private Float coordenadaX;
+    private Double coordenadaX;
 
     @Column(name = "coordenadaY", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private Float coordenadaY;
+    private Double coordenadaY;
 
     @Column(name = "coordenadaZ", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private Float coordenadaZ;
+    private Double coordenadaZ;
 
-    public Float getCoordenadaX() {
+      public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public Double getCoordenadaX() {
         return coordenadaX;
     }
 
-    public void setCoordenadaX(Float coordenadaX) {
+    public void setCoordenadaX(Double coordenadaX) {
         this.coordenadaX = coordenadaX;
     }
 
-    public Float getCoordenadaZ() {
+    public Double getCoordenadaZ() {
         return coordenadaZ;
     }
 
-    public void setCoordenadaZ(Float coordenadaZ) {
+    public void setCoordenadaZ(Double coordenadaZ) {
         this.coordenadaZ = coordenadaZ;
     }
 
-    public Float getCoordenadaY() {
+    public Double getCoordenadaY() {
         return coordenadaY;
     }
 
-    public void setCoordenadaY(Float coordenadaY) {
+    public void setCoordenadaY(Double coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
 
-    public Estrella(Float coordenadaX, Float coordenadaY, Float coordenadaZ) {
+    public Estrella(Double coordenadaX, Double coordenadaY, Double coordenadaZ) {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
         this.coordenadaZ = coordenadaZ;
