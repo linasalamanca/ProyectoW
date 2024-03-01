@@ -1,8 +1,30 @@
 package com.example.PrimeraEntregaWeb.model;
 
+import javax.validation.constraints.NotBlank;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Jugador {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "rol", nullable = false)
+    @NotBlank(message = "no puede estar en blanco")
     private String rol;
+
+    @Column(name = "usuario", nullable = false)
+    @NotBlank(message = "no puede estar en blanco")
     private String usuario;
+
+    @Column(name = "contrasena", nullable = false)
+    @NotBlank(message = "no puede estar en blanco")
     private String contrasena;
 
     public String getRol() {
@@ -33,5 +55,9 @@ public class Jugador {
         this.rol = rol;
         this.usuario = usuario;
         this.contrasena = contrasena;
+    }
+
+    public Jugador() {
+
     }
 }
