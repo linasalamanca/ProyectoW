@@ -60,6 +60,12 @@ public class EstrellaController {
         estrellaService.guardarEstrella(estrella);
         return "redirect:/estrella/list";
     }
+    @GetMapping("/delete/{id}")
+    public String borrarEstrella(Model model, @PathVariable Long id) {
+        estrellaService.eliminarEstrella(id);
+       // model.addAttribute("nave", nave);
+        return "redirect:/estrella/list";
+    }
 
     @GetMapping("/search")
     public String listaNaves(@RequestParam(required = false) String searchText, Model model) {
