@@ -11,7 +11,7 @@ import io.micrometer.common.lang.NonNull;
 
 @Service
 public class InventarioNaveService {
-     @Autowired
+    @Autowired
     private InventarioNaveRepository inventarioNaveRepositorio;
      public List<InventarioNave> listarInventarioNave() {
         return inventarioNaveRepositorio.findAll();

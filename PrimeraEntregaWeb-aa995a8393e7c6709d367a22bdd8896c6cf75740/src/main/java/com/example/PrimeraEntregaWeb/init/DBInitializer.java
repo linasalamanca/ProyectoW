@@ -10,12 +10,14 @@ import org.springframework.stereotype.Component;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
+import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.model.Producto;
 import com.example.PrimeraEntregaWeb.repository.EstrellaRepository;
 import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
+import com.example.PrimeraEntregaWeb.repository.InventarioPlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.JugadorRepository;
 import com.example.PrimeraEntregaWeb.repository.NaveRepository;
 import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
@@ -36,6 +38,8 @@ public class DBInitializer implements CommandLineRunner {
     private ProductoRepository productoRepository;
     @Autowired
     private InventarioNaveRepository inventarioNaveRepository;
+    @Autowired
+    private InventarioPlanetaRepository inventarioPlanetaRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -93,6 +97,15 @@ public class DBInitializer implements CommandLineRunner {
 
         List<InventarioNave> inventarioNave = Arrays.asList(inave1, inave2, inave3, inave4, inave5);
         inventarioNaveRepository.saveAll(inventarioNave);
+
+        InventarioPlaneta iplaneta1 = new InventarioPlaneta(615, 9.1);
+        InventarioPlaneta iplaneta2 = new InventarioPlaneta(200, 9.9);
+        InventarioPlaneta iplaneta3 = new InventarioPlaneta(300, 81.2);
+        InventarioPlaneta iplaneta4 = new InventarioPlaneta(400,821.1);
+        InventarioPlaneta iplaneta5 = new InventarioPlaneta(500,12.2);
+
+        List<InventarioPlaneta> inventarioPlaneta = Arrays.asList(iplaneta1, iplaneta2, iplaneta3, iplaneta4, iplaneta5);
+        inventarioPlanetaRepository.saveAll(inventarioPlaneta);
 
     }
 }
