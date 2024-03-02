@@ -81,6 +81,12 @@ public class NaveController {
         model.addAttribute("nave", new Nave());
         return "nave-create";
     }
+    @GetMapping("/delete/{nombre}")
+    public String borrarNave(Model model, @PathVariable String nombre) {
+        naveServicio.eliminarNave(nombre);
+       // model.addAttribute("nave", nave);
+        return "redirect:/nave/list";
+    }
 
 
     @PostMapping(value = "/save")
@@ -96,6 +102,7 @@ public class NaveController {
         naveServicio.guardarNave(nave);
         return "redirect:/nave/list";
     }
+
 
     @GetMapping("/search")
     public String listaNaves(@RequestParam(required = false) String searchText, Model model) {
