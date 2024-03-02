@@ -8,7 +8,7 @@
 <body>
     <div class="formcontainer">
         <h1>Estrella</h1>
-        <form action="#" th:action="@{/estrella/save}" th:object="${estrella}" method="post">
+        <form action="#" th:action="@{/estrella/update}" th:object="${estrella}" method="post">
             <input type="hidden" th:field="*{id}" id="id">
             <label for="Coordenada X">CoordenadaX: </label>
             <input type="text" th:field="*{CoordenadaX}" id="estrellaCoordenadaX">

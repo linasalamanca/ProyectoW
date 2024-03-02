@@ -9,11 +9,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
+import com.example.PrimeraEntregaWeb.model.InventarioNave;
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.model.Producto;
 import com.example.PrimeraEntregaWeb.repository.EstrellaRepository;
+import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
 import com.example.PrimeraEntregaWeb.repository.JugadorRepository;
 import com.example.PrimeraEntregaWeb.repository.NaveRepository;
 import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
@@ -32,6 +34,8 @@ public class DBInitializer implements CommandLineRunner {
     private PlanetaRepository planetaRepository;
     @Autowired
     private ProductoRepository productoRepository;
+    @Autowired
+    private InventarioNaveRepository inventarioNaveRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -81,6 +85,14 @@ public class DBInitializer implements CommandLineRunner {
         List<Producto> productos = Arrays.asList(producto1, producto2, producto3, producto4, producto5);
         productoRepository.saveAll(productos);
 
-    }
+        InventarioNave inave1 = new InventarioNave(615);
+        InventarioNave inave2 = new InventarioNave(200);
+        InventarioNave inave3 = new InventarioNave(300);
+        InventarioNave inave4 = new InventarioNave(400);
+        InventarioNave inave5 = new InventarioNave(500);
 
+        List<InventarioNave> inventarioNave = Arrays.asList(inave1, inave2, inave3, inave4, inave5);
+        inventarioNaveRepository.saveAll(inventarioNave);
+
+    }
 }

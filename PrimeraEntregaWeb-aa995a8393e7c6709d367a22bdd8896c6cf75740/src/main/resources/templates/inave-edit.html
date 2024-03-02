@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div class="formcontainer">
+        <h1>Estrella</h1>
+        <form action="#" th:action="@{/inave/update}" th:object="${inave}" method="post">
+            <input type="hidden" th:field="*{id}" id="id">
+            <label for="cantidad">Cantidad: </label>
+            <input type="text" th:field="*{cantidad}" id="inaveCantidad">
+            <span th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"
+                th:class="${#fields.hasErrors('cantidad')} ? 'error' : ''"></span>
+           
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <a th:href="@{/inave/list}">Cancelar</a>
+</body>
+
+</html>
