@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div class="formcontainer">
+        <h1>Jugador</h1>
+        <form action="#" th:action="@{/jugador/save}" th:object="${jugador}" method="post">
+            <label for="rol">Rol:</label>
+            <input type="text" th:field="*{rol}" id="rol">
+            <span th:if="${#fields.hasErrors('rol')}" th:errors="*{rol}"
+                th:class="${#fields.hasErrors('rol')} ? 'error' : ''"></span>
+           
+            <!--label for="naveDinero">Dinero: </label>
+            <input type="text" name ="dinero" id="txtDinero"-->
+            <label for="usuario">Usuario: </label>
+            <input type="text" th:field="*{usuario}" id="usuario">
+            <span th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
+                th:class="${#fields.hasErrors('usuario')} ? 'error' : ''"></span>
+
+            <label for="contrasena">Contrasena: </label>
+            <input type="text" th:field="*{contrasena}" id="contrasena">
+            <span th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}"
+                th:class="${#fields.hasErrors('contrasena')} ? 'error' : ''"></span>
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <a th:href="@{/jugador/list}">Cancelar</a>
+</body>
+
+</html>

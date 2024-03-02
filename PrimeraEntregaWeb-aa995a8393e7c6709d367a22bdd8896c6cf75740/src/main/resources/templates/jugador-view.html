@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+
+</head>
+
+<body>
+    <h1>Jugador</h1>
+    <p th:text="|ID: ${jugador.id}|"></p>
+    <p th:text="|Rol: ${jugador.rol}|"></p>
+    <p th:text="|Usuario: ${jugador.usuario}|"></p>
+    <p th:text="|Contrasena: ${jugador.contrasena}|"></p>
+    <a th:href="@{/jugador/list}">Volver</a>
+</body>
+
+</html>

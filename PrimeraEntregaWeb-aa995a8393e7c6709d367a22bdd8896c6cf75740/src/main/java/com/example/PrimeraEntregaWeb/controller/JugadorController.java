@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.Jugador;
+import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.services.EstrellaService;
 import com.example.PrimeraEntregaWeb.services.JugadorService;
 
@@ -61,6 +62,12 @@ public class JugadorController {
         }
         jugadorService.guardarJugador(jugador);
         return "redirect:/jugador/list";
+    }
+
+    @GetMapping("/create")
+    public String formularioCrearJugador(Model model) {
+        model.addAttribute("jugador", new Jugador());
+        return "jugador-create";
     }
 
     @GetMapping("/search")
