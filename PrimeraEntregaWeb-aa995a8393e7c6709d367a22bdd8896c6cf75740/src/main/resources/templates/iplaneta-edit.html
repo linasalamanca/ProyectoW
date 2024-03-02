@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div class="formcontainer">
+        <h1>Inventario planeta</h1>
+        <form action="#" th:action="@{/iplaneta/update}" th:object="${iplaneta}" method="post">
+            <input type="hidden" th:field="*{id}" id="id">
+            <label for="cantidad">Cantidad: </label>
+            <input type="text" th:field="*{cantidad}" id="iplanetaCantidad">
+            <span th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}"
+                th:class="${#fields.hasErrors('cantidad')} ? 'error' : ''"></span>
+            <label for="fOfertaDemanda">fOfertaDemanda: </label>
+            <input type="text" th:field="*{fOfertaDemanda}" id="iplanetafOfertaDemanda">
+            <span th:if="${#fields.hasErrors('fOfertaDemanda')}" th:errors="*{fOfertaDemanda}"
+                th:class="${#fields.hasErrors('fOfertaDemanda')} ? 'error' : ''"></span>
+           
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <a th:href="@{/iplaneta/list}">Cancelar</a>
+</body>
+
+</html>

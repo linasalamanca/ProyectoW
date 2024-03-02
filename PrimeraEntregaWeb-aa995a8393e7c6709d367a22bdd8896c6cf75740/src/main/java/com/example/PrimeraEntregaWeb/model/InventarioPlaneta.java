@@ -21,8 +21,14 @@ public class InventarioPlaneta {
 
     @Column(name = "fOfertaDemanda", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private Float fOfertaDemanda;
+    private Double fOfertaDemanda;
 
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public Integer getCantidad() {
         return cantidad;
     }
@@ -31,15 +37,15 @@ public class InventarioPlaneta {
         this.cantidad = cantidad;
     }
 
-    public Float getfOfertaDemanda() {
+    public Double getfOfertaDemanda() {
         return fOfertaDemanda;
     }
 
-    public void setfOfertaDemanda(Float fOfertaDemanda) {
+    public void setfOfertaDemanda(Double fOfertaDemanda) {
         this.fOfertaDemanda = fOfertaDemanda;
     }
 
-    public InventarioPlaneta(Integer cantidad, Float fOfertaDemanda) {
+    public InventarioPlaneta(Integer cantidad, Double fOfertaDemanda) {
         this.cantidad = cantidad;
         this.fOfertaDemanda = fOfertaDemanda;
     }

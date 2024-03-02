@@ -9,12 +9,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
+import com.example.PrimeraEntregaWeb.model.InventarioNave;
+import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.model.Producto;
 import com.example.PrimeraEntregaWeb.model.TipoNave;
 import com.example.PrimeraEntregaWeb.repository.EstrellaRepository;
+import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
+import com.example.PrimeraEntregaWeb.repository.InventarioPlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.JugadorRepository;
 import com.example.PrimeraEntregaWeb.repository.NaveRepository;
 import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
@@ -35,7 +39,13 @@ public class DBInitializer implements CommandLineRunner {
     @Autowired
     private ProductoRepository productoRepository;
     @Autowired
+<<<<<<< HEAD
     private TipoNaveRepository tipoNaveRepository;
+=======
+    private InventarioNaveRepository inventarioNaveRepository;
+    @Autowired
+    private InventarioPlanetaRepository inventarioPlanetaRepository;
+>>>>>>> fb4104cea5948b1c666cfcaa7a37b5846ff99575
 
     @Override
     public void run(String... args) throws Exception {
@@ -85,6 +95,7 @@ public class DBInitializer implements CommandLineRunner {
         List<Producto> productos = Arrays.asList(producto1, producto2, producto3, producto4, producto5);
         productoRepository.saveAll(productos);
 
+<<<<<<< HEAD
         TipoNave tipoNave1 = new TipoNave("tipoNave1", 200.0, 12.4);
         TipoNave tipoNave2 = new TipoNave("tipoNave2", 300.0, 18.9);
         TipoNave tipoNave3 = new TipoNave("tipoNave3", 400.0, 17.7);
@@ -95,5 +106,25 @@ public class DBInitializer implements CommandLineRunner {
         tipoNaveRepository.saveAll(tipoNaves);
 
     }
+=======
+        InventarioNave inave1 = new InventarioNave(615);
+        InventarioNave inave2 = new InventarioNave(200);
+        InventarioNave inave3 = new InventarioNave(300);
+        InventarioNave inave4 = new InventarioNave(400);
+        InventarioNave inave5 = new InventarioNave(500);
+>>>>>>> fb4104cea5948b1c666cfcaa7a37b5846ff99575
 
+        List<InventarioNave> inventarioNave = Arrays.asList(inave1, inave2, inave3, inave4, inave5);
+        inventarioNaveRepository.saveAll(inventarioNave);
+
+        InventarioPlaneta iplaneta1 = new InventarioPlaneta(615, 9.1);
+        InventarioPlaneta iplaneta2 = new InventarioPlaneta(200, 9.9);
+        InventarioPlaneta iplaneta3 = new InventarioPlaneta(300, 81.2);
+        InventarioPlaneta iplaneta4 = new InventarioPlaneta(400,821.1);
+        InventarioPlaneta iplaneta5 = new InventarioPlaneta(500,12.2);
+
+        List<InventarioPlaneta> inventarioPlaneta = Arrays.asList(iplaneta1, iplaneta2, iplaneta3, iplaneta4, iplaneta5);
+        inventarioPlanetaRepository.saveAll(inventarioPlaneta);
+
+    }
 }
