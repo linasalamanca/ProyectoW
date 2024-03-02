@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div class="formcontainer">
+        <h1>Jugador</h1>
+        <form action="#" th:action="@{/estrella/save}" th:object="${estrella}" method="post">
+            <label for="coordenadaX">CoordenadaX: </label>
+            <input type="text" th:field="*{coordenadaX}" id="coordenadaX">
+            <span th:if="${#fields.hasErrors('coordenadaX')}" th:errors="*{coordenadaX}"
+                th:class="${#fields.hasErrors('coordenadaX')} ? 'error' : ''"></span>
+            
+            <label for="coordenadaY">CoordenadaY: </label>
+            <input type="text" th:field="*{coordenadaY}" id="coordenadaY">
+            <span th:if="${#fields.hasErrors('coordenadaY')}" th:errors="*{coordenadaY}"
+                th:class="${#fields.hasErrors('coordenadaY')} ? 'error' : ''"></span>
+            
+            <label for="coordenadaZ">CoordenadaZ: </label>
+            <input type="text" th:field="*{coordenadaZ}" id="coordenadaZ">
+            <span th:if="${#fields.hasErrors('coordenadaZ')}" th:errors="*{coordenadaZ}"
+                th:class="${#fields.hasErrors('coordenadaZ')} ? 'error' : ''"></span>
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <a th:href="@{/estrella/list}">Cancelar</a>
+</body>
+
+</html>

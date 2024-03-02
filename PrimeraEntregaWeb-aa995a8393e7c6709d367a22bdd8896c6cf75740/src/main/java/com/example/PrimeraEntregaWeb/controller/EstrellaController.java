@@ -1,6 +1,7 @@
 package com.example.PrimeraEntregaWeb.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
+import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.services.EstrellaService;
 import javax.validation.Valid;
 
@@ -52,11 +54,40 @@ public class EstrellaController {
         return "estrella-edit";
     }
 
-    @PostMapping(value = "/save")
+   /*  @PostMapping(value = "/save")
     public String guardarNave(@Valid Estrella estrella, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "estrella-edit";
         }
+        estrellaService.guardarEstrella(estrella);
+        return "redirect:/estrella/list";
+    }*/
+     @PostMapping(value = "/update")
+    public String actualizarEstrella(@Valid Estrella estrella, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "estrella-edit";
+        }
+        estrellaService.guardarEstrella(estrella);
+        return "redirect:/estrella/list";
+    }
+
+    @GetMapping("/create")
+    public String formularioCrearEstrella(Model model) {
+        model.addAttribute("estrella", new Estrella());
+        return "estrella-create";
+    }
+   
+
+    @PostMapping(value = "/save")
+    public String guadarNaveEstrella(@Valid Estrella estrella, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "estrella-create";
+        }
+      /*  Optional<Estrella> estrellaExistente = estrellaService.buscarEstrellaOptional(estrella.getId());
+        if (estrellaExistente.isPresent()) {
+            result.rejectValue("nombre", "error.estrella", "Ya existe una nave con este nombre.");
+            return "estrella-create";
+        }*/
         estrellaService.guardarEstrella(estrella);
         return "redirect:/estrella/list";
     }
