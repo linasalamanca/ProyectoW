@@ -102,7 +102,7 @@ public class DBInitializer implements CommandLineRunner {
         List<TipoNave> tipoNaves = Arrays.asList(tipoNave1, tipoNave2, tipoNave3, tipoNave4, tipoNave5);
         tipoNaveRepository.saveAll(tipoNaves);
 
-    }
+    
         InventarioNave inave1 = new InventarioNave(615);
         InventarioNave inave2 = new InventarioNave(200);
         InventarioNave inave3 = new InventarioNave(300);
