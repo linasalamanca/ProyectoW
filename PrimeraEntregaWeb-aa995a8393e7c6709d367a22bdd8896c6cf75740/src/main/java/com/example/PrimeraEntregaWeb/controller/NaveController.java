@@ -33,6 +33,7 @@ public class NaveController {
         log.info("nave " + nave.size());
         model.addAttribute("nave", nave);
         return "nave-list";
+        
     }
 
     @GetMapping("/view/{nombre}")
@@ -55,6 +56,21 @@ public class NaveController {
     public String guadarNave(@Valid Nave nave, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "nave-edit";
+        }
+        naveServicio.guardarNave(nave);
+        return "redirect:/nave/list";
+    }
+    @GetMapping("/create")
+    public String formularioCrearNave(Model model, @PathVariable String nombre) {
+        /*Nave nave = naveServicio.buscarNave(nombre);
+        model.addAttribute("nave", nave);*/
+        return "nave-create";
+    }
+
+    @PostMapping(value = "/save")
+    public String guadarNaveNueva(@Valid Nave nave, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "nave-";
         }
         naveServicio.guardarNave(nave);
         return "redirect:/nave/list";
