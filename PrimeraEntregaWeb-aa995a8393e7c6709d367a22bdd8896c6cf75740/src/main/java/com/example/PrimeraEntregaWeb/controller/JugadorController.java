@@ -32,7 +32,7 @@ public class JugadorController {
     private JugadorService jugadorService;
 
     @GetMapping("/list")
-    public String listarEstrellas(Model model) {
+    public String listarJugadores(Model model) {
         List<Jugador> jugador = jugadorService.listarJugadores();
         loggy.info("jugador" + jugador.size());
         model.addAttribute("jugador", jugador);
@@ -40,7 +40,7 @@ public class JugadorController {
     }
 
     @GetMapping("/view/{id}")
-    String verEstrellas(Model model, @PathVariable("id") Long id) {
+    String verJugadores(Model model, @PathVariable("id") Long id) {
         Jugador jugador = jugadorService.buscarJugador(id);
         loggy.info("jugador" + jugador);
 
@@ -49,14 +49,14 @@ public class JugadorController {
     }
 
     @GetMapping("/edit-form/{id}")
-    public String formularioEditarEstrella(Model model, @PathVariable Long id) {
+    public String formularioEditarJugador(Model model, @PathVariable Long id) {
         Jugador jugador = jugadorService.buscarJugador(id);
         model.addAttribute("jugador", jugador);
         return "jugador-edit";
     }
 
     @PostMapping(value = "/save")
-    public String guardarNave(@Valid Jugador jugador, BindingResult result, Model model) {
+    public String guardarJugador(@Valid Jugador jugador, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "jugador-edit";
         }
@@ -68,6 +68,13 @@ public class JugadorController {
     public String formularioCrearJugador(Model model) {
         model.addAttribute("jugador", new Jugador());
         return "jugador-create";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String borrarJugador(Model model, @PathVariable Long id) {
+        jugadorService.eliminarJugador(id);
+        // model.addAttribute("nave", nave);
+        return "redirect:/jugador/list";
     }
 
     @GetMapping("/search")

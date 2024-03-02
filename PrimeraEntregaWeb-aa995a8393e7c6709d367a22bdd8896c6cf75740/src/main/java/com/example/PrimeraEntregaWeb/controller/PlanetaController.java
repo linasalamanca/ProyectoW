@@ -82,6 +82,13 @@ public class PlanetaController {
         return "redirect:/planeta/list";
     }
 
+    @GetMapping("/delete/{id}")
+    public String borrarPlaneta(Model model, @PathVariable Long id) {
+        planetaServicio.eliminarPlaneta(id);
+        // model.addAttribute("nave", nave);
+        return "redirect:/planeta/list";
+    }
+
     @GetMapping("/search")
     public String listaPlanetas(@RequestParam(required = false) String searchText, Model model) {
         List<Planeta> planeta;
