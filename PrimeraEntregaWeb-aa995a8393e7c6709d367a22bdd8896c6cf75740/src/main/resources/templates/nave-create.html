@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div class="formcontainer">
+        <h1>Nave</h1>
+        <form action="#" th:action="@{/nave/save}" th:object="${nave}" method="post">
+            <label for="nombre">Nombre:</label>
+            <input type="text" th:field="*{nombre}" id="nombre">
+            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
+                th:class="${#fields.hasErrors('nombre')} ? 'error' : ''"></span>
+           
+            <!--label for="naveDinero">Dinero: </label>
+            <input type="text" name ="dinero" id="txtDinero"-->
+            <label for="dinero">Dinero: </label>
+            <input type="text" th:field="*{dinero}" id="dinero">
+            <span th:if="${#fields.hasErrors('dinero')}" th:errors="*{dinero}"
+                th:class="${#fields.hasErrors('dinero')} ? 'error' : ''"></span>
+
+            <label for="coordenadaX">CoordenadaX: </label>
+            <input type="text" th:field="*{coordenadaX}" id="coordenadaX">
+            <span th:if="${#fields.hasErrors('coordenadaX')}" th:errors="*{coordenadaX}"
+                th:class="${#fields.hasErrors('coordenadaX')} ? 'error' : ''"></span>
+            
+            <label for="coordenadaY">CoordenadaY: </label>
+            <input type="text" th:field="*{coordenadaY}" id="coordenadaY">
+            <span th:if="${#fields.hasErrors('coordenadaY')}" th:errors="*{coordenadaY}"
+                th:class="${#fields.hasErrors('coordenadaY')} ? 'error' : ''"></span>
+            
+            <label for="coordenadaZ">CoordenadaZ: </label>
+            <input type="text" th:field="*{coordenadaZ}" id="coordenadaZ">
+            <span th:if="${#fields.hasErrors('coordenadaZ')}" th:errors="*{coordenadaZ}"
+                th:class="${#fields.hasErrors('coordenadaZ')} ? 'error' : ''"></span>
+            
+            <label for="tiempo">Tiempo: </label>
+            <input type="text" th:field="*{tiempo}" id="tiempo">
+            <span th:if="${#fields.hasErrors('tiempo')}" th:errors="*{tiempo}"
+                th:class="${#fields.hasErrors('tiempo')} ? 'error' : ''"></span>
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <a th:href="@{/nave/list}">Cancelar</a>
+</body>
+
+</html>

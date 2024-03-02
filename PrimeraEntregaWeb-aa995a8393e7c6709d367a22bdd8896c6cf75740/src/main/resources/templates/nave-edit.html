@@ -8,25 +8,25 @@
 <body>
     <div class="formcontainer">
         <h1>Nave</h1>
-        <form action="#" th:action="@{/nave/save}" th:object="${nave}" method="post">
+        <form action="#" th:action="@{/nave/update}" th:object="${nave}" method="post">
             <input type="hidden" th:field="*{nombre}" id="nombre">
-            <label for="naveDinero">Nombre: </label>
+            <label for="naveDinero">Dinero: </label>
             <input type="text" th:field="*{dinero}" id="naveDinero">
             <span th:if="${#fields.hasErrors('dinero')}" th:errors="*{dinero}"
                 th:class="${#fields.hasErrors('dinero')} ? 'error' : ''"></span>
-            <label for="naveCoordenadaX">Apellido: </label>
+            <label for="naveCoordenadaX">CoordenadaX: </label>
             <input type="text" th:field="*{CoordenadaX}" id="naveCoordenadaX">
             <span th:if="${#fields.hasErrors('CoordenadaX')}" th:errors="*{CoordenadaX}"
                 th:class="${#fields.hasErrors('CoordenadaX')} ? 'error' : ''"></span>
-            <label for="naveCoordenadaY">Email: </label>
+            <label for="naveCoordenadaY">CoordenadaY: </label>
             <input type="text" th:field="*{CoordenadaY}" id="naveCoordenadaY">
             <span th:if="${#fields.hasErrors('CoordenadaY')}" th:errors="*{CoordenadaY}"
                 th:class="${#fields.hasErrors('CoordenadaY')} ? 'error' : ''"></span>
-            <label for="naveCoordenadaZ">Email: </label>
+            <label for="naveCoordenadaZ">CoordenadaZ: </label>
             <input type="text" th:field="*{CoordenadaZ}" id="naveCoordenadaZ">
             <span th:if="${#fields.hasErrors('CoordenadaZ')}" th:errors="*{CoordenadaZ}"
                 th:class="${#fields.hasErrors('CoordenadaZ')} ? 'error' : ''"></span>
-            <label for="naveTiempo">Email: </label>
+            <label for="naveTiempo">Tiempo: </label>
             <input type="text" th:field="*{tiempo}" id="naveTiempo">
             <span th:if="${#fields.hasErrors('tiempo')}" th:errors="*{tiempo}"
                     th:class="${#fields.hasErrors('tiempo')} ? 'error' : ''"></span>

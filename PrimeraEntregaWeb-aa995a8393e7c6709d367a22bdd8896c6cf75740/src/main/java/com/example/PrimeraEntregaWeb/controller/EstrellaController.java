@@ -57,7 +57,7 @@ public class EstrellaController {
         if (result.hasErrors()) {
             return "estrella-edit";
         }
-        estrellaService.guardarNave(estrella);
+        estrellaService.guardarEstrella(estrella);
         return "redirect:/estrella/list";
     }
 

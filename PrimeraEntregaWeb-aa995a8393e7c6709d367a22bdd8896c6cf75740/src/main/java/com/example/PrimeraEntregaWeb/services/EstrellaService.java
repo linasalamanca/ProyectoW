@@ -21,10 +21,10 @@ public class EstrellaService {
     public Estrella buscar(@NonNull Long id) {
         return estrellaRepositorio.findById(id).orElseThrow();
     }
-    public void guardarNave(Estrella estrellita) {
+    public void guardarEstrella(Estrella estrellita) {
         estrellaRepositorio.save(estrellita);
     }
-    public void eliminarNave(Long id) {
+    public void eliminarEstrella(Long id) {
         estrellaRepositorio.deleteById(id);
     }
 
