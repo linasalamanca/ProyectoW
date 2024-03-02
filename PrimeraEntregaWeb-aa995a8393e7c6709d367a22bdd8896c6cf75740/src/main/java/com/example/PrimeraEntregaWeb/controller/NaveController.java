@@ -1,6 +1,7 @@
 package com.example.PrimeraEntregaWeb.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,25 +53,45 @@ public class NaveController {
         return "nave-edit";
     }
 
-    @PostMapping(value = "/save")
+    /*@PostMapping(value = "/save")
     public String guadarNave(@Valid Nave nave, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "nave-edit";
         }
         naveServicio.guardarNave(nave);
         return "redirect:/nave/list";
+    }*/
+    @PostMapping(value = "/update")
+    public String actualizarNave(@Valid Nave nave, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "nave-edit";
+        }
+        naveServicio.guardarNave(nave);
+        return "redirect:/nave/list";
     }
-    @GetMapping("/create")
+
+    /*  @GetMapping("/create")
     public String formularioCrearNave(Model model, @PathVariable String nombre) {
         /*Nave nave = naveServicio.buscarNave(nombre);
-        model.addAttribute("nave", nave);*/
+        model.addAttribute("nave", nave);   
+        return "nave-create";
+    }*/
+    @GetMapping("/create")
+    public String formularioCrearNave(Model model) {
+        model.addAttribute("nave", new Nave());
         return "nave-create";
     }
+
 
     @PostMapping(value = "/save")
     public String guadarNaveNueva(@Valid Nave nave, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "nave-";
+            return "nave-create";
+        }
+        Optional<Nave> naveExistente = naveServicio.buscarNaveOptional(nave.getNombre());
+        if (naveExistente.isPresent()) {
+            result.rejectValue("nombre", "error.nave", "Ya existe una nave con este nombre.");
+            return "nave-create";
         }
         naveServicio.guardarNave(nave);
         return "redirect:/nave/list";

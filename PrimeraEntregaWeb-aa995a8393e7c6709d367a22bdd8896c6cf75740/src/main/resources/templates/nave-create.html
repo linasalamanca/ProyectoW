@@ -9,33 +9,38 @@
     <div class="formcontainer">
         <h1>Nave</h1>
         <form action="#" th:action="@{/nave/save}" th:object="${nave}" method="post">
+            <label for="nombre">Nombre:</label>
+            <input type="text" th:field="*{nombre}" id="nombre">
+            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
+                th:class="${#fields.hasErrors('nombre')} ? 'error' : ''"></span>
            
-            <label for="naveDinero">Dinero: </label>
-            <input type="text" name ="dinero" id="txtDinero">
-            <!--span th:if="${#fields.hasErrors('dinero')}" th:errors="*{dinero}"
-                th:class="${#fields.hasErrors('dinero')} ? 'error' : ''"></span-->
+            <!--label for="naveDinero">Dinero: </label>
+            <input type="text" name ="dinero" id="txtDinero"-->
+            <label for="dinero">Dinero: </label>
+            <input type="text" th:field="*{dinero}" id="dinero">
+            <span th:if="${#fields.hasErrors('dinero')}" th:errors="*{dinero}"
+                th:class="${#fields.hasErrors('dinero')} ? 'error' : ''"></span>
 
-            <label for="naveCoordenadaX">CoordenadaX: </label>
-            <input type="text" name ="CoordenadaX" id="txtCoordenadaX">
-            <!--span th:if="${#fields.hasErrors('CoordenadaX')}" th:errors="*{CoordenadaX}"
-                th:class="${#fields.hasErrors('CoordenadaX')} ? 'error' : ''"></span-->
-
-            <label for="naveCoordenadaY">CoordenadaY: </label>
-            <input type="text" name ="CoordenadaY" id="txtCoordenadaY">
-            <!--input type="text" th:field="*{CoordenadaY}" id="naveCoordenadaY">
-            <span th:if="${#fields.hasErrors('CoordenadaY')}" th:errors="*{CoordenadaY}"
-                th:class="${#fields.hasErrors('CoordenadaY')} ? 'error' : ''"></span-->
-
-            <label for="naveCoordenadaZ">CoordenadaZ: </label>
-            <input type="text" name ="CoordenadaZ" id="txtCoordenadaZ">
-            <!--input type="text" th:field="*{CoordenadaZ}" id="naveCoordenadaZ">
-            <span th:if="${#fields.hasErrors('CoordenadaZ')}" th:errors="*{CoordenadaZ}"
-                th:class="${#fields.hasErrors('CoordenadaZ')} ? 'error' : ''"></span-->
-            <label for="naveTiempo">Tiempo: </label>
-            <input type="text" name ="tiempo" id="txtTiempo">
-            <!--input type="text" th:field="*{tiempo}" id="naveTiempo">
+            <label for="coordenadaX">CoordenadaX: </label>
+            <input type="text" th:field="*{coordenadaX}" id="coordenadaX">
+            <span th:if="${#fields.hasErrors('coordenadaX')}" th:errors="*{coordenadaX}"
+                th:class="${#fields.hasErrors('coordenadaX')} ? 'error' : ''"></span>
+            
+            <label for="coordenadaY">CoordenadaY: </label>
+            <input type="text" th:field="*{coordenadaY}" id="coordenadaY">
+            <span th:if="${#fields.hasErrors('coordenadaY')}" th:errors="*{coordenadaY}"
+                th:class="${#fields.hasErrors('coordenadaY')} ? 'error' : ''"></span>
+            
+            <label for="coordenadaZ">CoordenadaZ: </label>
+            <input type="text" th:field="*{coordenadaZ}" id="coordenadaZ">
+            <span th:if="${#fields.hasErrors('coordenadaZ')}" th:errors="*{coordenadaZ}"
+                th:class="${#fields.hasErrors('coordenadaZ')} ? 'error' : ''"></span>
+            
+            <label for="tiempo">Tiempo: </label>
+            <input type="text" th:field="*{tiempo}" id="tiempo">
             <span th:if="${#fields.hasErrors('tiempo')}" th:errors="*{tiempo}"
-                    th:class="${#fields.hasErrors('tiempo')} ? 'error' : ''"></span-->
+                th:class="${#fields.hasErrors('tiempo')} ? 'error' : ''"></span>
+            
             <button type="submit">Enviar</button>
         </form>
     </div>

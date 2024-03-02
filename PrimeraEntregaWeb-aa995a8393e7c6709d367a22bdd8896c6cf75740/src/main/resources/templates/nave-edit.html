@@ -8,7 +8,7 @@
 <body>
     <div class="formcontainer">
         <h1>Nave</h1>
-        <form action="#" th:action="@{/nave/save}" th:object="${nave}" method="post">
+        <form action="#" th:action="@{/nave/update}" th:object="${nave}" method="post">
             <input type="hidden" th:field="*{nombre}" id="nombre">
             <label for="naveDinero">Dinero: </label>
             <input type="text" th:field="*{dinero}" id="naveDinero">
