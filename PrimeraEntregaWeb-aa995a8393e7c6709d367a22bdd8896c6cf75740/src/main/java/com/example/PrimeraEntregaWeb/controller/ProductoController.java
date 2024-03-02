@@ -73,11 +73,11 @@ public class ProductoController {
         if (result.hasErrors()) {
             return "producto-create";
         }
-        Optional<Producto> productoExistente = productoServicio.buscarProductoOptional(producto.getId());
+        /*Optional<Producto> productoExistente = productoServicio.buscarProductoOptional(producto.getId());
         if (productoExistente.isPresent()) {
             result.rejectValue("nombre", "error.producto", "Ya existe un producto con este nombre.");
             return "producto-create";
-        }
+        }*/
         productoServicio.guardarProducto(producto);
         return "redirect:/producto/list";
     }

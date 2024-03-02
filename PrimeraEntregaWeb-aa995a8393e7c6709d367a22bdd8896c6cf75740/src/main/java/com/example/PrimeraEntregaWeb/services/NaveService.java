@@ -26,6 +26,7 @@ public class NaveService {
     public Nave buscarNave(@NonNull String nombre) {
         return naveRepositorio.findById(nombre).orElseThrow(() -> new EntityNotFoundException("Nave no encontrada con el nombre: " + nombre));
     }
+    
     public Optional<Nave> buscarNaveOptional(String nombre) {
         return naveRepositorio.findById(nombre);
     }

@@ -26,34 +26,42 @@ public class TipoNave {
 
     @Column(name = "volumenCarga", nullable = false)
     @NotBlank(message = "No puede estar en blanco")
-    private Float volumenCarga;
+    private Double volumenCarga;
 
     @Column(name = "velocidad", nullable = false)
     @NotBlank(message = "No puede estar en blanco")
-    private Float velocidad;
+    private Double velocidad;
 
     /*
      * @OneToMany(mappedBy = "naves")
      * private List<Nave> naves = new ArrayList<>();
      */
 
-    public Float getVolumenCarga() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Double getVolumenCarga() {
         return volumenCarga;
     }
 
-    public void setVolumenCarga(Float volumenCarga) {
+    public void setVolumenCarga(Double volumenCarga) {
         this.volumenCarga = volumenCarga;
     }
 
-    public Float getVelocidad() {
+    public Double getVelocidad() {
         return velocidad;
     }
 
-    public void setVelocidad(Float velocidad) {
+    public void setVelocidad(Double velocidad) {
         this.velocidad = velocidad;
     }
 
-    public TipoNave(String nombre, Float volumenCarga, Float velocidad) {
+    public TipoNave(String nombre, Double volumenCarga, Double velocidad) {
         this.nombre = nombre;
         this.volumenCarga = volumenCarga;
         this.velocidad = velocidad;

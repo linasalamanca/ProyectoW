@@ -73,11 +73,11 @@ public class PlanetaController {
         if (result.hasErrors()) {
             return "planeta-create";
         }
-        Optional<Planeta> planetaExistente = planetaServicio.buscarPlanetaOptional(planeta.getId());
+        /*Optional<Planeta> planetaExistente = planetaServicio.buscarPlanetaOptional(planeta.getId());
         if (planetaExistente.isPresent()) {
             result.rejectValue("nombre", "error.planeta", "Ya existe un planeta con este nombre.");
             return "planeta-create";
-        }
+        }*/
         planetaServicio.guardarPlaneta(planeta);
         return "redirect:/planeta/list";
     }
