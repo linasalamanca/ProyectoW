@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div class="formcontainer">
+        <h1>Producto</h1>
+        <form action="#" th:action="@{/producto/save}" th:object="${producto}" method="post">
+            <label for="volumen">Volumen:</label>
+            <input type="text" th:field="*{volumen}" id="volumen">
+            <span th:if="${#fields.hasErrors('volumen')}" th:errors="*{volumen}"
+                th:class="${#fields.hasErrors('volumen')} ? 'error' : ''"></span>
+           
+            <label for="tipo">Tipo: </label>
+            <input type="text" th:field="*{tipo}" id="tipo">
+            <span th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"
+                th:class="${#fields.hasErrors('tipo')} ? 'error' : ''"></span>
+
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <a th:href="@{/producto/list}">Cancelar</a>
+</body>
+
+</html>

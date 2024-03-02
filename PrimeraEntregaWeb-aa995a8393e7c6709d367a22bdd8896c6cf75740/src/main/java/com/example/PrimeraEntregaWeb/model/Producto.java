@@ -17,17 +17,17 @@ public class Producto {
 
     @Column(name = "volumen", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private Float volumen;
+    private Double volumen;
 
     @Column(name = "tipo", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
     private String tipo;
 
-    public Float getVolumen() {
+    public Double getVolumen() {
         return volumen;
     }
 
-    public void setVolumen(Float volumen) {
+    public void setVolumen(Double volumen) {
         this.volumen = volumen;
     }
 
@@ -39,12 +39,20 @@ public class Producto {
         this.tipo = tipo;
     }
 
-    public Producto(Float volumen, String tipo) {
+    public Producto(Double volumen, String tipo) {
         this.volumen = volumen;
         this.tipo = tipo;
     }
 
     public Producto() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

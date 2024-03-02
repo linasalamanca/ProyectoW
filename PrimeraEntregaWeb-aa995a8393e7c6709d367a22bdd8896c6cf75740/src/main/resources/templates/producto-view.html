@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+
+</head>
+
+<body>
+    <h1>Producto</h1>
+    <p th:text="|Id: ${producto.id}|"></p>
+    <p th:text="|Volumen: ${producto.volumen}|"></p>
+    <p th:text="|Tipo: ${producto.tipo}|"></p>
+    <a th:href="@{/producto/list}">Volver</a>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div class="formcontainer">
+        <h1>Producto</h1>
+        <form action="#" th:action="@{/producto/update}" th:object="${producto}" method="post">
+            <input type="hidden" th:field="*{id}" id="id">
+
+            <label for="productoVolumen">Volumen: </label>
+            <input type="text" th:field="*{volumen}" id="productoVolumen">
+            <span th:if="${#fields.hasErrors('volumen')}" th:errors="*{volumen}"
+                th:class="${#fields.hasErrors('volumen')} ? 'error' : ''"></span>
+
+            <label for="tipoProducto">Tipo: </label>
+            <input type="text" th:field="*{tipo}" id="tipoProducto">
+            <span th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"
+                th:class="${#fields.hasErrors('tipo')} ? 'error' : ''"></span>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <a th:href="@{/producto/list}">Cancelar</a>
+</body>
+
+</html>
