@@ -11,9 +11,11 @@ import org.springframework.stereotype.Component;
 import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
+import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.repository.EstrellaRepository;
 import com.example.PrimeraEntregaWeb.repository.JugadorRepository;
 import com.example.PrimeraEntregaWeb.repository.NaveRepository;
+import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 
 @Component
 public class DBInitializer implements CommandLineRunner {
@@ -24,6 +26,8 @@ public class DBInitializer implements CommandLineRunner {
     private EstrellaRepository estrellaRepository;
     @Autowired
     private JugadorRepository jugadorRepository;
+    @Autowired
+    private PlanetaRepository planetaRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -54,6 +58,15 @@ public class DBInitializer implements CommandLineRunner {
 
         List<Jugador> jugadores = Arrays.asList(jugador1, jugador2, jugador3, jugador4, jugador5);
         jugadorRepository.saveAll(jugadores);
+
+        Planeta planeta1 = new Planeta("planeta1");
+        Planeta planeta2 = new Planeta("planeta2");
+        Planeta planeta3 = new Planeta("planeta3");
+        Planeta planeta4 = new Planeta("planeta4");
+        Planeta planeta5 = new Planeta("planeta5");
+
+        List<Planeta> planetas = Arrays.asList(planeta1, planeta2, planeta3, planeta4, planeta5);
+        planetaRepository.saveAll(planetas);
 
     }
 
