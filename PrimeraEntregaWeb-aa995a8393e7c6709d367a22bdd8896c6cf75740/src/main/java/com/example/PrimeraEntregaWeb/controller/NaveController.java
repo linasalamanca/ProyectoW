@@ -81,13 +81,7 @@ public class NaveController {
         model.addAttribute("nave", new Nave());
         return "nave-create";
     }
-    @GetMapping("/delete/{nombre}")
-    public String borrarNave(Model model, @PathVariable String nombre) {
-        naveServicio.eliminarNave(nombre);
-       // model.addAttribute("nave", nave);
-        return "redirect:/nave/list";
-    }
-
+   
 
     @PostMapping(value = "/save")
     public String guadarNaveNueva(@Valid Nave nave, BindingResult result, Model model) {
@@ -100,6 +94,13 @@ public class NaveController {
             return "nave-create";
         }
         naveServicio.guardarNave(nave);
+        return "redirect:/nave/list";
+    }
+
+    @GetMapping("/delete/{nombre}")
+    public String borrarNave(Model model, @PathVariable String nombre) {
+        naveServicio.eliminarNave(nombre);
+       // model.addAttribute("nave", nave);
         return "redirect:/nave/list";
     }
 
