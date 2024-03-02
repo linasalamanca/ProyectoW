@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+
+</head>
+
+<body>
+    <h1>Planeta</h1>
+    <p th:text="|Nombre: ${planeta.nombre}|"></p>
+
+    <a th:href="@{/planeta/list}">Volver</a>
+</body>
+
+</html>
