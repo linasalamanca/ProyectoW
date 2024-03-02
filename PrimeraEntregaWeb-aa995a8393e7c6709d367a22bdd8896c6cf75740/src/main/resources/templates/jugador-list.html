@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div th:insert="fragments/menus.html :: menuPrincipal"></div>
+
+    <h1>Jugador </h1>
+    <a th:href="@{/jugador/search}">Buscar</a>
+
+    <table class="jugador-list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Rol</th>
+                <th>Usuario</th>
+                <th>Contraena</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="j : ${jugador}" th:if="${j.id}">
+                <td th:text="${j.id}"></td>
+                <td th:text="${j.rol}"></td>
+                <td th:text="${j.usuario}"></td>
+                <td th:text="${j.contrasena}"></td>
+                <td>
+                    <a th:href="@{/jugador/view/{id}(id=${j.id})}">Ver</a>
+                
+                </td>
+                <td>
+                    <a th:href="@{/jugador/edit-form/{id}(id=${j.id})}">Editar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

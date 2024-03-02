@@ -60,4 +60,13 @@ public class Jugador {
     public Jugador() {
 
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

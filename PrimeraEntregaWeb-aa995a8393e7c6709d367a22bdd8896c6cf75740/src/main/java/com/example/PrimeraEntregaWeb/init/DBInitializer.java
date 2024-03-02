@@ -9,8 +9,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
+import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.repository.EstrellaRepository;
+import com.example.PrimeraEntregaWeb.repository.JugadorRepository;
 import com.example.PrimeraEntregaWeb.repository.NaveRepository;
 
 @Component
@@ -20,6 +22,8 @@ public class DBInitializer implements CommandLineRunner {
     private NaveRepository naveRepository;
     @Autowired
     private EstrellaRepository estrellaRepository;
+    @Autowired
+    private JugadorRepository jugadorRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -37,10 +41,19 @@ public class DBInitializer implements CommandLineRunner {
         Estrella estrella2 = new Estrella(18.9, 13.3, 11.9);
         Estrella estrella3 = new Estrella(17.7, 32.8, 17.1);
         Estrella estrella4 = new Estrella(11.4, 13.6, 13.2);
-        Estrella estrella5 = new Estrella( 43.2, 12.1, 12.8);
+        Estrella estrella5 = new Estrella(43.2, 12.1, 12.8);
 
         List<Estrella> estrellas = Arrays.asList(estrella1, estrella2, estrella3, estrella4, estrella5);
         estrellaRepository.saveAll(estrellas);
+
+        Jugador jugador1 = new Jugador("a", "usuario1", "hola");
+        Jugador jugador2 = new Jugador("b", "usuario2", "hola");
+        Jugador jugador3 = new Jugador("c", "usuario3", "hola");
+        Jugador jugador4 = new Jugador("d", "usuario4", "hola");
+        Jugador jugador5 = new Jugador("e", "usuario5", "hola");
+
+        List<Jugador> jugadores = Arrays.asList(jugador1, jugador2, jugador3, jugador4, jugador5);
+        jugadorRepository.saveAll(jugadores);
 
     }
 
