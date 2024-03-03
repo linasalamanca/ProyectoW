@@ -1,5 +1,8 @@
 package com.example.PrimeraEntregaWeb.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 import jakarta.persistence.Column;
@@ -7,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Estrella {
@@ -26,6 +30,9 @@ public class Estrella {
     @Column(name = "coordenadaZ", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
     private Double coordenadaZ;
+
+    @OneToMany(mappedBy = "estrella")
+    private List<Planeta> planetas = new ArrayList<>();
 
       public Long getId() {
         return id;
@@ -58,6 +65,14 @@ public class Estrella {
         this.coordenadaY = coordenadaY;
     }
 
+    public List<Planeta> getPlanetas() {
+        return planetas;
+    }
+
+    public void setPlanetas(List<Planeta> planetas) {
+        this.planetas = planetas;
+    }
+    
     public Estrella(Double coordenadaX, Double coordenadaY, Double coordenadaZ) {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;

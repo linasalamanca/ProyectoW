@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Jugador {
@@ -26,6 +27,9 @@ public class Jugador {
     @Column(name = "contrasena", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
     private String contrasena;
+
+    @ManyToOne
+    private Nave nave;
 
     public String getRol() {
         return rol;
@@ -67,6 +71,13 @@ public class Jugador {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    public Nave getNave() {
+        return nave;
+    }
+
+    public void setNave(Nave nave) {
+        this.nave = nave;
     }
 
 }

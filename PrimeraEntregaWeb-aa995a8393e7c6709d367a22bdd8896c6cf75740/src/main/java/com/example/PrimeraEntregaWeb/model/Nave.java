@@ -1,10 +1,15 @@
 package com.example.PrimeraEntregaWeb.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -32,6 +37,19 @@ public class Nave {
     @Column(name = "tiempo", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
     private Double tiempo;
+
+    @OneToMany(mappedBy = "nave")
+    private List<Jugador> jugadores = new ArrayList<>();
+
+    @OneToMany(mappedBy = "nave")
+    private List<InventarioNave> inventario = new ArrayList<>();
+     
+    @ManyToOne
+    private TipoNave tipo;
+
+    @ManyToOne 
+    private Planeta planeta;
+
 
     public int getDinero() {
         return dinero;
@@ -81,6 +99,38 @@ public class Nave {
         this.tiempo = tiempo;
     }
 
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void setJugadores(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
+    }
+
+    public TipoNave getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoNave tipo) {
+        this.tipo = tipo;
+    }
+
+    public Planeta getPlaneta() {
+        return planeta;
+    }
+
+    public void setPlaneta(Planeta planeta) {
+        this.planeta = planeta;
+    }
+    
+    public List<InventarioNave> getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(List<InventarioNave> inventario) {
+        this.inventario = inventario;
+    }
+    
     public Nave() {
     }
 
