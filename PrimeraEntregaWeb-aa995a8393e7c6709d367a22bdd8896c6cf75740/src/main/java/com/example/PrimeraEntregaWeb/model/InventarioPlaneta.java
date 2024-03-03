@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class InventarioPlaneta {
@@ -23,6 +25,11 @@ public class InventarioPlaneta {
     @NotBlank(message = "no puede estar en blanco")
     private Double fOfertaDemanda;
 
+    @ManyToOne
+    private Producto producto;
+
+    @ManyToOne
+    private Planeta planeta;
     public Long getId() {
         return id;
     }
@@ -45,6 +52,14 @@ public class InventarioPlaneta {
         this.fOfertaDemanda = fOfertaDemanda;
     }
 
+    public Planeta getPlaneta() {
+        return planeta;
+    }
+
+    public void setPlaneta(Planeta planeta) {
+        this.planeta = planeta;
+    }
+    
     public InventarioPlaneta(Integer cantidad, Double fOfertaDemanda) {
         this.cantidad = cantidad;
         this.fOfertaDemanda = fOfertaDemanda;

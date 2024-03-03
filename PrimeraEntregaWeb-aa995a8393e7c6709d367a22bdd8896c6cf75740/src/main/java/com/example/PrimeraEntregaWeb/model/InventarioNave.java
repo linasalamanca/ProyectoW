@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class InventarioNave {
@@ -18,6 +19,12 @@ public class InventarioNave {
     @Column(name = "cantidad", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
     private Integer cantidad;
+
+    @ManyToOne
+    private Nave nave;
+
+    @ManyToOne
+    private Producto producto;
 
     public Long getId() {
         return id;
@@ -34,6 +41,21 @@ public class InventarioNave {
         this.cantidad = cantidad;
     }
 
+    public Nave getNave() {
+        return nave;
+    }
+
+    public void setNave(Nave nave) {
+        this.nave = nave;
+    }
+
+    public Producto getProducto() {
+        return producto;   
+    }
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+    
     public InventarioNave(Integer cantidad) {
         this.cantidad = cantidad;
     }
