@@ -34,13 +34,14 @@ public class Estrella {
     @OneToMany(mappedBy = "estrella")
     private List<Planeta> planetas = new ArrayList<>();
 
-      public Long getId() {
+    public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
+
     public Double getCoordenadaX() {
         return coordenadaX;
     }
@@ -72,7 +73,11 @@ public class Estrella {
     public void setPlanetas(List<Planeta> planetas) {
         this.planetas = planetas;
     }
-    
+
+    public void addPlaneta(Planeta p) {
+        this.planetas.add(p);
+    }
+
     public Estrella(Double coordenadaX, Double coordenadaY, Double coordenadaZ) {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;

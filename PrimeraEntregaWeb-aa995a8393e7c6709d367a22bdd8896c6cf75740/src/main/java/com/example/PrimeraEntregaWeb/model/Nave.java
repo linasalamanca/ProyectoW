@@ -43,13 +43,12 @@ public class Nave {
 
     @OneToMany(mappedBy = "nave")
     private List<InventarioNave> inventario = new ArrayList<>();
-     
+
     @ManyToOne
     private TipoNave tipo;
 
-    @ManyToOne 
+    @ManyToOne
     private Planeta planeta;
-
 
     public int getDinero() {
         return dinero;
@@ -107,6 +106,10 @@ public class Nave {
         this.jugadores = jugadores;
     }
 
+    public void addJugador(Jugador j) {
+        this.jugadores.add(j);
+    }
+
     public TipoNave getTipo() {
         return tipo;
     }
@@ -122,7 +125,7 @@ public class Nave {
     public void setPlaneta(Planeta planeta) {
         this.planeta = planeta;
     }
-    
+
     public List<InventarioNave> getInventario() {
         return inventario;
     }
@@ -130,7 +133,7 @@ public class Nave {
     public void setInventario(List<InventarioNave> inventario) {
         this.inventario = inventario;
     }
-    
+
     public Nave() {
     }
 
