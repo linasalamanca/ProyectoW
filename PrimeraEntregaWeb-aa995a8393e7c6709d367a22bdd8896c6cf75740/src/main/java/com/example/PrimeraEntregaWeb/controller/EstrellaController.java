@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.Nave;
+import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.services.EstrellaService;
 import javax.validation.Valid;
 
@@ -54,15 +55,18 @@ public class EstrellaController {
         return "estrella-edit";
     }
 
-   /*  @PostMapping(value = "/save")
-    public String guardarNave(@Valid Estrella estrella, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "estrella-edit";
-        }
-        estrellaService.guardarEstrella(estrella);
-        return "redirect:/estrella/list";
-    }*/
-     @PostMapping(value = "/update")
+    /*
+     * @PostMapping(value = "/save")
+     * public String guardarNave(@Valid Estrella estrella, BindingResult result,
+     * Model model) {
+     * if (result.hasErrors()) {
+     * return "estrella-edit";
+     * }
+     * estrellaService.guardarEstrella(estrella);
+     * return "redirect:/estrella/list";
+     * }
+     */
+    @PostMapping(value = "/update")
     public String actualizarEstrella(@Valid Estrella estrella, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "estrella-edit";
@@ -76,25 +80,29 @@ public class EstrellaController {
         model.addAttribute("estrella", new Estrella());
         return "estrella-create";
     }
-   
 
     @PostMapping(value = "/save")
     public String guadarNaveEstrella(@Valid Estrella estrella, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "estrella-create";
         }
-      /*  Optional<Estrella> estrellaExistente = estrellaService.buscarEstrellaOptional(estrella.getId());
-        if (estrellaExistente.isPresent()) {
-            result.rejectValue("nombre", "error.estrella", "Ya existe una nave con este nombre.");
-            return "estrella-create";
-        }*/
+        /*
+         * Optional<Estrella> estrellaExistente =
+         * estrellaService.buscarEstrellaOptional(estrella.getId());
+         * if (estrellaExistente.isPresent()) {
+         * result.rejectValue("nombre", "error.estrella",
+         * "Ya existe una nave con este nombre.");
+         * return "estrella-create";
+         * }
+         */
         estrellaService.guardarEstrella(estrella);
         return "redirect:/estrella/list";
     }
+
     @GetMapping("/delete/{id}")
     public String borrarEstrella(Model model, @PathVariable Long id) {
         estrellaService.eliminarEstrella(id);
-       // model.addAttribute("nave", nave);
+        // model.addAttribute("nave", nave);
         return "redirect:/estrella/list";
     }
 
@@ -108,6 +116,14 @@ public class EstrellaController {
         }
 
         return "estrella-search";
+    }
+
+    @GetMapping("/planeta-list/{id}")
+    public String listarPlanetasEstrella(Model model, @PathVariable("id") Long id) {
+        Estrella estrella = estrellaService.buscar(id);
+        List<Planeta> planetas = estrella.getPlanetas();
+        model.addAttribute("planetas", planetas);
+        return "estrella-planeta-list";
     }
 
 }

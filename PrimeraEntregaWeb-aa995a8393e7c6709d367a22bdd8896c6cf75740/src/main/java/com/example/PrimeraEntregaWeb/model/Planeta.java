@@ -25,7 +25,7 @@ public class Planeta {
 
     private String nombre;
 
-    @OneToMany (mappedBy = "planeta")
+    @OneToMany(mappedBy = "planeta")
     private List<Nave> naves = new ArrayList<>();
 
     @OneToMany(mappedBy = "planeta")
@@ -41,6 +41,7 @@ public class Planeta {
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getNombre() {
         return nombre;
     }
@@ -52,6 +53,7 @@ public class Planeta {
     public List<Nave> getNaves() {
         return naves;
     }
+
     public void setNaves(List<Nave> naves) {
         this.naves = naves;
     }
@@ -72,7 +74,6 @@ public class Planeta {
         this.estrella = estrella;
     }
 
-
     public Planeta(String nombre) {
         this.nombre = nombre;
     }
@@ -81,5 +82,4 @@ public class Planeta {
 
     }
 
-  
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div th:insert="fragments/menus.html :: menuPrincipal"></div>
+
+    <h1>Planetas de la Estrella</h1>
+    <table class="entity-list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="planeta : ${planetas}">
+                <td th:text="${planeta.id}"></td>
+                <td th:text="${planeta.nombre}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/estrella/list}">Volver a la lista de estrellas</a>
+</body>
+
+</html>
