@@ -22,7 +22,6 @@ public class Planeta {
 
     @Column(name = "nombre", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-
     private String nombre;
 
     @OneToMany(mappedBy = "planeta")
