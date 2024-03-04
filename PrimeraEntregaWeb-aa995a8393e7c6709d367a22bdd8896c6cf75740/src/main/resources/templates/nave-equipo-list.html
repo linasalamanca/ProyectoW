@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+
+<body>
+    <div th:insert="fragments/menus.html :: menuPrincipal"></div>
+
+    <h1>Equipo en Nave</h1>
+    <table class="entity-list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Rol</th>
+                <th>Usuario</th>
+                <th>Contraseña</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="jugadores : ${jugadores}">
+                <td th:text="${jugadores.id}"></td>
+                <td th:text="${jugadores.rol}"></td>
+                <td th:text="${jugadores.usuario}"></td>
+                <td th:text="${jugadores.contrasena}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/nave/list}">Volver</a>
+</body>
+
+</html>

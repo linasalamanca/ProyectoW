@@ -135,30 +135,29 @@ public class DBInitializer implements CommandLineRunner {
                  * 
                  */
 
-                // Crea una lista de 100 jugadores
-                List<Jugador> jugadores = new ArrayList<>();
-                for (int i = 0; i < 100; i++) {
-                        Jugador jugador = new Jugador("a" + i, "usuario" + (i + 1), "hola");
-                        jugadores.add(jugador);
-                }
-
-                jugadorRepository.saveAll(jugadores);
-
-                // Crea una lista de 10 naves
+                /* Crear lista de naves */
                 List<Nave> naves = new ArrayList<>();
                 Random random = new Random();
                 for (int i = 0; i < 10; i++) {
                         Nave nave = new Nave(
                                         random.nextInt(900) + 100,
-                                        random.nextDouble(400) + 50,
-                                        random.nextDouble(400) + 50,
-                                        random.nextDouble(400) + 50, "nave" + i,
-                                        random.nextDouble(200) + 15);
+                                        random.nextDouble() * 400 + 50,
+                                        random.nextDouble() * 400 + 50,
+                                        random.nextDouble() * 400 + 50,
+                                        "nave" + i,
+                                        random.nextDouble() * 200 + 15);
 
                         naves.add(nave);
                 }
 
-                // Divide la lista de jugadores en 10 equipos
+                /* Crear lista de jugadores */
+                List<Jugador> jugadores = new ArrayList<>();
+                for (int i = 0; i < 100; i++) {
+                        Jugador jugador = new Jugador("rol" + i, "jugador" + i, "hola" + i);
+                        jugadores.add(jugador);
+                }
+
+                /* Dividir los jugadores en los equipos */
                 List<List<Jugador>> equipos = new ArrayList<>();
                 for (int i = 0; i < 10; i++) {
                         List<Jugador> equipo = new ArrayList<>();
@@ -168,38 +167,56 @@ public class DBInitializer implements CommandLineRunner {
                         equipos.add(equipo);
                 }
 
-                // Asigna a cada nave un equipo de jugadores
+                /* Asignar a cada nave un equipo */
                 for (int i = 0; i < 10; i++) {
                         List<Jugador> equipo = equipos.get(i);
                         Nave nave = naves.get(i);
                         for (Jugador jugador : equipo) {
+                                jugador.setNave(nave);
                                 nave.addJugador(jugador);
                         }
                 }
-                naveRepository.saveAll(naves);
 
-                // Generar 40,000 estrellas
+                naveRepository.saveAll(naves);
+                jugadorRepository.saveAll(jugadores);
+
+                /* Generar las estrellas */
                 for (int i = 0; i < 400; i++) {
                         Estrella estrella = new Estrella(
                                         random.nextDouble() * 100,
                                         random.nextDouble() * 100,
                                         random.nextDouble() * 100);
 
-                        estrellaRepository.save(estrella); // Guardar la estrella antes de crear los planetas
+                        estrellaRepository.save(estrella);
 
-                        if (random.nextDouble() < 0.01) { // 1% de probabilidad
+                        if (random.nextDouble() < 0.01) {
                                 int numPlanets = random.nextInt(3) + 1;
                                 loggy.info("numPlanteas" + numPlanets);
                                 for (int j = 0; j < numPlanets; j++) {
                                         Planeta planeta = new Planeta("Planeta_" + i + "_" + j);
-                                        planeta.setEstrella(estrella); // Establecer la estrella del planeta
-                                        estrella.addPlaneta(planeta); // Agregar planeta a la estrella
-                                        planetaRepository.save(planeta); // Guardar el planeta
-                                        loggy.info("estrellaaaa " + estrella);
+                                        planeta.setEstrella(estrella);
+                                        estrella.addPlaneta(planeta);
+                                        planetaRepository.save(planeta);
+                                        // loggy.info("estrellaaaa " + estrella);
                                 }
                         }
                 }
 
+                List<Producto> productos = new ArrayList<>();
+                /* Generar productos */
+                for (int i = 0; i < 500; i++) {
+                        Producto producto = new Producto((i * 3.6), "tipo" + (i + 10));
+                        productos.add(producto);
+                }
+                productoRepository.saveAll(productos);
+
+                List<TipoNave> tipoNaves = new ArrayList<>();
+                /* Generar tipos de nave */
+                for (int i = 0; i < 20; i++) {
+                        TipoNave tn = new TipoNave("Tipo" + i, 2.5 * i, 3.6 * i);
+                        tipoNaves.add(tn);
+                }
+                tipoNaveRepository.saveAll(tipoNaves);
         }
 
 }

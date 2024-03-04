@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.PrimeraEntregaWeb.services.NaveService;
+import com.example.PrimeraEntregaWeb.model.Estrella;
+import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
+import com.example.PrimeraEntregaWeb.model.Planeta;
+
 import javax.validation.Valid;
 
 @Controller
@@ -34,7 +38,7 @@ public class NaveController {
         log.info("nave " + nave.size());
         model.addAttribute("nave", nave);
         return "nave-list";
-        
+
     }
 
     @GetMapping("/view/{nombre}")
@@ -53,14 +57,17 @@ public class NaveController {
         return "nave-edit";
     }
 
-    /*@PostMapping(value = "/save")
-    public String guadarNave(@Valid Nave nave, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "nave-edit";
-        }
-        naveServicio.guardarNave(nave);
-        return "redirect:/nave/list";
-    }*/
+    /*
+     * @PostMapping(value = "/save")
+     * public String guadarNave(@Valid Nave nave, BindingResult result, Model model)
+     * {
+     * if (result.hasErrors()) {
+     * return "nave-edit";
+     * }
+     * naveServicio.guardarNave(nave);
+     * return "redirect:/nave/list";
+     * }
+     */
     @PostMapping(value = "/update")
     public String actualizarNave(@Valid Nave nave, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -70,18 +77,19 @@ public class NaveController {
         return "redirect:/nave/list";
     }
 
-    /*  @GetMapping("/create")
-    public String formularioCrearNave(Model model, @PathVariable String nombre) {
-        /*Nave nave = naveServicio.buscarNave(nombre);
-        model.addAttribute("nave", nave);   
-        return "nave-create";
-    }*/
+    /*
+     * @GetMapping("/create")
+     * public String formularioCrearNave(Model model, @PathVariable String nombre) {
+     * /*Nave nave = naveServicio.buscarNave(nombre);
+     * model.addAttribute("nave", nave);
+     * return "nave-create";
+     * }
+     */
     @GetMapping("/create")
     public String formularioCrearNave(Model model) {
         model.addAttribute("nave", new Nave());
         return "nave-create";
     }
-   
 
     @PostMapping(value = "/save")
     public String guadarNaveNueva(@Valid Nave nave, BindingResult result, Model model) {
@@ -100,10 +108,9 @@ public class NaveController {
     @GetMapping("/delete/{nombre}")
     public String borrarNave(Model model, @PathVariable String nombre) {
         naveServicio.eliminarNave(nombre);
-       // model.addAttribute("nave", nave);
+        // model.addAttribute("nave", nave);
         return "redirect:/nave/list";
     }
-
 
     @GetMapping("/search")
     public String listaNaves(@RequestParam(required = false) String searchText, Model model) {
@@ -115,5 +122,13 @@ public class NaveController {
         }
 
         return "nave-search";
+    }
+
+    @GetMapping("/equipo-list/{nombre}")
+    public String listarEquipoNave(Model model, @PathVariable("nombre") String nombre) {
+        Nave nave = naveServicio.buscarNave(nombre);
+        List<Jugador> jugadores = nave.getJugadores();
+        model.addAttribute("jugadores", jugadores);
+        return "nave-equipo-list";
     }
 }
