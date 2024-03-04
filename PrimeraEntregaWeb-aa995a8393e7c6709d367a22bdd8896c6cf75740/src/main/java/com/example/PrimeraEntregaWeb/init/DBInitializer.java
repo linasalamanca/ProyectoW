@@ -185,19 +185,19 @@ public class DBInitializer implements CommandLineRunner {
                                         random.nextDouble() * 100,
                                         random.nextDouble() * 100);
 
+                        estrellaRepository.save(estrella); // Guardar la estrella antes de crear los planetas
+
                         if (random.nextDouble() < 0.01) { // 1% de probabilidad
                                 int numPlanets = random.nextInt(3) + 1;
                                 loggy.info("numPlanteas" + numPlanets);
                                 for (int j = 0; j < numPlanets; j++) {
                                         Planeta planeta = new Planeta("Planeta_" + i + "_" + j);
-                                        estrella.addPlaneta(planeta);
-                                        planetaRepository.save(planeta);
-                                        planeta.setEstrella(estrella);
+                                        planeta.setEstrella(estrella); // Establecer la estrella del planeta
+                                        estrella.addPlaneta(planeta); // Agregar planeta a la estrella
+                                        planetaRepository.save(planeta); // Guardar el planeta
                                         loggy.info("estrellaaaa " + estrella);
                                 }
                         }
-
-                        estrellaRepository.save(estrella);
                 }
 
         }

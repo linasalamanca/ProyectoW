@@ -36,7 +36,7 @@
                 <td>
                     <a th:href="@{/estrella/delete/{id}(id=${p.id})}">Eliminar</a>
                 </td>
-                <td>
+                <td th:if="${p.planetas != null and p.planetas.size() > 0}">
                     <a th:href="@{/estrella/planeta-list/{id}(id=${p.id})}">Ver planetas</a>
                 </td>
             </tr>
