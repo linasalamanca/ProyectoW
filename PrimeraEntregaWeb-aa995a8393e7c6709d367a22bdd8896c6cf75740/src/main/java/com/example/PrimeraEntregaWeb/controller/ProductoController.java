@@ -58,7 +58,14 @@ public class ProductoController {
         if (result.hasErrors()) {
             return "producto-edit";
         }
-        productoServicio.guardarProducto(producto);
+        try{
+            productoServicio.guardarProducto(producto);
+        }catch(Exception e){
+            log.error("Error al guardar producto: ", e);
+            model.addAttribute("error", "Error al guardar producto: " + e.getMessage());
+            return "producto-error";
+        }
+       // productoServicio.guardarProducto(producto);
         return "redirect:/producto/list";
     }
 
@@ -73,12 +80,13 @@ public class ProductoController {
         if (result.hasErrors()) {
             return "producto-create";
         }
-        /*Optional<Producto> productoExistente = productoServicio.buscarProductoOptional(producto.getId());
-        if (productoExistente.isPresent()) {
-            result.rejectValue("nombre", "error.producto", "Ya existe un producto con este nombre.");
-            return "producto-create";
-        }*/
-        productoServicio.guardarProducto(producto);
+        try{
+            productoServicio.guardarProducto(producto);
+        }catch(Exception e){
+            log.error("Error al guardar producto: ", e);
+            model.addAttribute("error", "Error al guardar producto: " + e.getMessage());
+            return "producto-error";
+        }
         return "redirect:/producto/list";
     }
 

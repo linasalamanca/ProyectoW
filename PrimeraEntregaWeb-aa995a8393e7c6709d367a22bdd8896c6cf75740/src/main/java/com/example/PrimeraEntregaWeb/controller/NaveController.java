@@ -73,7 +73,14 @@ public class NaveController {
         if (result.hasErrors()) {
             return "nave-edit";
         }
-        naveServicio.guardarNave(nave);
+        try{
+            naveServicio.guardarNave(nave);
+        }catch(Exception e){
+            log.error("Error al guardar la nave", e);
+            model.addAttribute("error", "Error al guardar la nave: " + e.getMessage());
+            return "nave-error";
+        }
+        //naveServicio.guardarNave(nave);
         return "redirect:/nave/list";
     }
 
@@ -101,7 +108,14 @@ public class NaveController {
             result.rejectValue("nombre", "error.nave", "Ya existe una nave con este nombre.");
             return "nave-create";
         }
-        naveServicio.guardarNave(nave);
+        try{
+            naveServicio.guardarNave(nave);
+        }catch(Exception e){
+            log.error("Error al guardar la nave", e);
+            model.addAttribute("error", "Error al guardar la nave: " + e.getMessage());
+            return "nave-error";
+        }
+       // naveServicio.guardarNave(nave);
         return "redirect:/nave/list";
     }
 

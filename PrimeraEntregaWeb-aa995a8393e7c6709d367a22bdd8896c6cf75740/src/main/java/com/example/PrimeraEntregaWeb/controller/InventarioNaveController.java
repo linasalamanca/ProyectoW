@@ -56,9 +56,17 @@ public class InventarioNaveController {
     @PostMapping(value = "/update")
     public String actualizarInventarioNave(@Valid InventarioNave inventarioNave, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("inave", inventarioNave);
             return "inave-edit";
         }
-        inventarioNaveServico.guardarInventario(inventarioNave);
+        try {
+            inventarioNaveServico.guardarInventario(inventarioNave);
+        } catch (Exception e) {
+            log.error("Error al guardar el inventario: ", e);
+            model.addAttribute("errorMensaje", "Error al guardar el inventario: " + e.getMessage());
+            return "inave-error";
+        }
+        //inventarioNaveServico.guardarInventario(inventarioNave);
         return "redirect:/inave/list";
     }
 
@@ -71,14 +79,17 @@ public class InventarioNaveController {
     @PostMapping(value = "/save")
     public String guadarInventarioNuevo(@Valid InventarioNave inventarioNave, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("inave", inventarioNave);
             return "inave-create";
         }
-        /*Optional<Producto> productoExistente = inventarioNaveServico.buscarProductoOptional(producto.getId());
-        if (productoExistente.isPresent()) {
-            result.rejectValue("nombre", "error.producto", "Ya existe un producto con este nombre.");
-            return "inave-create";
-        }*/
-        inventarioNaveServico.guardarInventario(inventarioNave);;
+        try {
+            inventarioNaveServico.guardarInventario(inventarioNave);
+        } catch (Exception e) {
+            log.error("Error al guardar el inventario: ", e);
+            model.addAttribute("errorMensaje", "Error al guardar el inventario: " + e.getMessage());
+            return "inave-error";
+        }
+       // inventarioNaveServico.guardarInventario(inventarioNave);;
         return "redirect:/inave/list";
     }
 
