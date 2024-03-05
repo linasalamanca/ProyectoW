@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
-import com.example.PrimeraEntregaWeb.model.Nave;
+
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.services.EstrellaService;
 import javax.validation.Valid;
@@ -71,7 +71,14 @@ public class EstrellaController {
         if (result.hasErrors()) {
             return "estrella-edit";
         }
-        estrellaService.guardarEstrella(estrella);
+        try {
+            estrellaService.guardarEstrella(estrella);
+        } catch (Exception e) {
+            loggy.error("Error al guardar la estrella", e);
+            model.addAttribute("errorMensaje", "Error al guardar la estrella: " + e.getMessage());
+            return "estrella-error";
+        }
+        //estrellaService.guardarEstrella(estrella);
         return "redirect:/estrella/list";
     }
 
@@ -86,16 +93,14 @@ public class EstrellaController {
         if (result.hasErrors()) {
             return "estrella-create";
         }
-        /*
-         * Optional<Estrella> estrellaExistente =
-         * estrellaService.buscarEstrellaOptional(estrella.getId());
-         * if (estrellaExistente.isPresent()) {
-         * result.rejectValue("nombre", "error.estrella",
-         * "Ya existe una nave con este nombre.");
-         * return "estrella-create";
-         * }
-         */
-        estrellaService.guardarEstrella(estrella);
+        try {
+            estrellaService.guardarEstrella(estrella);
+        } catch (Exception e) {
+            loggy.error("Error al guardar la estrella", e);
+            model.addAttribute("errorMensaje", "Error al guardar la estrella: " + e.getMessage());
+            return "estrella-error";
+        }
+       // estrellaService.guardarEstrella(estrella);
         return "redirect:/estrella/list";
     }
 

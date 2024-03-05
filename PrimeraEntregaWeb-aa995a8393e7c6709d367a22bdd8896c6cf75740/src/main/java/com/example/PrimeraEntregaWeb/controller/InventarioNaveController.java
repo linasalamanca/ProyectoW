@@ -21,11 +21,10 @@ import com.example.PrimeraEntregaWeb.model.InventarioNave;
 
 import com.example.PrimeraEntregaWeb.services.InventarioNaveService;
 
-
 @Controller
 @RequestMapping("/inave")
 public class InventarioNaveController {
-     Logger log = LoggerFactory.getLogger(getClass());
+    Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private InventarioNaveService inventarioNaveServico;
@@ -33,7 +32,7 @@ public class InventarioNaveController {
     @GetMapping("/list")
     public String listarInventarioNave(Model model) {
         List<InventarioNave> iNave = inventarioNaveServico.listarInventarioNave();
-        //log.info("producto " + inventNave.size());
+        // log.info("producto " + inventNave.size());
         model.addAttribute("in", iNave);
         return "inave-list";
     }
@@ -41,7 +40,7 @@ public class InventarioNaveController {
     @GetMapping("/view/{id}")
     String verProductos(Model model, @PathVariable("") Long id) {
         InventarioNave iNave = inventarioNaveServico.buscarInventario(id);
-       // log.info("inave " + iNave);
+        // log.info("inave " + iNave);
         model.addAttribute("inave", iNave);
         return "inave-view";
     }
@@ -56,9 +55,17 @@ public class InventarioNaveController {
     @PostMapping(value = "/update")
     public String actualizarInventarioNave(@Valid InventarioNave inventarioNave, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            // model.addAttribute("inave", inventarioNave);
             return "inave-edit";
         }
-        inventarioNaveServico.guardarInventario(inventarioNave);
+        try {
+            inventarioNaveServico.guardarInventario(inventarioNave);
+        } catch (Exception e) {
+            log.error("Error al guardar el inventario: ", e);
+            model.addAttribute("errorMensaje", "Error al guardar el inventario: " + e.getMessage());
+            return "inave-error";
+        }
+        // inventarioNaveServico.guardarInventario(inventarioNave);
         return "redirect:/inave/list";
     }
 
@@ -71,14 +78,17 @@ public class InventarioNaveController {
     @PostMapping(value = "/save")
     public String guadarInventarioNuevo(@Valid InventarioNave inventarioNave, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            // model.addAttribute("inave", inventarioNave);
             return "inave-create";
         }
-        /*Optional<Producto> productoExistente = inventarioNaveServico.buscarProductoOptional(producto.getId());
-        if (productoExistente.isPresent()) {
-            result.rejectValue("nombre", "error.producto", "Ya existe un producto con este nombre.");
-            return "inave-create";
-        }*/
-        inventarioNaveServico.guardarInventario(inventarioNave);;
+        try {
+            inventarioNaveServico.guardarInventario(inventarioNave);
+        } catch (RuntimeException e) {
+            log.error("Error al guardar el inventario: ", e);
+            model.addAttribute("errorMensaje", "Error al guardar el inventario: " + e.getMessage());
+            return "inave-error";
+        }
+        // inventarioNaveServico.guardarInventario(inventarioNave);;
         return "redirect:/inave/list";
     }
 
@@ -99,5 +109,5 @@ public class InventarioNaveController {
 
         return "inave-search";
     }
-    
+
 }

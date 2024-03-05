@@ -57,9 +57,17 @@ public class InventarioPlanetaController {
     @PostMapping(value = "/update")
     public String actualizarInventarioPlaneta(@Valid InventarioPlaneta inventarioPlaneta, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("iplaneta", inventarioPlaneta);
             return "iplaneta-edit";
         }
-        inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
+        try {
+            inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
+        } catch (Exception e) {
+            log.error("Error al guardar el inventario", e);
+            model.addAttribute("errorMensaje", "Error al guardar el inventario: " + e.getMessage());
+            return "iplaneta-error";
+        }
+        //inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
         return "redirect:/iplaneta/list";
     }
 
@@ -72,14 +80,20 @@ public class InventarioPlanetaController {
     @PostMapping(value = "/save")
     public String guadarInventarioNuevo(@Valid InventarioPlaneta inventarioPlaneta, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("iplaneta", inventarioPlaneta);
             return "iplaneta-create";
         }
-        /*Optional<Producto> productoExistente = inventarioPlanetaServicio.buscarProductoOptional(producto.getId());
-        if (productoExistente.isPresent()) {
-            result.rejectValue("nombre", "error.producto", "Ya existe un producto con este nombre.");
-            return "iplaneta-create";
-        }*/
-        inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);;
+
+        try{
+            inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
+        }catch(Exception e){
+            log.error("Error al guardar el inventario: ", e);
+            model.addAttribute("error", "Error al guardar el inventario: " + e.getMessage());
+            return "iplaneta-error";
+        }
+        
+        // inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
+       // inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);;
         return "redirect:/iplaneta/list";
     }
 

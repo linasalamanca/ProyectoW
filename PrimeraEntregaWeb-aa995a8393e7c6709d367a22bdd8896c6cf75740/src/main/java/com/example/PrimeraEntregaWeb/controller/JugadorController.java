@@ -58,9 +58,18 @@ public class JugadorController {
     @PostMapping(value = "/save")
     public String guardarJugador(@Valid Jugador jugador, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("errorMensaje", "Error al guardar el jugador: ");
             return "jugador-edit";
         }
-        jugadorService.guardarJugador(jugador);
+        try{
+            jugadorService.guardarJugador(jugador);
+        }catch(Exception e){
+            loggy.error("Error al guardar la estrella", e);
+            model.addAttribute("errorMensaje", "Error al guardar la estrella: " + e.getMessage());
+           // model.addAttribute("error", e.getMessage());
+            return "jugador-edit";
+        }
+       // jugadorService.guardarJugador(jugador);
         return "redirect:/jugador/list";
     }
 

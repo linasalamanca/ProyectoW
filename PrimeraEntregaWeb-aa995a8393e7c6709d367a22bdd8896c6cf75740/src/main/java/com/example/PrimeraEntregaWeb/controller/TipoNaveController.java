@@ -64,7 +64,16 @@ public class TipoNaveController {
         if (result.hasErrors()) {
             return "tipoNave-edit";
         }
-        tipoNaveServicio.guardarTipoNave(tipoNave);
+        try {
+            
+            tipoNaveServicio.guardarTipoNave(tipoNave);
+        } catch (Exception e) {
+            loggy.error("Error al guardar el tipo de nave", e);
+            model.addAttribute("errorMensaje", "Error al guardar el tipo de nave: " + e.getMessage());
+            return "tipoNave-error";
+        }
+        
+       // tipoNaveServicio.guardarTipoNave(tipoNave);
         return "redirect:/tipoNave/list";
     }
 
@@ -79,13 +88,22 @@ public class TipoNaveController {
         if (result.hasErrors()) {
             return "tipoNave-create";
         }
+        try {
+            
+            tipoNaveServicio.guardarTipoNave(tipoNave);
+        } catch (Exception e) {
+            loggy.error("Error al guardar el tipo de nave", e);
+            model.addAttribute("errorMensaje", "Error al guardar el tipo de nave: " + e.getMessage());
+            return "tipoNave-error";
+        }
+        return "redirect:/tipoNave/list";
         /*Optional<TipoNave> tipoNaveExistente = tipoNaveServicio.buscarTipoNaveOptional(tipoNave.getId());
         if(tipoNaveExistente.isPresent()){
             result.rejectValue("id", "error.tipoNave", "Ya existe un tipo de nave con ese id. "); 
             return "tipoNave-create";
-        }*/
+        }
         tipoNaveServicio.guardarTipoNave(tipoNave);
-        return "redirect:/tipoNave/list";
+        return "redirect:/tipoNave/list";*/
     }
 
     @GetMapping("/delete/{id}")
