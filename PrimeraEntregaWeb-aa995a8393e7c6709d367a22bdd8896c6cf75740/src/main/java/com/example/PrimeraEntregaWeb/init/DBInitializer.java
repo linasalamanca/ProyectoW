@@ -134,10 +134,19 @@ public class DBInitializer implements CommandLineRunner {
                  * inventarioPlanetaRepository.saveAll(inventarioPlaneta);
                  * 
                  */
+                /*Crear tipos de nave */
+                List<TipoNave> tipoNaves = new ArrayList<>();
+                Random random = new Random();
+                for (int i = 0; i < 20; i++) {
+                        TipoNave tipoNave = new TipoNave("tipoNave" + i,random.nextDouble()*2.5 , random.nextDouble()*3.6); 
+                       tipoNaves.add(tipoNave);      
+                }
+
+                tipoNaveRepository.saveAll(tipoNaves);
 
                 /* Crear lista de naves */
                 List<Nave> naves = new ArrayList<>();
-                Random random = new Random();
+                
                 for (int i = 0; i < 10; i++) {
                         Nave nave = new Nave(
                                         random.nextInt(900) + 100,
@@ -146,7 +155,7 @@ public class DBInitializer implements CommandLineRunner {
                                         random.nextDouble() * 400 + 50,
                                         "nave" + i,
                                         random.nextDouble() * 200 + 15);
-
+                        nave.setTipo(tipoNaves.get(i));                
                         naves.add(nave);
                 }
 
@@ -209,14 +218,14 @@ public class DBInitializer implements CommandLineRunner {
                         productos.add(producto);
                 }
                 productoRepository.saveAll(productos);
-
+                /* 
                 List<TipoNave> tipoNaves = new ArrayList<>();
-                /* Generar tipos de nave */
+                /* Generar tipos de nave 
                 for (int i = 0; i < 20; i++) {
                         TipoNave tn = new TipoNave("Tipo" + i, 2.5 * i, 3.6 * i);
                         tipoNaves.add(tn);
                 }
-                tipoNaveRepository.saveAll(tipoNaves);
+                tipoNaveRepository.saveAll(tipoNaves);*/
         }
 
 }

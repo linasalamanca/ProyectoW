@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
+import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
 import io.micrometer.common.lang.NonNull;
 
@@ -25,7 +26,11 @@ public class InventarioNaveService {
         return inventarioNaveRepositorio.findById(id);
     }*/
     public void guardarInventario(InventarioNave inventario) {
-        inventarioNaveRepositorio.save(inventario);
+       // inventarioNaveRepositorio.save(inventario);
+       InventarioNave in = inventarioNaveRepositorio.findById(inventario.getId()).orElseThrow();
+       //n.setNombre(navecita.getNombre());
+       in.setCantidad(inventario.getCantidad());
+       inventarioNaveRepositorio.save(in);
     }
     public void eliminarInventario(Long id) {
         inventarioNaveRepositorio.deleteById(id);

@@ -28,7 +28,14 @@ public class JugadorService {
     }
 
     public void guardarJugador(Jugador jugador) {
-        jugadorRepositorio.save(jugador);
+       // jugadorRepositorio.save(jugador);
+       Jugador j = jugadorRepositorio.findById(jugador.getId()).orElseThrow();
+       //n.setNombre(navecita.getNombre());
+       j.setRol(jugador.getRol());
+       j.setUsuario(jugador.getUsuario());
+       j.setContrasena(jugador.getContrasena());
+
+       jugadorRepositorio.save(j);
     }
 
     public void eliminarJugador(Long id) {
