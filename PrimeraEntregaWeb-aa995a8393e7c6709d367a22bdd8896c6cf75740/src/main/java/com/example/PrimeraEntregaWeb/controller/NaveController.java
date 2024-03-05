@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.PrimeraEntregaWeb.services.NaveService;
-import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
-import com.example.PrimeraEntregaWeb.model.Planeta;
 
 import javax.validation.Valid;
 
@@ -57,41 +55,22 @@ public class NaveController {
         return "nave-edit";
     }
 
-    /*
-     * @PostMapping(value = "/save")
-     * public String guadarNave(@Valid Nave nave, BindingResult result, Model model)
-     * {
-     * if (result.hasErrors()) {
-     * return "nave-edit";
-     * }
-     * naveServicio.guardarNave(nave);
-     * return "redirect:/nave/list";
-     * }
-     */
     @PostMapping(value = "/update")
     public String actualizarNave(@Valid Nave nave, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "nave-edit";
         }
-        try{
-            naveServicio.guardarNave(nave);
-        }catch(Exception e){
+        try {
+            naveServicio.actualizarNave(nave);
+        } catch (Exception e) {
             log.error("Error al guardar la nave", e);
             model.addAttribute("error", "Error al guardar la nave: " + e.getMessage());
             return "nave-error";
         }
-        //naveServicio.guardarNave(nave);
+        // naveServicio.guardarNave(nave);
         return "redirect:/nave/list";
     }
 
-    /*
-     * @GetMapping("/create")
-     * public String formularioCrearNave(Model model, @PathVariable String nombre) {
-     * /*Nave nave = naveServicio.buscarNave(nombre);
-     * model.addAttribute("nave", nave);
-     * return "nave-create";
-     * }
-     */
     @GetMapping("/create")
     public String formularioCrearNave(Model model) {
         model.addAttribute("nave", new Nave());
@@ -108,14 +87,14 @@ public class NaveController {
             result.rejectValue("nombre", "error.nave", "Ya existe una nave con este nombre.");
             return "nave-create";
         }
-        try{
+        try {
             naveServicio.guardarNave(nave);
-        }catch(Exception e){
+        } catch (Exception e) {
             log.error("Error al guardar la nave", e);
             model.addAttribute("error", "Error al guardar la nave: " + e.getMessage());
             return "nave-error";
         }
-       // naveServicio.guardarNave(nave);
+        // naveServicio.guardarNave(nave);
         return "redirect:/nave/list";
     }
 

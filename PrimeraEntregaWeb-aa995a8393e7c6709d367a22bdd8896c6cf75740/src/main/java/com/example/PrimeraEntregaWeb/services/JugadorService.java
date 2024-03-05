@@ -27,15 +27,19 @@ public class JugadorService {
         return jugadorRepositorio.findById(id).orElseThrow();
     }
 
-    public void guardarJugador(Jugador jugador) {
-       // jugadorRepositorio.save(jugador);
-       Jugador j = jugadorRepositorio.findById(jugador.getId()).orElseThrow();
-       //n.setNombre(navecita.getNombre());
-       j.setRol(jugador.getRol());
-       j.setUsuario(jugador.getUsuario());
-       j.setContrasena(jugador.getContrasena());
+    public void actualizarJuagdor(Jugador jugador) {
+        // jugadorRepositorio.save(jugador);
+        Jugador j = jugadorRepositorio.findById(jugador.getId()).orElseThrow();
+        // n.setNombre(navecita.getNombre());
+        j.setRol(jugador.getRol());
+        j.setUsuario(jugador.getUsuario());
+        j.setContrasena(jugador.getContrasena());
 
-       jugadorRepositorio.save(j);
+        jugadorRepositorio.save(j);
+    }
+
+    public void guardarJugador(Jugador jugador) {
+        jugadorRepositorio.save(jugador);
     }
 
     public void eliminarJugador(Long id) {

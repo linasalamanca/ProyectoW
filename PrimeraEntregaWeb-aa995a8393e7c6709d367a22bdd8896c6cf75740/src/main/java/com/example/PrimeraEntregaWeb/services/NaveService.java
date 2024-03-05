@@ -34,12 +34,13 @@ public class NaveService {
         return naveRepositorio.findById(nombre);
     }
 
-    /*public void guardarNave(Nave navecita) {
-        naveRepositorio.save(navecita);
-    }*/
     public void guardarNave(Nave navecita) {
+        naveRepositorio.save(navecita);
+    }
+
+    public void actualizarNave(Nave navecita) {
         Nave n = naveRepositorio.findById(navecita.getNombre()).orElseThrow();
-        //n.setNombre(navecita.getNombre());
+        // n.setNombre(navecita.getNombre());
         n.setDinero(navecita.getDinero());
         n.setCoordenadaX(navecita.getCoordenadaX());
         n.setCoordenadaY(navecita.getCoordenadaY());

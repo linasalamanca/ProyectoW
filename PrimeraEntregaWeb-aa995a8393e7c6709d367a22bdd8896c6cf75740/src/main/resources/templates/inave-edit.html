@@ -8,7 +8,7 @@
 <body>
     <div class="formcontainer">
         <h1>Inventario nave</h1>
-        <form action="#" th:action="@{/inave/update}" th:object="${inave}" method="post">
+        <form action="#" th:action="@{/inave/update}" th:object="${inventarioNave}" method="post">
             <input type="hidden" th:field="*{id}" id="id">
             <label for="cantidad">Cantidad: </label>
             <input type="text" th:field="*{cantidad}" id="inaveCantidad">

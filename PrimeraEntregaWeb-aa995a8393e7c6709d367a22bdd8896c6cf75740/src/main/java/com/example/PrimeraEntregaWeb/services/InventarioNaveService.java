@@ -14,24 +14,33 @@ import io.micrometer.common.lang.NonNull;
 public class InventarioNaveService {
     @Autowired
     private InventarioNaveRepository inventarioNaveRepositorio;
-     public List<InventarioNave> listarInventarioNave() {
+
+    public List<InventarioNave> listarInventarioNave() {
         return inventarioNaveRepositorio.findAll();
     }
-    
+
     @SuppressWarnings("null")
     public InventarioNave buscarInventario(@NonNull Long id) {
         return inventarioNaveRepositorio.findById(id).orElseThrow();
     }
-    /*public Optional<Estrella> buscarEstrellaOptional(Long id) {
-        return inventarioNaveRepositorio.findById(id);
-    }*/
-    public void guardarInventario(InventarioNave inventario) {
-       // inventarioNaveRepositorio.save(inventario);
-       InventarioNave in = inventarioNaveRepositorio.findById(inventario.getId()).orElseThrow();
-       //n.setNombre(navecita.getNombre());
-       in.setCantidad(inventario.getCantidad());
-       inventarioNaveRepositorio.save(in);
+
+    /*
+     * public Optional<Estrella> buscarEstrellaOptional(Long id) {
+     * return inventarioNaveRepositorio.findById(id);
+     * }
+     */
+    public void actualizarInventario(InventarioNave inventario) {
+        // inventarioNaveRepositorio.save(inventario);
+        InventarioNave in = inventarioNaveRepositorio.findById(inventario.getId()).orElseThrow();
+        // n.setNombre(navecita.getNombre());
+        in.setCantidad(inventario.getCantidad());
+        inventarioNaveRepositorio.save(in);
     }
+
+    public void guardarInventario(InventarioNave inventario) {
+        inventarioNaveRepositorio.save(inventario);
+    }
+
     public void eliminarInventario(Long id) {
         inventarioNaveRepositorio.deleteById(id);
     }

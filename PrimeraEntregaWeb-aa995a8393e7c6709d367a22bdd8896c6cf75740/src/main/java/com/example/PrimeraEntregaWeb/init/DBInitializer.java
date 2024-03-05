@@ -134,19 +134,20 @@ public class DBInitializer implements CommandLineRunner {
                  * inventarioPlanetaRepository.saveAll(inventarioPlaneta);
                  * 
                  */
-                /*Crear tipos de nave */
+                /* Crear tipos de nave */
                 List<TipoNave> tipoNaves = new ArrayList<>();
                 Random random = new Random();
                 for (int i = 0; i < 20; i++) {
-                        TipoNave tipoNave = new TipoNave("tipoNave" + i,random.nextDouble()*2.5 , random.nextDouble()*3.6); 
-                       tipoNaves.add(tipoNave);      
+                        TipoNave tipoNave = new TipoNave("tipoNave" + i, random.nextDouble() * 2.5,
+                                        random.nextDouble() * 3.6);
+                        tipoNaves.add(tipoNave);
                 }
 
                 tipoNaveRepository.saveAll(tipoNaves);
 
                 /* Crear lista de naves */
                 List<Nave> naves = new ArrayList<>();
-                
+
                 for (int i = 0; i < 10; i++) {
                         Nave nave = new Nave(
                                         random.nextInt(900) + 100,
@@ -155,7 +156,7 @@ public class DBInitializer implements CommandLineRunner {
                                         random.nextDouble() * 400 + 50,
                                         "nave" + i,
                                         random.nextDouble() * 200 + 15);
-                        nave.setTipo(tipoNaves.get(i));                
+                        nave.setTipo(tipoNaves.get(i));
                         naves.add(nave);
                 }
 
@@ -218,14 +219,36 @@ public class DBInitializer implements CommandLineRunner {
                         productos.add(producto);
                 }
                 productoRepository.saveAll(productos);
-                /* 
-                List<TipoNave> tipoNaves = new ArrayList<>();
-                /* Generar tipos de nave 
-                for (int i = 0; i < 20; i++) {
-                        TipoNave tn = new TipoNave("Tipo" + i, 2.5 * i, 3.6 * i);
-                        tipoNaves.add(tn);
-                }
-                tipoNaveRepository.saveAll(tipoNaves);*/
+                /*
+                 * List<TipoNave> tipoNaves = new ArrayList<>();
+                 * /* Generar tipos de nave
+                 * for (int i = 0; i < 20; i++) {
+                 * TipoNave tn = new TipoNave("Tipo" + i, 2.5 * i, 3.6 * i);
+                 * tipoNaves.add(tn);
+                 * }
+                 * tipoNaveRepository.saveAll(tipoNaves);
+                 */
+
+                /* Invemtairo */
+                InventarioNave inave1 = new InventarioNave(615.7);
+                InventarioNave inave2 = new InventarioNave(200.4);
+                InventarioNave inave3 = new InventarioNave(300.6);
+                InventarioNave inave4 = new InventarioNave(400.4);
+                InventarioNave inave5 = new InventarioNave(500.6);
+
+                List<InventarioNave> inventarioNave = Arrays.asList(inave1, inave2, inave3,
+                                inave4, inave5);
+                inventarioNaveRepository.saveAll(inventarioNave);
+
+                InventarioPlaneta iplaneta1 = new InventarioPlaneta(615, 9.1);
+                InventarioPlaneta iplaneta2 = new InventarioPlaneta(200, 9.9);
+                InventarioPlaneta iplaneta3 = new InventarioPlaneta(300, 81.2);
+                InventarioPlaneta iplaneta4 = new InventarioPlaneta(400, 821.1);
+                InventarioPlaneta iplaneta5 = new InventarioPlaneta(500, 12.2);
+
+                List<InventarioPlaneta> inventarioPlaneta = Arrays.asList(iplaneta1,
+                                iplaneta2, iplaneta3, iplaneta4, iplaneta5);
+                inventarioPlanetaRepository.saveAll(inventarioPlaneta);
         }
 
 }

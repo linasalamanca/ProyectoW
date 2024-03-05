@@ -22,19 +22,18 @@ import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
 import com.example.PrimeraEntregaWeb.services.InventarioNaveService;
 import com.example.PrimeraEntregaWeb.services.InventarioPlanetaService;
 
-
 @Controller
 @RequestMapping("/iplaneta")
 public class InventarioPlanetaController {
 
-     Logger log = LoggerFactory.getLogger(getClass());
+    Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     private InventarioPlanetaService inventarioPlanetaServicio;
 
     @GetMapping("/list")
     public String listarInventarioNave(Model model) {
         List<InventarioPlaneta> iNave = inventarioPlanetaServicio.listarInventarioPlaneta();
-        //log.info("producto " + inventNave.size());
+        // log.info("producto " + inventNave.size());
         model.addAttribute("ip", iNave);
         return "iplaneta-list";
     }
@@ -42,7 +41,7 @@ public class InventarioPlanetaController {
     @GetMapping("/view/{id}")
     String verInventario(Model model, @PathVariable("") Long id) {
         InventarioPlaneta iplaneta = inventarioPlanetaServicio.buscarInventario(id);
-       // log.info("iplaneta " + iplaneta);
+        // log.info("iplaneta " + iplaneta);
         model.addAttribute("iplaneta", iplaneta);
         return "iplaneta-view";
     }
@@ -55,19 +54,20 @@ public class InventarioPlanetaController {
     }
 
     @PostMapping(value = "/update")
-    public String actualizarInventarioPlaneta(@Valid InventarioPlaneta inventarioPlaneta, BindingResult result, Model model) {
+    public String actualizarInventarioPlaneta(@Valid InventarioPlaneta inventarioPlaneta, BindingResult result,
+            Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("iplaneta", inventarioPlaneta);
+            // model.addAttribute("iplaneta", inventarioPlaneta);
             return "iplaneta-edit";
         }
         try {
-            inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
+            inventarioPlanetaServicio.actualizarInventario(inventarioPlaneta);
         } catch (Exception e) {
             log.error("Error al guardar el inventario", e);
             model.addAttribute("errorMensaje", "Error al guardar el inventario: " + e.getMessage());
             return "iplaneta-error";
         }
-        //inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
+        // inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
         return "redirect:/iplaneta/list";
     }
 
@@ -80,20 +80,20 @@ public class InventarioPlanetaController {
     @PostMapping(value = "/save")
     public String guadarInventarioNuevo(@Valid InventarioPlaneta inventarioPlaneta, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("iplaneta", inventarioPlaneta);
+            // model.addAttribute("iplaneta", inventarioPlaneta);
             return "iplaneta-create";
         }
 
-        try{
+        try {
             inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
-        }catch(Exception e){
+        } catch (Exception e) {
             log.error("Error al guardar el inventario: ", e);
             model.addAttribute("error", "Error al guardar el inventario: " + e.getMessage());
             return "iplaneta-error";
         }
-        
+
         // inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
-       // inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);;
+        // inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);;
         return "redirect:/iplaneta/list";
     }
 
@@ -114,5 +114,5 @@ public class InventarioPlanetaController {
 
         return "iplaneta-search";
     }
-    
+
 }

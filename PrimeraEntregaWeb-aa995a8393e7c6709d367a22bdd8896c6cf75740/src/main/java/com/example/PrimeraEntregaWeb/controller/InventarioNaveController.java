@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,18 +49,24 @@ public class InventarioNaveController {
     @GetMapping("/edit-form/{id}")
     public String formularioEditarInventarioNave(Model model, @PathVariable Long id) {
         InventarioNave iNave = inventarioNaveServico.buscarInventario(id);
-        model.addAttribute("inave", iNave);
+        model.addAttribute("inventarioNave", iNave);
         return "inave-edit";
     }
 
     @PostMapping(value = "/update")
     public String actualizarInventarioNave(@Valid InventarioNave inventarioNave, BindingResult result, Model model) {
+        List<ObjectError> err = result.getAllErrors();
+
+        for (ObjectError e : err) {
+            log.info("errores: " + e.toString());
+        }
         if (result.hasErrors()) {
             // model.addAttribute("inave", inventarioNave);
+
             return "inave-edit";
         }
         try {
-            inventarioNaveServico.guardarInventario(inventarioNave);
+            inventarioNaveServico.actualizarInventario(inventarioNave);
         } catch (Exception e) {
             log.error("Error al guardar el inventario: ", e);
             model.addAttribute("errorMensaje", "Error al guardar el inventario: " + e.getMessage());
@@ -71,7 +78,7 @@ public class InventarioNaveController {
 
     @GetMapping("/create")
     public String formularioCrearInventarioNave(Model model) {
-        model.addAttribute("inave", new InventarioNave());
+        model.addAttribute("inventarioNave", new InventarioNave());
         return "inave-create";
     }
 
@@ -81,14 +88,18 @@ public class InventarioNaveController {
             // model.addAttribute("inave", inventarioNave);
             return "inave-create";
         }
+
         try {
             inventarioNaveServico.guardarInventario(inventarioNave);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             log.error("Error al guardar el inventario: ", e);
-            model.addAttribute("errorMensaje", "Error al guardar el inventario: " + e.getMessage());
+            model.addAttribute("errorMensaje", "Error al guardar el inventario: " +
+                    e.getMessage());
             return "inave-error";
         }
-        // inventarioNaveServico.guardarInventario(inventarioNave);;
+
+        // inventarioNaveServico.guardarInventario(inventarioNave);
+
         return "redirect:/inave/list";
     }
 

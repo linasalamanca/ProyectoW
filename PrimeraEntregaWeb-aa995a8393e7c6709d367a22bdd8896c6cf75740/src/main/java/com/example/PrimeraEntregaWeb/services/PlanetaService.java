@@ -32,13 +32,12 @@ public class PlanetaService {
         return planetaRepositorio.findById(id);
     }
 
-    /*
-     * public void guardarPlaneta(Planeta planeta) {
-     * planetaRepositorio.save(planeta);
-     * }
-     */
-
     public void guardarPlaneta(Planeta planeta) {
+
+        planetaRepositorio.save(planeta);
+    }
+
+    public void actualizarPlaneta(Planeta planeta) {
         Planeta p = planetaRepositorio.findById(planeta.getId()).orElseThrow();
         p.setNombre(planeta.getNombre());
         planetaRepositorio.save(p);

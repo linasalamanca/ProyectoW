@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.Jugador;
-import com.example.PrimeraEntregaWeb.model.Nave;
-import com.example.PrimeraEntregaWeb.services.EstrellaService;
 import com.example.PrimeraEntregaWeb.services.JugadorService;
 
 @Controller
@@ -55,21 +52,20 @@ public class JugadorController {
         return "jugador-edit";
     }
 
-    @PostMapping(value = "/save")
-    public String guardarJugador(@Valid Jugador jugador, BindingResult result, Model model) {
+    @PostMapping(value = "/update")
+    public String actualizarJuagdor(@Valid Jugador jugador, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("errorMensaje", "Error al guardar el jugador: ");
+            // model.addAttribute("iplaneta", inventarioPlaneta);
             return "jugador-edit";
         }
-        try{
-            jugadorService.guardarJugador(jugador);
-        }catch(Exception e){
-            loggy.error("Error al guardar la estrella", e);
-            model.addAttribute("errorMensaje", "Error al guardar la estrella: " + e.getMessage());
-           // model.addAttribute("error", e.getMessage());
-            return "jugador-edit";
+        try {
+            jugadorService.actualizarJuagdor(jugador);
+        } catch (Exception e) {
+            loggy.error("Error al guardar el jugador", e);
+            model.addAttribute("errorMensaje", "Error al guardar el jugudaor: " + e.getMessage());
+            return "jugador-error";
         }
-       // jugadorService.guardarJugador(jugador);
+        // inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
         return "redirect:/jugador/list";
     }
 
@@ -77,6 +73,24 @@ public class JugadorController {
     public String formularioCrearJugador(Model model) {
         model.addAttribute("jugador", new Jugador());
         return "jugador-create";
+    }
+
+    @PostMapping(value = "/save")
+    public String guardarJugador(@Valid Jugador jugador, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errorMensaje", "Error al guardar el jugador: ");
+            return "jugador-edit";
+        }
+        try {
+            jugadorService.guardarJugador(jugador);
+        } catch (Exception e) {
+            loggy.error("Error al guardar la estrella", e);
+            model.addAttribute("errorMensaje", "Error al guardar la estrella: " + e.getMessage());
+            // model.addAttribute("error", e.getMessage());
+            return "jugador-edit";
+        }
+        // jugadorService.guardarJugador(jugador);
+        return "redirect:/jugador/list";
     }
 
     @GetMapping("/delete/{id}")

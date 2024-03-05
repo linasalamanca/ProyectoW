@@ -18,7 +18,7 @@ public class InventarioNave {
 
     @Column(name = "cantidad", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private Integer cantidad;
+    private Double cantidad;
 
     @ManyToOne
     private Nave nave;
@@ -29,15 +29,16 @@ public class InventarioNave {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -50,13 +51,14 @@ public class InventarioNave {
     }
 
     public Producto getProducto() {
-        return producto;   
+        return producto;
     }
+
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
-    
-    public InventarioNave(Integer cantidad) {
+
+    public InventarioNave(Double cantidad) {
         this.cantidad = cantidad;
     }
 
