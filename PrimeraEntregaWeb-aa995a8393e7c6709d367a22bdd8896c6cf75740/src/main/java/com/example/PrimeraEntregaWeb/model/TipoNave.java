@@ -32,10 +32,8 @@ public class TipoNave {
     @NotBlank(message = "No puede estar en blanco")
     private Double velocidad;
 
-    
-     @OneToMany(mappedBy = "tipo")
-     private List<Nave> naves = new ArrayList<>();
-     
+    @OneToMany(mappedBy = "tipo")
+    private List<Nave> naves = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -60,6 +58,7 @@ public class TipoNave {
     public void setVelocidad(Double velocidad) {
         this.velocidad = velocidad;
     }
+
     public String getNombre() {
         return nombre;
     }
@@ -67,12 +66,17 @@ public class TipoNave {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public List<Nave> getNaves() {
         return naves;
     }
 
     public void setNaves(List<Nave> naves) {
         this.naves = naves;
+    }
+
+    public void addNave(Nave n) {
+        naves.add(n);
     }
 
     public TipoNave(String nombre, Double volumenCarga, Double velocidad) {
