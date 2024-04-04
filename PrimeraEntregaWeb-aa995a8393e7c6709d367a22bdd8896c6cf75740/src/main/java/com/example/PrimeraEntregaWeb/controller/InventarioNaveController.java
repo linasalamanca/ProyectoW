@@ -85,7 +85,6 @@ public class InventarioNaveController {
     @PostMapping(value = "/save")
     public String guadarInventarioNuevo(@Valid InventarioNave inventarioNave, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // model.addAttribute("inave", inventarioNave);
             return "inave-create";
         }
 
@@ -97,8 +96,6 @@ public class InventarioNaveController {
                     e.getMessage());
             return "inave-error";
         }
-
-        // inventarioNaveServico.guardarInventario(inventarioNave);
 
         return "redirect:/inave/list";
     }

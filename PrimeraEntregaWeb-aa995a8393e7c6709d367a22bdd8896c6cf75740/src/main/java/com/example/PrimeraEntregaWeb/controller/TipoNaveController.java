@@ -2,9 +2,7 @@ package com.example.PrimeraEntregaWeb.controller;
 
 import com.example.PrimeraEntregaWeb.services.TipoNaveService;
 import com.example.PrimeraEntregaWeb.model.TipoNave;
-
 import java.util.List;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
@@ -27,7 +25,7 @@ public class TipoNaveController {
     private TipoNaveService tipoNaveServicio;
 
     @GetMapping("/list")
-    public String listarTipoNaves(Model model){
+    public String listarTipoNaves(Model model) {
         List<TipoNave> tipoNave = tipoNaveServicio.listarTipoNaves();
         loggy.info("tipoNave " + tipoNave.size());
         model.addAttribute("tipoNave", tipoNave);
@@ -50,30 +48,19 @@ public class TipoNaveController {
         return "tipoNave-edit";
     }
 
-    /*@PostMapping(value = "/save")
-    public String guardarTipoNave(@Valid TipoNave tipoNave, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "tipoNave-edit";
-        }
-        tipoNaveServicio.guardarTipoNave(tipoNave);
-        return "redirect:/tipoNave/list";
-    }*/
-
     @PostMapping(value = "/update")
     public String actualizarTipoNave(@Valid TipoNave tipoNave, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "tipoNave-edit";
         }
         try {
-            
+
             tipoNaveServicio.guardarTipoNave(tipoNave);
         } catch (Exception e) {
             loggy.error("Error al guardar el tipo de nave", e);
             model.addAttribute("errorMensaje", "Error al guardar el tipo de nave: " + e.getMessage());
             return "tipoNave-error";
         }
-        
-       // tipoNaveServicio.guardarTipoNave(tipoNave);
         return "redirect:/tipoNave/list";
     }
 
@@ -89,7 +76,7 @@ public class TipoNaveController {
             return "tipoNave-create";
         }
         try {
-            
+
             tipoNaveServicio.guardarTipoNave(tipoNave);
         } catch (Exception e) {
             loggy.error("Error al guardar el tipo de nave", e);
@@ -97,13 +84,6 @@ public class TipoNaveController {
             return "tipoNave-error";
         }
         return "redirect:/tipoNave/list";
-        /*Optional<TipoNave> tipoNaveExistente = tipoNaveServicio.buscarTipoNaveOptional(tipoNave.getId());
-        if(tipoNaveExistente.isPresent()){
-            result.rejectValue("id", "error.tipoNave", "Ya existe un tipo de nave con ese id. "); 
-            return "tipoNave-create";
-        }
-        tipoNaveServicio.guardarTipoNave(tipoNave);
-        return "redirect:/tipoNave/list";*/
     }
 
     @GetMapping("/delete/{id}")
@@ -115,13 +95,13 @@ public class TipoNaveController {
     @GetMapping("/search")
     public String listaTipoNave(@RequestParam(required = false) String searchText, Model model) {
         List<TipoNave> tipoNave;
-        if(searchText == null ||searchText.trim().equals("")){
+        if (searchText == null || searchText.trim().equals("")) {
             loggy.info("No hay text de búsqueda, retornando todo");
             tipoNave = tipoNaveServicio.listarTipoNaves();
             tipoNave = tipoNaveServicio.listarTipoNaves();
             model.addAttribute("tipo-Nave", tipoNave);
         }
-        
+
         return "tipoNave-search";
     }
 }

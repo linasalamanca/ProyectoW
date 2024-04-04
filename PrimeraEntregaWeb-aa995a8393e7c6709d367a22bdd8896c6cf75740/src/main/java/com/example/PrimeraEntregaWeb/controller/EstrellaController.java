@@ -1,7 +1,6 @@
 package com.example.PrimeraEntregaWeb.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -21,7 +20,6 @@ import com.example.PrimeraEntregaWeb.model.Estrella;
 
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.services.EstrellaService;
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/estrella")
@@ -55,17 +53,6 @@ public class EstrellaController {
         return "estrella-edit";
     }
 
-    /*
-     * @PostMapping(value = "/save")
-     * public String guardarNave(@Valid Estrella estrella, BindingResult result,
-     * Model model) {
-     * if (result.hasErrors()) {
-     * return "estrella-edit";
-     * }
-     * estrellaService.guardarEstrella(estrella);
-     * return "redirect:/estrella/list";
-     * }
-     */
     @PostMapping(value = "/update")
     public String actualizarEstrella(@Valid Estrella estrella, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -78,7 +65,6 @@ public class EstrellaController {
             model.addAttribute("errorMensaje", "Error al guardar la estrella: " + e.getMessage());
             return "estrella-error";
         }
-        //estrellaService.guardarEstrella(estrella);
         return "redirect:/estrella/list";
     }
 
@@ -100,14 +86,12 @@ public class EstrellaController {
             model.addAttribute("errorMensaje", "Error al guardar la estrella: " + e.getMessage());
             return "estrella-error";
         }
-       // estrellaService.guardarEstrella(estrella);
         return "redirect:/estrella/list";
     }
 
     @GetMapping("/delete/{id}")
     public String borrarEstrella(Model model, @PathVariable Long id) {
         estrellaService.eliminarEstrella(id);
-        // model.addAttribute("nave", nave);
         return "redirect:/estrella/list";
     }
 

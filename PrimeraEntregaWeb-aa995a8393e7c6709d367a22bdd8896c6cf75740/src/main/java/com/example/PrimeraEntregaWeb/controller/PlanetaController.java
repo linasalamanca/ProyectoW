@@ -1,9 +1,7 @@
 package com.example.PrimeraEntregaWeb.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.services.PlanetaService;
 
@@ -80,7 +77,6 @@ public class PlanetaController {
     @GetMapping("/delete/{id}")
     public String borrarPlaneta(Model model, @PathVariable Long id) {
         planetaServicio.eliminarPlaneta(id);
-        // model.addAttribute("nave", nave);
         return "redirect:/planeta/list";
     }
 

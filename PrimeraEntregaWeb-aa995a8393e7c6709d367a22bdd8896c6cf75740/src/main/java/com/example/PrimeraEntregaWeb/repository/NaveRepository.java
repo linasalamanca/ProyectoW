@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
-import com.example.PrimeraEntregaWeb.model.Planeta;
 
 @Repository
 public interface NaveRepository extends JpaRepository<Nave, String> {

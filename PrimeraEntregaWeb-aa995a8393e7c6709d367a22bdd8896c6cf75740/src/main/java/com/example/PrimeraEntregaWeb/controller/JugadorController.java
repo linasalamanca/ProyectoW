@@ -1,9 +1,7 @@
 package com.example.PrimeraEntregaWeb.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.services.JugadorService;
 
@@ -55,7 +52,6 @@ public class JugadorController {
     @PostMapping(value = "/update")
     public String actualizarJuagdor(@Valid Jugador jugador, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // model.addAttribute("iplaneta", inventarioPlaneta);
             return "jugador-edit";
         }
         try {
@@ -65,7 +61,6 @@ public class JugadorController {
             model.addAttribute("errorMensaje", "Error al guardar el jugudaor: " + e.getMessage());
             return "jugador-error";
         }
-        // inventarioPlanetaServicio.guardarInventario(inventarioPlaneta);
         return "redirect:/jugador/list";
     }
 
@@ -86,17 +81,14 @@ public class JugadorController {
         } catch (Exception e) {
             loggy.error("Error al guardar la estrella", e);
             model.addAttribute("errorMensaje", "Error al guardar la estrella: " + e.getMessage());
-            // model.addAttribute("error", e.getMessage());
             return "jugador-edit";
         }
-        // jugadorService.guardarJugador(jugador);
         return "redirect:/jugador/list";
     }
 
     @GetMapping("/delete/{id}")
     public String borrarJugador(Model model, @PathVariable Long id) {
         jugadorService.eliminarJugador(id);
-        // model.addAttribute("nave", nave);
         return "redirect:/jugador/list";
     }
 

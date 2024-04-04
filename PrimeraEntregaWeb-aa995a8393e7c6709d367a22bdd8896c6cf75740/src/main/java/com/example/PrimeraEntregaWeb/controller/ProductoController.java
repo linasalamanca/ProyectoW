@@ -1,10 +1,7 @@
 package com.example.PrimeraEntregaWeb.controller;
 
 import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.PrimeraEntregaWeb.model.Producto;
 import com.example.PrimeraEntregaWeb.services.ProductoService;
 
@@ -58,14 +54,13 @@ public class ProductoController {
         if (result.hasErrors()) {
             return "producto-edit";
         }
-        try{
+        try {
             productoServicio.guardarProducto(producto);
-        }catch(Exception e){
+        } catch (Exception e) {
             log.error("Error al guardar producto: ", e);
             model.addAttribute("error", "Error al guardar producto: " + e.getMessage());
             return "producto-error";
         }
-       // productoServicio.guardarProducto(producto);
         return "redirect:/producto/list";
     }
 
@@ -80,9 +75,9 @@ public class ProductoController {
         if (result.hasErrors()) {
             return "producto-create";
         }
-        try{
+        try {
             productoServicio.guardarProducto(producto);
-        }catch(Exception e){
+        } catch (Exception e) {
             log.error("Error al guardar producto: ", e);
             model.addAttribute("error", "Error al guardar producto: " + e.getMessage());
             return "producto-error";

@@ -2,16 +2,11 @@ package com.example.PrimeraEntregaWeb.services;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
-import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.repository.NaveRepository;
-
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.EntityNotFoundException;
 
