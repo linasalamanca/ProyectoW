@@ -1,4 +1,4 @@
-package com.example.PrimeraEntregaWeb.controller;
+package com.example.PrimeraEntregaWeb.controller.controllersViejos;
 
 import com.example.PrimeraEntregaWeb.services.TipoNaveService;
 import com.example.PrimeraEntregaWeb.model.TipoNave;
