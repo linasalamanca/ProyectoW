@@ -4,6 +4,7 @@ import { VenderComponent } from './vender/vender.component';
 
 const routes: Routes = [
   { path: 'vender/list', component: VenderComponent},
+  { path: 'comprar/list', component: VenderComponent},
 ];
 
 @NgModule({

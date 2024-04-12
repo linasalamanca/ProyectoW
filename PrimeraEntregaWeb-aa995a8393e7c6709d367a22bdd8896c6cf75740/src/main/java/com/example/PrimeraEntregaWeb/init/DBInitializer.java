@@ -111,7 +111,7 @@ public class DBInitializer implements CommandLineRunner {
                 jugadorRepository.saveAll(jugadores);
 
                 /* Generar las estrellas */
-                for (int i = 0; i < 40000; i++) {
+                for (int i = 0; i < 100; i++) {
                         Estrella estrella = new Estrella(
                                         random.nextDouble() * 100,
                                         random.nextDouble() * 100,

@@ -1,8 +1,11 @@
 package com.example.PrimeraEntregaWeb.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
 import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
 import com.example.PrimeraEntregaWeb.repository.InventarioPlanetaRepository;
 
@@ -41,5 +44,12 @@ public class InventarioPlanetaService {
 
     public void eliminarInventario(Long id) {
         inventarioPlanetaRepositorio.deleteById(id);
+    }
+
+    public List<InformacionCompraProductoDTO> listarInformacionCompraProducto() {
+        List<InformacionCompraProductoDTO> listaProductosDTO = new ArrayList<>();
+        // FALTA PASAR LO QUE RECIBE LA QUERY A LA LISTA
+        return listaProductosDTO;
+
     }
 }
