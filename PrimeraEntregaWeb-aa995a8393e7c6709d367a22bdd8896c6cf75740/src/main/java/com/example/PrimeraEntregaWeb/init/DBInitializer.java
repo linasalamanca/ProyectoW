@@ -57,7 +57,7 @@ public class DBInitializer implements CommandLineRunner {
                 /* Crear tipos de nave */
                 List<TipoNave> tipoNaves = new ArrayList<>();
                 Random random = new Random();
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < 5; i++) {
                         TipoNave tipoNave = new TipoNave("tipoNave" + i, random.nextDouble() * 2.5,
                                         random.nextDouble() * 3.6);
                         tipoNaves.add(tipoNave);
@@ -68,7 +68,7 @@ public class DBInitializer implements CommandLineRunner {
                 /* Crear lista de naves */
                 List<Nave> naves = new ArrayList<>();
 
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 5; i++) {
                         Nave nave = new Nave(
                                         random.nextInt(900) + 100,
                                         random.nextDouble() * 400 + 50,
@@ -82,23 +82,23 @@ public class DBInitializer implements CommandLineRunner {
 
                 /* Crear lista de jugadores */
                 List<Jugador> jugadores = new ArrayList<>();
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 25; i++) {
                         Jugador jugador = new Jugador("rol" + i, "jugador" + i, "hola" + i);
                         jugadores.add(jugador);
                 }
 
                 /* Dividir los jugadores en los equipos */
                 List<List<Jugador>> equipos = new ArrayList<>();
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 5; i++) {
                         List<Jugador> equipo = new ArrayList<>();
-                        for (int j = 0; j < 10; j++) {
+                        for (int j = 0; j < 5; j++) {
                                 equipo.add(jugadores.get(i * 10 + j));
                         }
                         equipos.add(equipo);
                 }
 
                 /* Asignar a cada nave un equipo */
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 5; i++) {
                         List<Jugador> equipo = equipos.get(i);
                         Nave nave = naves.get(i);
                         for (Jugador jugador : equipo) {
@@ -111,7 +111,7 @@ public class DBInitializer implements CommandLineRunner {
                 jugadorRepository.saveAll(jugadores);
 
                 /* Generar las estrellas */
-                for (int i = 0; i < 40000; i++) {
+                for (int i = 0; i < 15; i++) {
                         Estrella estrella = new Estrella(
                                         random.nextDouble() * 100,
                                         random.nextDouble() * 100,
@@ -133,7 +133,7 @@ public class DBInitializer implements CommandLineRunner {
 
                 List<Producto> productos = new ArrayList<>();
                 /* Generar productos */
-                for (int i = 0; i < 500; i++) {
+                for (int i = 0; i < 10; i++) {
                         Producto producto = new Producto((i * 3.6), "tipo" + (i + 10));
                         productos.add(producto);
                 }
