@@ -16,6 +16,7 @@ public class InventarioPlanetaService {
 
     @Autowired
     private InventarioPlanetaRepository inventarioPlanetaRepositorio;
+    private InventarioPlaneta ip;
 
     public List<InventarioPlaneta> listarInventarioPlaneta() {
         return inventarioPlanetaRepositorio.findAll();
@@ -49,6 +50,12 @@ public class InventarioPlanetaService {
     public List<InformacionCompraProductoDTO> listarInformacionCompraProducto() {
         List<InformacionCompraProductoDTO> listaProductosDTO = new ArrayList<>();
         // FALTA PASAR LO QUE RECIBE LA QUERY A LA LISTA
+        List<InventarioPlaneta> list = inventarioPlanetaRepositorio.buscarProductos(ip.getId());
+        for (InventarioPlaneta i : list) {
+            InformacionCompraProductoDTO compra = new InformacionCompraProductoDTO(i.getProducto().getTipo(),
+                    i.getCantidad(), i.getfOfertaDemanda());
+            listaProductosDTO.add(compra);
+        }
         return listaProductosDTO;
 
     }

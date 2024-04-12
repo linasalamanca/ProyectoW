@@ -19,7 +19,7 @@ public class InventarioPlaneta {
 
     @Column(name = "cantidad", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private Integer cantidad;
+    private Double cantidad;
 
     @Column(name = "fOfertaDemanda", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
@@ -30,17 +30,20 @@ public class InventarioPlaneta {
 
     @ManyToOne
     private Planeta planeta;
+
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
-    public Integer getCantidad() {
+
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -59,14 +62,22 @@ public class InventarioPlaneta {
     public void setPlaneta(Planeta planeta) {
         this.planeta = planeta;
     }
-    
-    public InventarioPlaneta(Integer cantidad, Double fOfertaDemanda) {
-        this.cantidad = cantidad;
+
+    public InventarioPlaneta(Double i, Double fOfertaDemanda) {
+        this.cantidad = i;
         this.fOfertaDemanda = fOfertaDemanda;
     }
 
     public InventarioPlaneta() {
 
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
 }
