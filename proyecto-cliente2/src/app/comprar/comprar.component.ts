@@ -5,13 +5,12 @@ import { VenderService } from '../shared/vender.service';
 
 @Component({
   selector: 'app-person-list',
-  templateUrl: './vender.component.html',
-  styleUrl: './vender.component.css'
+  templateUrl: './comprar.component.html',
+  styleUrl: './comprar.component.css'
 })
+export class ComprarComponent {
 
-export class VenderComponent {
 
- 
   productos: InformacionVentaProducto[] = [];
 
   constructor(

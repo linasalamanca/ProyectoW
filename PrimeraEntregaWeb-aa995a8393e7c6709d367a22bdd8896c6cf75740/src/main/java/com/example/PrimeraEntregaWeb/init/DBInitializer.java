@@ -111,7 +111,7 @@ public class DBInitializer implements CommandLineRunner {
                 jugadorRepository.saveAll(jugadores);
 
                 /* Generar las estrellas */
-                for (int i = 0; i < 15; i++) {
+                for (int i = 0; i < 100; i++) {
                         Estrella estrella = new Estrella(
                                         random.nextDouble() * 100,
                                         random.nextDouble() * 100,
@@ -150,11 +150,11 @@ public class DBInitializer implements CommandLineRunner {
                                 inave4, inave5);
                 inventarioNaveRepository.saveAll(inventarioNave);
 
-                InventarioPlaneta iplaneta1 = new InventarioPlaneta(615, 9.1);
-                InventarioPlaneta iplaneta2 = new InventarioPlaneta(200, 9.9);
-                InventarioPlaneta iplaneta3 = new InventarioPlaneta(300, 81.2);
-                InventarioPlaneta iplaneta4 = new InventarioPlaneta(400, 821.1);
-                InventarioPlaneta iplaneta5 = new InventarioPlaneta(500, 12.2);
+                InventarioPlaneta iplaneta1 = new InventarioPlaneta(615.2, 9.1);
+                InventarioPlaneta iplaneta2 = new InventarioPlaneta(200.0, 9.9);
+                InventarioPlaneta iplaneta3 = new InventarioPlaneta(300.5, 81.2);
+                InventarioPlaneta iplaneta4 = new InventarioPlaneta(400.6, 821.1);
+                InventarioPlaneta iplaneta5 = new InventarioPlaneta(500.5, 12.2);
 
                 List<InventarioPlaneta> inventarioPlaneta = Arrays.asList(iplaneta1,
                                 iplaneta2, iplaneta3, iplaneta4, iplaneta5);
