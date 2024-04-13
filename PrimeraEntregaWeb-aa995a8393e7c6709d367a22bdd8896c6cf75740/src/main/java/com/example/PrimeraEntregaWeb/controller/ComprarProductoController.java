@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
@@ -17,7 +18,7 @@ public class ComprarProductoController {
     private InventarioPlanetaService inventarioPlanetaService;
 
     // http://localhost:8080/api/comprar/list
-    @GetMapping("/list")
+    @GetMapping("/list/{id}")
     public List<InformacionCompraProductoDTO> listarProductos() {
         return inventarioPlanetaService.listarInformacionCompraProducto();
     }

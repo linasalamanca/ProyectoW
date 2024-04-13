@@ -24,7 +24,8 @@ public class EstrellaService {
     public List<Estrella> listarEstrellas() {
         return estrellaRepositorio.findAll();
     }
-    public List<Estrella> listarEstrellasCercanas(/*Pageable pageable*/) {
+
+    public List<Estrella> listarEstrellasCercanas(/* Pageable pageable */) {
         return estrellaRepositorio.findNearestStars(0, 0, 0);
     }
 

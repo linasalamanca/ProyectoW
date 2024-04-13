@@ -4,7 +4,7 @@ import { VenderService } from '../shared/vender.service';
 
 
 @Component({
-  selector: 'app-person-list',
+  selector: 'app-vender-list',
   templateUrl: './vender.component.html',
   styleUrl: './vender.component.css'
 })

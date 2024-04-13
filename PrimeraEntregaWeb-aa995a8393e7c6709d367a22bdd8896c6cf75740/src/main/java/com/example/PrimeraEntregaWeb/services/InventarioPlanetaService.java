@@ -50,7 +50,7 @@ public class InventarioPlanetaService {
     public List<InformacionCompraProductoDTO> listarInformacionCompraProducto() {
         List<InformacionCompraProductoDTO> listaProductosDTO = new ArrayList<>();
         // FALTA PASAR LO QUE RECIBE LA QUERY A LA LISTA
-        List<InventarioPlaneta> list = inventarioPlanetaRepositorio.buscarProductos(ip.getId());
+        List<InventarioPlaneta> list = inventarioPlanetaRepositorio.buscarProductos(this.ip.getId());
         for (InventarioPlaneta i : list) {
             InformacionCompraProductoDTO compra = new InformacionCompraProductoDTO(i.getProducto().getTipo(),
                     i.getCantidad(), i.getfOfertaDemanda());
