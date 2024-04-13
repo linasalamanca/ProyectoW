@@ -3203,3 +3203,12 @@ Database is already closed (to disable automatic closing at VM shutdown, add ";D
 	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
 	at org.springframework.boot.SpringApplicationShutdownHook.run(SpringApplicationShutdownHook.java:114)
 	at java.base/java.lang.Thread.run(Thread.java:842)
+2024-04-13 11:41:28.506469-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]COORDENADAX"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+COORDENADAX [42001-224]
+2024-04-13 11:41:40.840272-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]COORDENADAX"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+COORDENADAX [42001-224]
+2024-04-13 11:43:15.766436-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select e1_0.id,e1_0.coordenadax,e1_0.coordenaday,e1_0.coordenadaz from estrella e1_0 order by sqrt(((power((e1_0.coordenadax-cast(? as float([*]$p))),2)+power((e1_0.coordenaday-cast(? as float($p))),2))+power((e1_0.coordenadaz-cast(? as float($p))),2))) offset ? rows fetch first ? rows only"; expected "integer"; SQL statement:
+select e1_0.id,e1_0.coordenadax,e1_0.coordenaday,e1_0.coordenadaz from estrella e1_0 order by sqrt(((power((e1_0.coordenadax-cast(? as float($p))),2)+power((e1_0.coordenaday-cast(? as float($p))),2))+power((e1_0.coordenadaz-cast(? as float($p))),2))) offset ? rows fetch first ? rows only [42001-224]

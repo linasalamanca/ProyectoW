@@ -53,4 +53,5 @@ public class NaveService {
     public List<Jugador> listarEquipo() {
         return naveRepositorio.findEquipo();
     }
+    
 }

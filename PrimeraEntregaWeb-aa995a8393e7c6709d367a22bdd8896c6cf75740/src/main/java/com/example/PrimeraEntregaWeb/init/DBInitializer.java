@@ -92,7 +92,7 @@ public class DBInitializer implements CommandLineRunner {
                 for (int i = 0; i < 5; i++) {
                         List<Jugador> equipo = new ArrayList<>();
                         for (int j = 0; j < 5; j++) {
-                                equipo.add(jugadores.get(i * 10 + j));
+                                equipo.add(jugadores.get(i * 5 + j));
                         }
                         equipos.add(equipo);
                 }

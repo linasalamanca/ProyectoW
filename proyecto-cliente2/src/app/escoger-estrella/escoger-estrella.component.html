@@ -1,1 +1,26 @@
-<p>escoger-estrella works!</p>
+<div class="timer">
+    Tiempo de ejecución: {{ timeElapsed| async }} segundos
+  </div>    
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Coordenada X</th>
+                <th>Coordenada Y</th>
+                <th>Coordenada Z</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let estrella of estrellas">
+                <td>{{ estrella.id }}</td>
+                <td>{{ estrella.coordenadaX }}</td>
+                <td>{{ estrella.coordenadaY }}</td>
+                <td>{{ estrella.coordenadaZ }}</td>
+                <td>
+                    <button (click)="verPlanetas(estrella.id)">Ver Planetas</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

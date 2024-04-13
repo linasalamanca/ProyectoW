@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.PrimeraEntregaWeb.repository.EstrellaRepository;
@@ -22,6 +23,9 @@ public class EstrellaService {
 
     public List<Estrella> listarEstrellas() {
         return estrellaRepositorio.findAll();
+    }
+    public List<Estrella> listarEstrellasCercanas(/*Pageable pageable*/) {
+        return estrellaRepositorio.findNearestStars(0, 0, 0);
     }
 
     @SuppressWarnings("null")

@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'comprar/list', component: VenderComponent},
   { path: 'iniciar', component: IniciarComponent},
   { path: 'escoger-estrella/list', component: EscogerEstrellaComponent},
+ // { path: 'estrellas/:id/planetas', component: PlanetasComponent },
 ];
 
 @NgModule({

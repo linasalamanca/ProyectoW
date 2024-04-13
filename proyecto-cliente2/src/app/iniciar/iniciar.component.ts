@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { TimerService } from '../shared/timer.service';
 
 @Component({
   selector: 'app-iniciar',
@@ -7,8 +9,12 @@ import { Router } from '@angular/router';
   styleUrl: './iniciar.component.css'
 })
 export class IniciarComponent {
-  constructor(private router: Router) { }
+
+  timeElapsed: Observable<number>| undefined;
+
+  constructor(private router: Router, private timerService: TimerService) { }
   iniciarJuego() {
     this.router.navigate(['/escoger-estrella/list']); 
+    this.timeElapsed = this.timerService.startTimer()
   }
 }
