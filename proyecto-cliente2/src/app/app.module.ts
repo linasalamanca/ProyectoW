@@ -9,6 +9,7 @@ import { ComprarComponent } from './comprar/comprar.component';
 import { IniciarComponent } from './iniciar/iniciar.component';
 import { FinalizarComponent } from './finalizar/finalizar.component';
 import { EscogerEstrellaComponent } from './escoger-estrella/escoger-estrella.component';
+import { EscogerPlanetaComponent } from './escoger-planeta/escoger-planeta.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { EscogerEstrellaComponent } from './escoger-estrella/escoger-estrella.co
     ComprarComponent,
     IniciarComponent,
     FinalizarComponent,
-    EscogerEstrellaComponent
+    EscogerEstrellaComponent,
+    EscogerPlanetaComponent
   ],
   imports: [
     BrowserModule,

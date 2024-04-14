@@ -1,0 +1,22 @@
+<div class="timer">
+    Tiempo de ejecución: {{ timeElapsed| async }} segundos
+  </div>    
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let planeta of planetas">
+                <td>{{ planeta.id }}</td>
+                <td>{{ planeta.nombre}}</td>
+                <td>
+                    <button (click)="verAcciones(planeta.id)">Ver Venta o Compra</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
