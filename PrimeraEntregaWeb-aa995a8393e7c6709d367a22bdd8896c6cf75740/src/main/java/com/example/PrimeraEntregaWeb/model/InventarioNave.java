@@ -20,6 +20,20 @@ public class InventarioNave {
     @NotBlank(message = "no puede estar en blanco")
     private Double cantidad;
 
+    @Column(name = "fOfertaDemanda", nullable = false)
+    @NotBlank(message = "no puede estar en blanco")
+    public Double getfOfertaDemanda() {
+        return fOfertaDemanda;
+    }
+
+    public void setfOfertaDemanda(Double fOfertaDemanda) {
+        this.fOfertaDemanda = fOfertaDemanda;
+    }
+
+    @Column(name = "fOfertaDemanda", nullable = false)
+    @NotBlank(message = "no puede estar en blanco")
+    private Double fOfertaDemanda;
+
     @ManyToOne
     private Nave nave;
 

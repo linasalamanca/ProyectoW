@@ -9,9 +9,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let producto of productos">
-                <td>{{producto.nombre}}</td>
-                <td>{{producto.cantidad}}</td>
-                <td>{{producto.precio}}</td>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.cantidad }}</td>
+                <td>{{ producto.precio }}</td>
+                <td>
+                    <button (click)="verInventario(producto.inventarioId)">Ver Detalles del Inventario</button>
+                </td>
             </tr>
         </tbody>
     </table>

@@ -1,24 +1,19 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { InformacionVentaProducto} from '../dto/informacion-venta-producto'
 import { Observable } from 'rxjs';
+import { InformacionVentaProducto } from '../dto/informacion-venta-producto';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class ComprarService {
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
 
-  private headers = new HttpHeaders(
-    {"Content-Type": "application/json"}
-  )
-
-  listarProductos(): Observable<InformacionVentaProducto[]>{
-    return this.http.get<InformacionVentaProducto[]>(`${environment.serverUrl}/api/comprar/list`)
+  listarProductos(planetaId: number): Observable<InformacionVentaProducto[]> {
+    return this.http.get<InformacionVentaProducto[]>(`${environment.serverUrl}/api/planeta/${planetaId}/comprar/list`);
   }
 }
-

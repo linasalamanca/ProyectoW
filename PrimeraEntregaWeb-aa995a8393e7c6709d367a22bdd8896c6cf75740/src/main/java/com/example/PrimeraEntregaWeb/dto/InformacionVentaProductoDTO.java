@@ -4,11 +4,12 @@ public class InformacionVentaProductoDTO {
     private String nombreProducto;
     private Double cantidad;
     private Double precio;
+    private Double oferta;
 
-    public InformacionVentaProductoDTO(String nombreProducto, Double cantidad, Double precio) {
+    public InformacionVentaProductoDTO(String nombreProducto, Double cantidad, Double oferta) {
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
-        this.precio = precio;
+        this.oferta = oferta;
     }
 
     public InformacionVentaProductoDTO() {
@@ -36,6 +37,14 @@ public class InformacionVentaProductoDTO {
 
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public Double getOferta() {
+        return oferta;
+    }
+
+    public void setOferta(Double oferta) {
+        this.oferta = oferta;
     }
 
 }

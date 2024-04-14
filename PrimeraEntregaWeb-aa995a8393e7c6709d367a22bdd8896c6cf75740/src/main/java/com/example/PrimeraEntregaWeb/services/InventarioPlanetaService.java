@@ -49,8 +49,9 @@ public class InventarioPlanetaService {
 
     public List<InformacionCompraProductoDTO> listarInformacionCompraProducto() {
         List<InformacionCompraProductoDTO> listaProductosDTO = new ArrayList<>();
+        Long x = (long) 1;
         // FALTA PASAR LO QUE RECIBE LA QUERY A LA LISTA
-        List<InventarioPlaneta> list = inventarioPlanetaRepositorio.buscarProductos(this.ip.getId());
+        List<InventarioPlaneta> list = inventarioPlanetaRepositorio.buscarProductos(x);
         for (InventarioPlaneta i : list) {
             InformacionCompraProductoDTO compra = new InformacionCompraProductoDTO(i.getProducto().getTipo(),
                     i.getCantidad(), i.getfOfertaDemanda());

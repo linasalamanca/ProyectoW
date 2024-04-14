@@ -1,5 +1,7 @@
 package com.example.PrimeraEntregaWeb.repository;
 
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +26,8 @@ public interface InventarioNaveRepository extends JpaRepository<InventarioNave, 
     // Page<InformacionVentaProductoDTO>
     // findAllByNombreStartingWithIgnoreCase(String nombre,
     // org.springframework.data.domain.Pageable pageable);
+
+    @Query("SELECT Producto FROM InventarioPlaneta as ip JOIN Planeta as p WHERE (ip.id = p.id) and p.id = :id")
+    List<InventarioNave> buscarProductos(@Param("id") Long id);
 
 }

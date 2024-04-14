@@ -3,5 +3,6 @@ export class InformacionVentaProducto {
         public nombre: string,
         public cantidad: number,
         public precio: number,
+        public inventarioId: number,
     ){}
 }

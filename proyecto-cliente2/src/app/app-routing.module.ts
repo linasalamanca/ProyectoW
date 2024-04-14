@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'comprar/list', component: ComprarComponent},
   { path: 'iniciar', component: IniciarComponent},
   { path: 'escoger-estrella/list', component: EscogerEstrellaComponent},
+  { path: 'planeta/:planetaId/comprar', component: ComprarComponent},
  // { path: 'estrellas/:id/planetas', component: PlanetasComponent },
 ];
 

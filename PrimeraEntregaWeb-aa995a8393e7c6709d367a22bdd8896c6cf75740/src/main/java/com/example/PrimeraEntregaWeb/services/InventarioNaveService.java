@@ -18,6 +18,7 @@ public class InventarioNaveService {
 
     @Autowired
     private InventarioNaveRepository inventarioNaveRepositorio;
+    private InventarioNave in;
 
     public List<InventarioNave> listarInventarioNave() {
         return inventarioNaveRepositorio.findAll();
@@ -53,12 +54,14 @@ public class InventarioNaveService {
 
     public List<InformacionVentaProductoDTO> listarInformacionVentaProducto() {
         List<InformacionVentaProductoDTO> listaProductosDTO = new ArrayList<>();
-        InformacionVentaProductoDTO producto1 = new InformacionVentaProductoDTO("producto1", 2.5, 3.5);
-        InformacionVentaProductoDTO producto2 = new InformacionVentaProductoDTO("producto2", 2.1, 3.9);
 
-        listaProductosDTO.add(producto1);
-        listaProductosDTO.add(producto2);
+        List<InventarioNave> list = inventarioNaveRepositorio.buscarProductos(this.in.getId());
 
+        for (InventarioNave i : list) {
+            InformacionVentaProductoDTO compra = new InformacionVentaProductoDTO(i.getProducto().getTipo(),
+                    i.getCantidad(), i.getfOfertaDemanda());
+            listaProductosDTO.add(compra);
+        }
         return listaProductosDTO;
 
     }
