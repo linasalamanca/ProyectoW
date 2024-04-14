@@ -22,6 +22,8 @@ public class InventarioNave {
 
     @Column(name = "fOfertaDemanda", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
+    private Double fOfertaDemanda = 0.0;
+
     public Double getfOfertaDemanda() {
         return fOfertaDemanda;
     }
@@ -29,10 +31,6 @@ public class InventarioNave {
     public void setfOfertaDemanda(Double fOfertaDemanda) {
         this.fOfertaDemanda = fOfertaDemanda;
     }
-
-    @Column(name = "fOfertaDemanda", nullable = false)
-    @NotBlank(message = "no puede estar en blanco")
-    private Double fOfertaDemanda;
 
     @ManyToOne
     private Nave nave;
@@ -79,4 +77,10 @@ public class InventarioNave {
     public InventarioNave() {
 
     }
+
+    public InventarioNave(Double cantidad, Double fOfertaDemanda) {
+        this.cantidad = cantidad;
+        this.fOfertaDemanda = fOfertaDemanda;
+    }
+
 }
