@@ -47,8 +47,8 @@ public class EstrellaService {
         estrellaRepositorio.deleteById(id);
     }
 
-    public List<Planeta> listarPlanetasPorEstrellas() {
-        return estrellaRepositorio.findPlanetasinEstrellas();
+    public List<Planeta> listarPlanetasPorEstrellas(Long id) {
+        return estrellaRepositorio.findPlanetasinEstrellas(id);
     }
 
 }

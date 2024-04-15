@@ -119,7 +119,7 @@ public class DBInitializer implements CommandLineRunner {
 
                         estrellaRepository.save(estrella);
 
-                        if (random.nextDouble() < 0.01) {
+                        if (random.nextDouble() < 1) {
                                 int numPlanets = random.nextInt(3) + 1;
                                 loggy.info("numPlanteas" + numPlanets);
                                 for (int j = 0; j < numPlanets; j++) {

@@ -1,4 +1,5 @@
 export class EscogerEstrella {
+planetas: any;
 
     constructor(
         public id: number,

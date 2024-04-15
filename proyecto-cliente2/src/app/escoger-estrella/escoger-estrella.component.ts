@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { EscogerEstrella } from '../model/escoger-estrella';
 import { EscogerEstrellaService } from '../shared/escoger-estrella.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-escoger-estrella',
@@ -17,16 +18,17 @@ export class EscogerEstrellaComponent {
 
   constructor(
     private estrellaService: EscogerEstrellaService,
+    private route: ActivatedRoute,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.estrellaService.listarEstrellas().subscribe(estrella => this.estrellas = estrella)
   }
-  verPlanetas(estrellaId: number): void {
-    // Navegar a una ruta que muestra los planetas de la estrella
-    // Ejemplo: '/estrellas/1/planetas'
-    this.router.navigate([`/estrellas/${estrellaId}/planetas`]);
-  }
+ 
+  verPlanetas(id: number): void {
+    this.router.navigate([`/escoger-planeta/list/${id}`]);
+}
+
 
 }

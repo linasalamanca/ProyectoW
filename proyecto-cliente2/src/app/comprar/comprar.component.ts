@@ -23,14 +23,20 @@ export class ComprarComponent {
 
   ngOnInit(): void {
     const planetaId = this.route.snapshot.paramMap.get('planetaId');
-  if (planetaId !== null) {
-    this.comprarService.listarProductos(+planetaId).subscribe(producto => this.productos = producto);
-  } else {
-    // Manejar el caso en que planetaId es null, por ejemplo:
-    console.error('No se proporcionó un ID de planeta válido.');
-    this.router.navigate(['/error']); // Redirigir a una ruta de error o página principal.
+    if (planetaId) {
+      this.comprarService.listarProductos(+planetaId).subscribe(
+        productos => this.productos = productos,
+        error => {
+          console.error('Error al cargar productos:', error);
+          this.router.navigate(['/error']); // Asegúrate de que esta ruta está definida.
+        }
+      );
+    } else {
+      console.error('No se proporcionó un ID de planeta válido.');
+      this.router.navigate(['/error']); // Redirigir a una ruta de error o página principal.
+    }
   }
-}
+  
   // comprar.component.ts
 verInventario(inventarioId: number): void {
   this.router.navigate([`/inventario/${inventarioId}`]);

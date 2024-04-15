@@ -17,7 +17,7 @@ export class EscogerPlanetaService {
         {"Content-Type": "application/json"}
     )
     
-    listarPlanetas(): Observable<EscogerPlaneta[]>{
-        return this.http.get<EscogerPlaneta[]>(`${environment.serverUrl}/api/escoger-planeta/list`)
+    listarPlanetas(id: number): Observable<EscogerPlaneta[]>{
+        return this.http.get<EscogerPlaneta[]>(`${environment.serverUrl}/api/escoger-planeta/list/${id}`)
     }
 }

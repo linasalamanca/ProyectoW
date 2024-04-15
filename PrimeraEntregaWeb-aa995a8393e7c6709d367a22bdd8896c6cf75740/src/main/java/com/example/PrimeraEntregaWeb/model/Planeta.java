@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.ManyToOne;
 
@@ -31,6 +34,8 @@ public class Planeta {
     private List<InventarioPlaneta> inventario = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "estrella_id")
+    @JsonBackReference
     private Estrella estrella;
 
     public Long getId() {
