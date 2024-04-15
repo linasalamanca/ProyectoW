@@ -11,14 +11,14 @@ import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
 import com.example.PrimeraEntregaWeb.services.InventarioPlanetaService;
 
 @RestController
-@RequestMapping("/api/escoger-planeta")
+@RequestMapping("/api/comprar")
 public class ComprarProductoController {
 
     @Autowired
     private InventarioPlanetaService inventarioPlanetaService;
 
     // http://localhost:8080/api/comprar/list
-    @GetMapping("/{id}/comprar/list")
+    @GetMapping("/list/{id}")
     public List<InformacionCompraProductoDTO> listarProductos(@PathVariable Long id) {
         return inventarioPlanetaService.listarInformacionCompraProducto(id);
     }

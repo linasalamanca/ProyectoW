@@ -2,6 +2,8 @@ package com.example.PrimeraEntregaWeb.model;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,9 +28,11 @@ public class InventarioPlaneta {
     private Double fOfertaDemanda;
 
     @ManyToOne
+    @JsonIgnore
     private Producto producto;
 
     @ManyToOne
+    @JsonIgnore
     private Planeta planeta;
 
     public Long getId() {

@@ -35,6 +35,7 @@ export class ComprarComponent implements OnInit {
         return this.comprarService.listarProductos(planetaId);
       })
     ).subscribe(productos => {
+      console.log('Productos loaded:', productos); // Log the products after subscription
       this.productos = productos;
     }, error => {
       console.error('Error al obtener productos:', error);

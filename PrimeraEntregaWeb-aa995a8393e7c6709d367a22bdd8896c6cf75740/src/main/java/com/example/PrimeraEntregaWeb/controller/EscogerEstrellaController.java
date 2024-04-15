@@ -23,4 +23,8 @@ public class EscogerEstrellaController {
        // Pageable pageable = PageRequest.of(0, 10);
         return estrellaService.listarEstrellasCercanas();
     }
+
+    
+
+
 }

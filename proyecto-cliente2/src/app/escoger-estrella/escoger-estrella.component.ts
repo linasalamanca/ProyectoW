@@ -27,6 +27,7 @@ export class EscogerEstrellaComponent {
   }
  
   verPlanetas(id: number): void {
+    
     this.router.navigate([`/escoger-planeta/list/${id}`]);
 }
 

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,14 +29,16 @@ public class Planeta {
     private String nombre;
 
     @OneToMany(mappedBy = "planeta")
+    @JsonIgnore
     private List<Nave> naves = new ArrayList<>();
 
     @OneToMany(mappedBy = "planeta")
+    @JsonIgnore
     private List<InventarioPlaneta> inventario = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "estrella_id")
-    @JsonBackReference
+    @JsonIgnore
     private Estrella estrella;
 
     public Long getId() {

@@ -110,6 +110,16 @@ public class DBInitializer implements CommandLineRunner {
                 naveRepository.saveAll(naves);
                 jugadorRepository.saveAll(jugadores);
 
+                List<Producto> productos = new ArrayList<>();
+                /* Generar productos */
+                for (int i = 0; i < 10; i++) {
+                        Producto producto = new Producto((i * 3.6), "tipo" + (i + 10));
+                        productos.add(producto);
+
+                }
+                productoRepository.saveAll(productos);
+
+                int cont = 0;
                 /* Generar las estrellas */
                 for (int i = 0; i < 100; i++) {
                         Estrella estrella = new Estrella(
@@ -118,26 +128,31 @@ public class DBInitializer implements CommandLineRunner {
                                         random.nextDouble() * 100);
 
                         estrellaRepository.save(estrella);
-
                         if (random.nextDouble() < 1) {
                                 int numPlanets = random.nextInt(3) + 1;
-                                loggy.info("numPlanteas" + numPlanets);
+                                loggy.info("numPlanetas" + numPlanets);
                                 for (int j = 0; j < numPlanets; j++) {
                                         Planeta planeta = new Planeta("Planeta_" + i + "_" + j);
                                         planeta.setEstrella(estrella);
                                         estrella.addPlaneta(planeta);
                                         planetaRepository.save(planeta);
+                                        InventarioPlaneta inventarioPlaneta = new InventarioPlaneta();
+                                        inventarioPlaneta.setPlaneta(planeta);
+                                        inventarioPlaneta.setCantidad(20.2 + i * 2);
+                                        inventarioPlaneta.setfOfertaDemanda(0.2 + i / 100);
+
+                                        if (cont == 10) {
+                                                cont = 0;
+                                        }
+                                        if (cont < 10) {
+                                                inventarioPlaneta.setProducto(productos.get(cont));
+                                                cont++;
+                                        }
+                                        inventarioPlanetaRepository.save(inventarioPlaneta);
                                 }
+
                         }
                 }
-
-                List<Producto> productos = new ArrayList<>();
-                /* Generar productos */
-                for (int i = 0; i < 10; i++) {
-                        Producto producto = new Producto((i * 3.6), "tipo" + (i + 10));
-                        productos.add(producto);
-                }
-                productoRepository.saveAll(productos);
 
                 /* Inventario */
                 InventarioNave inave1 = new InventarioNave(615.7);
@@ -150,15 +165,31 @@ public class DBInitializer implements CommandLineRunner {
                                 inave4, inave5);
                 inventarioNaveRepository.saveAll(inventarioNave);
 
-                InventarioPlaneta iplaneta1 = new InventarioPlaneta(615.2, 9.1);
-                InventarioPlaneta iplaneta2 = new InventarioPlaneta(200.0, 9.9);
-                InventarioPlaneta iplaneta3 = new InventarioPlaneta(300.5, 81.2);
-                InventarioPlaneta iplaneta4 = new InventarioPlaneta(400.6, 821.1);
-                InventarioPlaneta iplaneta5 = new InventarioPlaneta(500.5, 12.2);
+                /*
+                 * InventarioPlaneta iplaneta1 = new InventarioPlaneta(615.2, 9.1);
+                 * InventarioPlaneta iplaneta2 = new InventarioPlaneta(200.0, 9.9);
+                 * InventarioPlaneta iplaneta3 = new InventarioPlaneta(300.5, 81.2);
+                 * InventarioPlaneta iplaneta4 = new InventarioPlaneta(400.6, 821.1);
+                 * InventarioPlaneta iplaneta5 = new InventarioPlaneta(500.5, 12.2);
+                 * 
+                 * List<InventarioPlaneta> inventarioPlaneta = Arrays.asList(iplaneta1,
+                 * iplaneta2, iplaneta3, iplaneta4, iplaneta5);
+                 * inventarioPlanetaRepository.saveAll(inventarioPlaneta);
+                 */
 
-                List<InventarioPlaneta> inventarioPlaneta = Arrays.asList(iplaneta1,
-                                iplaneta2, iplaneta3, iplaneta4, iplaneta5);
-                inventarioPlanetaRepository.saveAll(inventarioPlaneta);
+                /*
+                 * Random rand = new Random();
+                 * int i = 0;
+                 * for (Planeta planeta : planetaRepository.findAll()) {
+                 * i++;
+                 * int productoAleatorio = rand.nextInt(10);
+                 * InventarioPlaneta inventarioPlaneta = new InventarioPlaneta();
+                 * inventarioPlaneta.setPlaneta(planeta);
+                 * inventarioPlaneta.setCantidad(20.2 + i * 2);
+                 * inventarioPlaneta.setProducto(productos.get(productoAleatorio));
+                 * inventarioPlaneta.setfOfertaDemanda(0.2 + i / 100);
+                 * 
+                 * inventarioPlanetaRepository.save(inventarioPlaneta);
+                 */
         }
-
 }

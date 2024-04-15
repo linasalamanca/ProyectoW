@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -34,7 +35,7 @@ public class Estrella {
     private Double coordenadaZ;
 
     @OneToMany(mappedBy = "estrella")
-    @JsonManagedReference
+    @JsonIgnore
     private List<Planeta> planetas = new ArrayList<>();
 
     public Long getId() {

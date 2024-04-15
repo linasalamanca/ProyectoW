@@ -18,7 +18,7 @@
                 <td>{{ estrella.coordenadaY }}</td>
                 <td>{{ estrella.coordenadaZ }}</td>
                 <td>
-                    <a *ngIf="estrella.planetas && estrella.planetas.length > 0"
+                    <a 
                    [routerLink]="['/escoger-planeta/list', estrella.id]">Ver planetas</a>
                 </td>
             </tr>
