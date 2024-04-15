@@ -14,4 +14,7 @@ public interface InventarioPlanetaRepository extends JpaRepository<InventarioPla
     @Query("SELECT Producto FROM InventarioPlaneta as ip JOIN Planeta as p WHERE (ip.id = p.id) and p.id = :id")
     List<InventarioPlaneta> buscarProductos(@Param("id") Long id);
 
+    @Query("SELECT ip FROM InventarioPlaneta ip WHERE ip.planeta.id = :id")
+    List<InventarioPlaneta> buscarProductosPorPlaneta(@Param("id") Long id);
+
 }

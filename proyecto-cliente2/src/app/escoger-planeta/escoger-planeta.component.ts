@@ -22,11 +22,11 @@ export class EscogerPlanetaComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.pipe(
       switchMap(params => {
-        const idStr = params.get('id'); // Obtiene el ID como string o null
+        const idStr = params.get('id'); 
         if (idStr === null) {
-          throw new Error('Estrella ID is required'); // O maneja este caso como consideres apropiado
+          throw new Error('Estrella ID is required'); 
         }
-        const id = Number(idStr); // Convierte el string a número
+        const id = Number(idStr);
         if (isNaN(id)) {
           throw new Error('Estrella ID must be a number');
         }
@@ -44,6 +44,6 @@ export class EscogerPlanetaComponent implements OnInit {
   }
   
   irAComprar(planetaId: number): void {
-    this.router.navigate(['/planeta', planetaId, 'comprar']);
+    this.router.navigate([`/escoger-planeta/${planetaId}/comprar/list`]);
   }
 }

@@ -1,8 +1,9 @@
 import { ComprarService } from './../shared/comprar.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InformacionVentaProducto } from '../dto/informacion-venta-producto';
 import { VenderService } from '../shared/vender.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, switchMap } from 'rxjs';
 
 
 @Component({
@@ -10,9 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './comprar.component.html',
   styleUrl: './comprar.component.css'
 })
-export class ComprarComponent {
-
-
+export class ComprarComponent implements OnInit {
+  timeElapsed: Observable<number>| undefined;
   productos: InformacionVentaProducto[] = [];
 
   constructor(
@@ -22,19 +22,23 @@ export class ComprarComponent {
   ) { }
 
   ngOnInit(): void {
-    const planetaId = this.route.snapshot.paramMap.get('planetaId');
-    if (planetaId) {
-      this.comprarService.listarProductos(+planetaId).subscribe(
-        productos => this.productos = productos,
-        error => {
-          console.error('Error al cargar productos:', error);
-          this.router.navigate(['/error']); // Asegúrate de que esta ruta está definida.
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        const idStr = params.get('planetaId'); 
+        if (idStr === null) {
+          throw new Error('Planeta ID is required'); 
         }
-      );
-    } else {
-      console.error('No se proporcionó un ID de planeta válido.');
-      this.router.navigate(['/error']); // Redirigir a una ruta de error o página principal.
-    }
+        const planetaId = Number(idStr);
+        if (isNaN(planetaId)) {
+          throw new Error('Planeta ID must be a number');
+        }
+        return this.comprarService.listarProductos(planetaId);
+      })
+    ).subscribe(productos => {
+      this.productos = productos;
+    }, error => {
+      console.error('Error al obtener productos:', error);
+    });
   }
   
   // comprar.component.ts

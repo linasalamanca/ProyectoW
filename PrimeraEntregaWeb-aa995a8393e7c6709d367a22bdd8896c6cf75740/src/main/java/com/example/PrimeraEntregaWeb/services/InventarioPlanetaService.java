@@ -47,11 +47,10 @@ public class InventarioPlanetaService {
         inventarioPlanetaRepositorio.deleteById(id);
     }
 
-    public List<InformacionCompraProductoDTO> listarInformacionCompraProducto() {
+    public List<InformacionCompraProductoDTO> listarInformacionCompraProducto(Long id) {
         List<InformacionCompraProductoDTO> listaProductosDTO = new ArrayList<>();
-        Long x = (long) 1;
         // FALTA PASAR LO QUE RECIBE LA QUERY A LA LISTA
-        List<InventarioPlaneta> list = inventarioPlanetaRepositorio.buscarProductos(x);
+        List<InventarioPlaneta> list = inventarioPlanetaRepositorio.buscarProductosPorPlaneta(id);
         for (InventarioPlaneta i : list) {
             InformacionCompraProductoDTO compra = new InformacionCompraProductoDTO(i.getProducto().getTipo(),
                     i.getCantidad(), i.getfOfertaDemanda());

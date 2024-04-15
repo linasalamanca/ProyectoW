@@ -11,16 +11,16 @@ import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
 import com.example.PrimeraEntregaWeb.services.InventarioPlanetaService;
 
 @RestController
-@RequestMapping("/api/comprar")
+@RequestMapping("/api/escoger-planeta")
 public class ComprarProductoController {
 
     @Autowired
     private InventarioPlanetaService inventarioPlanetaService;
 
     // http://localhost:8080/api/comprar/list
-    @GetMapping("/list/{id}")
-    public List<InformacionCompraProductoDTO> listarProductos() {
-        return inventarioPlanetaService.listarInformacionCompraProducto();
+    @GetMapping("/{id}/comprar/list")
+    public List<InformacionCompraProductoDTO> listarProductos(@PathVariable Long id) {
+        return inventarioPlanetaService.listarInformacionCompraProducto(id);
     }
 
     // https://www.baeldung.com/spring-rest-openapi-documentation

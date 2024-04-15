@@ -14,6 +14,6 @@ export class ComprarService {
 
 
   listarProductos(planetaId: number): Observable<InformacionVentaProducto[]> {
-    return this.http.get<InformacionVentaProducto[]>(`${environment.serverUrl}/api/planeta/${planetaId}/comprar/list`);
+    return this.http.get<InformacionVentaProducto[]>(`${environment.serverUrl}/api/comprar/list/${planetaId}`);
   }
 }
