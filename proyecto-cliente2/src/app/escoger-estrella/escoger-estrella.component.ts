@@ -27,9 +27,8 @@ export class EscogerEstrellaComponent {
   }
  
   verPlanetas(id: number): void {
-    
-    this.router.navigate([`/escoger-planeta/list/${id}`]);
-}
-
+    this.estrellaService.cambiarCoordenadasNave(id).subscribe(_=>this.router.navigate([`/escoger-planeta/list/${id}`]));
+      
+  }
 
 }
