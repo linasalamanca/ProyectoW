@@ -43,8 +43,8 @@ export class ComprarComponent implements OnInit {
   }
   
   // comprar.component.ts
-verInventario(inventarioId: number): void {
-  this.router.navigate([`/inventario/${inventarioId}`]);
+verInventario(planetaId: number): void {
+  this.router.navigate([`/inventario/${planetaId}`]);
 }
 
 }
