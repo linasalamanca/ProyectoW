@@ -35,7 +35,7 @@ export class ComprarComponent implements OnInit {
         return this.comprarService.listarProductos(planetaId);
       })
     ).subscribe(productos => {
-      console.log('Productos loaded:', productos); // Log the products after subscription
+      console.log('Productos loaded:', productos);
       this.productos = productos;
     }, error => {
       console.error('Error al obtener productos:', error);
@@ -43,8 +43,8 @@ export class ComprarComponent implements OnInit {
   }
   
   // comprar.component.ts
-verInventario(planetaId: number): void {
+/*verInventario(planetaId: number): void {
   this.router.navigate([`/inventario/${planetaId}`]);
-}
+}*/
 
 }

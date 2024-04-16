@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&family=Jersey+20&family=Teko:wght@300..700&display=swap" rel="stylesheet');
+
+body {
+    background-image: url('https://png.pngtree.com/background/20210716/original/pngtree-mysterious-starry-sky-background-picture-image_1337171.jpg');
+    background-size: cover;
+}
+
+h1 {
+    font-family: 'Jersey 20';
+    font-size: 100px;
+    text-align: center;
+    color: #FFCB7A;
+}
+
+table {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+thead{
+    background-color: #FFCB7A;
+}
+
+tbody{
+    background-color: #FFD7FB;
+}
+
+th{
+    font-family: 'Teko';
+    font-size: 25px;
+    text-align: center;
+}
+
+td{
+    font-family: 'Assistant';
+    font-size: 15px;
+    text-align: center;
+}
