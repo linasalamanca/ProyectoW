@@ -19,8 +19,7 @@
                 <td>{{ estrella.coordenadaY }}</td>
                 <td>{{ estrella.coordenadaZ }}</td>
                 <td>
-                    <a 
-                   [routerLink]="['/escoger-planeta/list', estrella.id]">Ver planetas</a>
+                    <button (click)="verPlanetas(estrella.id)">Viajar a esta estrella</button>
                 </td>
             </tr>
         </tbody>

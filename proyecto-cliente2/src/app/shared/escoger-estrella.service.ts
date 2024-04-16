@@ -20,4 +20,9 @@ export class EscogerEstrellaService {
   listarEstrellas(): Observable<EscogerEstrella[]>{
     return this.http.get<EscogerEstrella[]>(`${environment.serverUrl}/api/escoger-estrella/list`)
   }
+
+  cambiarCoordenadasNave(id: number): Observable<any> {
+    return this.http.post<any>(`${environment.serverUrl}/api/escoger-estrella/cambiar-coordenadas-nave/${id}`,id);
+  }
+
 }
