@@ -4,6 +4,7 @@ import { InformacionVentaProducto } from '../dto/informacion-venta-producto';
 import { VenderService } from '../shared/vender.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
+import { InformacionJuegoService } from '../shared/informacion-juego.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class ComprarComponent implements OnInit {
   productos: InformacionVentaProducto[] = [];
 
   constructor(
+    public infoService: InformacionJuegoService,
     private comprarService: ComprarService,
     private route: ActivatedRoute,
     private router: Router,

@@ -42,7 +42,7 @@ public class NaveService {
         n.setCoordenadaX(navecita.getCoordenadaX());
         n.setCoordenadaY(navecita.getCoordenadaY());
         n.setCoordenadaZ(navecita.getCoordenadaZ());
-        n.setTiempo(navecita.getTiempo());
+        n.setVelocidad(navecita.getVelocidad());
 
         naveRepositorio.save(n);
     }

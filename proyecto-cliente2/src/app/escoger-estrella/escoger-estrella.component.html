@@ -1,6 +1,6 @@
-<div class="timer">
-    Tiempo de ejecución: {{ timeElapsed| async }} segundos
-  </div>    
+<<div class="timer">
+    Tiempo de juego: {{ infoService.getInfoTiempo()}}
+</div>   
 <div>
     <h1>Escoge una estrella</h1>
     <table>
@@ -19,7 +19,7 @@
                 <td>{{ estrella.coordenadaY }}</td>
                 <td>{{ estrella.coordenadaZ }}</td>
                 <td>
-                    <button (click)="verPlanetas(estrella.id)">Viajar a esta estrella</button>
+                    <button (click)="realizarViaje(estrella.id)">Viajar a esta estrella</button>
                 </td>
             </tr>
         </tbody>

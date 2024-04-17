@@ -34,9 +34,9 @@ public class Nave {
     @NotBlank(message = "no puede estar en blanco")
     private Double coordenadaZ;
 
-    @Column(name = "tiempo", nullable = false)
+    @Column(name = "velocidad", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private Double tiempo;
+    private Double velocidad;
 
     @OneToMany(mappedBy = "nave")
     private List<Jugador> jugadores = new ArrayList<>();
@@ -90,12 +90,12 @@ public class Nave {
         this.nombre = nombre;
     }
 
-    public Double getTiempo() {
-        return tiempo;
+    public Double getVelocidad() {
+        return velocidad;
     }
 
-    public void setTiempo(Double tiempo) {
-        this.tiempo = tiempo;
+    public void setVelocidad(Double velocidad) {
+        this.velocidad = velocidad;
     }
 
     public List<Jugador> getJugadores() {
@@ -137,12 +137,12 @@ public class Nave {
     public Nave() {
     }
 
-    public Nave(int dinero, Double coordenadaX, Double coordenadaY, Double coordenadaZ, String nombre, Double tiempo) {
+    public Nave(int dinero, Double coordenadaX, Double coordenadaY, Double coordenadaZ, String nombre, Double velocidad) {
         this.dinero = dinero;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
         this.coordenadaZ = coordenadaZ;
         this.nombre = nombre;
-        this.tiempo = tiempo;
+        this.velocidad = velocidad;
     }
 }

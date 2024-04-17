@@ -25,4 +25,8 @@ export class EscogerEstrellaService {
     return this.http.post<any>(`${environment.serverUrl}/api/escoger-estrella/cambiar-coordenadas-nave/${id}`,id);
   }
 
+  calcularTiempoJuego(id: number): Observable<any> {
+    return this.http.post<any>(`${environment.serverUrl}/api/escoger-estrella/calcular-tiempo/${id}`,id);
+  }
+
 }

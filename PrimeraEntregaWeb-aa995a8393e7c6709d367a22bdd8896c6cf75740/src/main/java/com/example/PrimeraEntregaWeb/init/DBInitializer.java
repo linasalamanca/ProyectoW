@@ -17,6 +17,7 @@ import com.example.PrimeraEntregaWeb.model.InventarioNave;
 import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
+import com.example.PrimeraEntregaWeb.model.Partida;
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.model.Producto;
 import com.example.PrimeraEntregaWeb.model.TipoNave;
@@ -25,6 +26,7 @@ import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
 import com.example.PrimeraEntregaWeb.repository.InventarioPlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.JugadorRepository;
 import com.example.PrimeraEntregaWeb.repository.NaveRepository;
+import com.example.PrimeraEntregaWeb.repository.PartidaRepository;
 import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.ProductoRepository;
 import com.example.PrimeraEntregaWeb.repository.TipoNaveRepository;
@@ -48,6 +50,9 @@ public class DBInitializer implements CommandLineRunner {
         private InventarioNaveRepository inventarioNaveRepository;
         @Autowired
         private InventarioPlanetaRepository inventarioPlanetaRepository;
+        @Autowired
+        private PartidaRepository partidaRepository;
+
 
         @Override
         public void run(String... args) throws Exception {
@@ -164,6 +169,11 @@ public class DBInitializer implements CommandLineRunner {
                 List<InventarioNave> inventarioNave = Arrays.asList(inave1, inave2, inave3,
                                 inave4, inave5);
                 inventarioNaveRepository.saveAll(inventarioNave);
+
+                Partida partida = new Partida(0.0, 0.0, 5.0);
+                partidaRepository.save(partida);
+
+
 
                 /*
                  * InventarioPlaneta iplaneta1 = new InventarioPlaneta(615.2, 9.1);

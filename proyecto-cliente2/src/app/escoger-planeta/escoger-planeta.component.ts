@@ -3,6 +3,7 @@ import { EscogerPlaneta } from '../model/escoger-planeta';
 import { EscogerPlanetaService } from '../shared/escoger-planeta.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
+import { InformacionJuegoService } from '../shared/informacion-juego.service';
 
 @Component({
   selector: 'app-escoger-planeta',
@@ -10,10 +11,10 @@ import { Observable, switchMap } from 'rxjs';
   styleUrl: './escoger-planeta.component.css'
 })
 export class EscogerPlanetaComponent implements OnInit {
-  timeElapsed: Observable<number>| undefined;
   planetas: EscogerPlaneta [] = []
 
   constructor(
+    public infoService: InformacionJuegoService,
     private planetaServicio: EscogerPlanetaService,
     private router: Router,
     private route: ActivatedRoute
@@ -37,6 +38,7 @@ export class EscogerPlanetaComponent implements OnInit {
     }, error => {
       console.error('Error al obtener planetas:', error);
     });
+    //this.infoService.obtenerTiempo().subscribe(t => this.infoService.setInfoTiempo(t));
   }
 
   verAcciones(planetaId: number): void {
