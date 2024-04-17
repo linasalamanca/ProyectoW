@@ -1,1 +1,1 @@
-http://localhost:8080/api/comprar/list/${planetaId}
+GET http://localhost:8080/api/comprar/list/4
