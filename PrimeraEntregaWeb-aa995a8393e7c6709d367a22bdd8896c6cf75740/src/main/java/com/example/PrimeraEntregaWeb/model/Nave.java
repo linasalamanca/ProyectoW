@@ -20,7 +20,7 @@ public class Nave {
 
     @Column(name = "dinero", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private int dinero;
+    private Double dinero;
 
     @Column(name = "coordenadaX", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
@@ -50,11 +50,11 @@ public class Nave {
     @ManyToOne
     private Planeta planeta;
 
-    public int getDinero() {
+    public Double getDinero() {
         return dinero;
     }
 
-    public void setDinero(int dinero) {
+    public void setDinero(Double dinero) {
         this.dinero = dinero;
     }
 
@@ -110,6 +110,10 @@ public class Nave {
         this.jugadores.add(j);
     }
 
+    public void addInventario(InventarioNave iNave) {
+        this.inventario.add(iNave);
+    }
+
     public TipoNave getTipo() {
         return tipo;
     }
@@ -137,7 +141,8 @@ public class Nave {
     public Nave() {
     }
 
-    public Nave(int dinero, Double coordenadaX, Double coordenadaY, Double coordenadaZ, String nombre, Double velocidad) {
+    public Nave(Double dinero, Double coordenadaX, Double coordenadaY, Double coordenadaZ, String nombre,
+            Double velocidad) {
         this.dinero = dinero;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;

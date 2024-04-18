@@ -48,4 +48,7 @@ export class EscogerPlanetaComponent implements OnInit {
   irAComprar(planetaId: number): void {
     this.router.navigate([`/escoger-planeta/${planetaId}/comprar/list`]);
   }
+  irAVender(planetaId: number): void{
+    this.router.navigate([`/escoger-planeta/${planetaId}/vender/list`]);
+  }
 }

@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'iniciar', component: IniciarComponent},
   { path: 'escoger-estrella/list', component: EscogerEstrellaComponent},
   { path: 'escoger-planeta/:planetaId/comprar/list', component: ComprarComponent},
+  { path: 'escoger-planeta/:planetaId/vender/list', component: VenderComponent},
   { path: 'estrella/planeta-list/:id', component: EscogerPlanetaComponent },
   { path: 'estrellas/:estrellaId/planetas', component: EscogerPlanetaComponent },
   { path: 'escoger-planeta/list/:id', component: EscogerPlanetaComponent },

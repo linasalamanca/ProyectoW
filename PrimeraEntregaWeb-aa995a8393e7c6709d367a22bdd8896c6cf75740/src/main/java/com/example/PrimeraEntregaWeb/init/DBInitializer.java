@@ -53,7 +53,6 @@ public class DBInitializer implements CommandLineRunner {
         @Autowired
         private PartidaRepository partidaRepository;
 
-
         @Override
         public void run(String... args) throws Exception {
 
@@ -72,13 +71,14 @@ public class DBInitializer implements CommandLineRunner {
 
                 /* Crear lista de naves */
                 List<Nave> naves = new ArrayList<>();
+                int min = 1000000;
 
                 for (int i = 0; i < 5; i++) {
                         Nave nave = new Nave(
-                                        random.nextInt(900) + 100,
-                                        random.nextDouble() * 400 + 50,
-                                        random.nextDouble() * 400 + 50,
-                                        random.nextDouble() * 400 + 50,
+                                        random.nextDouble() + min,
+                                        random.nextDouble() * (90 - 10) + 10,
+                                        random.nextDouble() * (90 - 10) + 10,
+                                        random.nextDouble() * (90 - 10) + 10,
                                         "nave" + i,
                                         random.nextDouble() * 200 + 15);
                         nave.setTipo(tipoNaves.get(i));
@@ -128,9 +128,9 @@ public class DBInitializer implements CommandLineRunner {
                 /* Generar las estrellas */
                 for (int i = 0; i < 100; i++) {
                         Estrella estrella = new Estrella(
-                                        random.nextDouble() * 100,
-                                        random.nextDouble() * 100,
-                                        random.nextDouble() * 100);
+                                        random.nextDouble() * (90 - 10) + 10,
+                                        random.nextDouble() * (90 - 10) + 10,
+                                        random.nextDouble() * (90 - 10) + 10);
 
                         estrellaRepository.save(estrella);
                         if (random.nextDouble() < 1) {
@@ -141,19 +141,25 @@ public class DBInitializer implements CommandLineRunner {
                                         planeta.setEstrella(estrella);
                                         estrella.addPlaneta(planeta);
                                         planetaRepository.save(planeta);
-                                        InventarioPlaneta inventarioPlaneta = new InventarioPlaneta();
-                                        inventarioPlaneta.setPlaneta(planeta);
-                                        inventarioPlaneta.setCantidad(20.2 + i * 2);
-                                        inventarioPlaneta.setfOfertaDemanda(0.2 + i / 100);
 
-                                        if (cont == 10) {
-                                                cont = 0;
+                                        for (int k = 0; k < 3; k++) {
+                                                InventarioPlaneta inventarioPlaneta = new InventarioPlaneta();
+                                                inventarioPlaneta.setPlaneta(planeta);
+                                                inventarioPlaneta.setCantidad(20.2 + k * 2);
+
+                                                Double randomNumber = random.nextDouble(1000001);
+                                                inventarioPlaneta.setfOfertaDemanda(randomNumber);
+
+                                                if (cont == 10) {
+                                                        cont = 0;
+                                                }
+                                                if (cont < 10) {
+                                                        inventarioPlaneta.setProducto(productos.get(cont));
+                                                        cont++;
+                                                }
+                                                inventarioPlanetaRepository.save(inventarioPlaneta);
                                         }
-                                        if (cont < 10) {
-                                                inventarioPlaneta.setProducto(productos.get(cont));
-                                                cont++;
-                                        }
-                                        inventarioPlanetaRepository.save(inventarioPlaneta);
+
                                 }
 
                         }
@@ -170,10 +176,8 @@ public class DBInitializer implements CommandLineRunner {
                                 inave4, inave5);
                 inventarioNaveRepository.saveAll(inventarioNave);
 
-                Partida partida = new Partida(0.0, 0.0, 5.0);
+                Partida partida = new Partida(0.0, naves.get(0).getDinero(), 5.0);
                 partidaRepository.save(partida);
-
-
 
                 /*
                  * InventarioPlaneta iplaneta1 = new InventarioPlaneta(615.2, 9.1);

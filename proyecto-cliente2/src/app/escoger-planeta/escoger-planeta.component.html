@@ -2,6 +2,9 @@
     Tiempo de juego: {{ infoService.getInfoTiempo()}}
 </div>    
 <div>
+    <a [routerLink]="['/escoger-estrella/list']" class="boton-fijo">
+        Volver a Viajar
+    </a>
     <h1>Escoge un planeta</h1>
     <table>
         <thead>
@@ -15,7 +18,8 @@
                 <td>{{ planeta.id }}</td>
                 <td>{{ planeta.nombre}}</td>
                 <td>
-                    <button (click)="irAComprar(planeta.id)">Ver Venta o Compra</button>
+                    <button (click)="irAComprar(planeta.id)">Comprar</button>
+                    <button (click)="irAVender(planeta.id)">Vender</button>
                 </td>
             </tr>
         </tbody>

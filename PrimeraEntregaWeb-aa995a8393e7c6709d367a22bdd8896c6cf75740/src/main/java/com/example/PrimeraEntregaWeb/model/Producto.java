@@ -25,6 +25,10 @@ public class Producto {
     @NotBlank(message = "no puede estar en blanco")
     private Double volumen;
 
+    @Column(name = "precio", nullable = false)
+    @NotBlank(message = "no puede estar en blanco")
+    private Double precio;
+
     @Column(name = "tipo", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
     private String tipo;
@@ -74,14 +78,23 @@ public class Producto {
     public void setPlaneta(List<InventarioPlaneta> planeta) {
         this.planeta = planeta;
     }
+
     public Producto(Double volumen, String tipo) {
         this.volumen = volumen;
         this.tipo = tipo;
+        this.precio = 0.0;
     }
 
     public Producto() {
 
     }
 
- 
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
 }
