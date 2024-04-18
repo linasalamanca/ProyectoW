@@ -81,6 +81,10 @@ public class Planeta {
         this.estrella = estrella;
     }
 
+    public void addInventario(InventarioPlaneta iPlaneta) {
+        this.inventario.add(iPlaneta);
+    }
+
     public Planeta(String nombre) {
         this.nombre = nombre;
     }

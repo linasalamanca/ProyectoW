@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { InformacionVentaProducto} from '../dto/informacion-venta-producto'
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
@@ -17,8 +17,13 @@ export class VenderService {
     {"Content-Type": "application/json"}
   )
 
-  listarProductos(): Observable<InformacionVentaProducto[]>{
-    return this.http.get<InformacionVentaProducto[]>(`${environment.serverUrl}/api/vender/list`)
+  listarProductos(planetaId: number): Observable<InformacionVentaProducto[]>{
+    return this.http.get<InformacionVentaProducto[]>(`${environment.serverUrl}/api/vender/list/${planetaId}`)
+    .pipe(tap(data => console.log('Data from API:',data)));
+  }
+
+  realizarVenta(id: number): Observable<any> {
+    return this.http.post<any>(`${environment.serverUrl}/api/vender/realizar-venta/${id}`, null);
   }
 }
 

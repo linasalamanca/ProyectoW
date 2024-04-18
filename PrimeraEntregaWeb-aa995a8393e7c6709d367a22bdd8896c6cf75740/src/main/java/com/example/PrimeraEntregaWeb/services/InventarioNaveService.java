@@ -52,15 +52,19 @@ public class InventarioNaveService {
      * }
      */
 
-    public List<InformacionVentaProductoDTO> listarInformacionVentaProducto() {
+    public List<InformacionVentaProductoDTO> listarInformacionVentaProducto(String nombre) {
         List<InformacionVentaProductoDTO> listaProductosDTO = new ArrayList<>();
 
-        List<InventarioNave> list = inventarioNaveRepositorio.buscarProductos(this.in.getId());
+        List<InventarioNave> list = inventarioNaveRepositorio.buscarProductosPorNombreNave(nombre);
 
         for (InventarioNave i : list) {
-            InformacionVentaProductoDTO compra = new InformacionVentaProductoDTO(i.getProducto().getTipo(),
-                    i.getCantidad(), i.getfOfertaDemanda());
-            listaProductosDTO.add(compra);
+
+            Double precio = i.getfOfertaDemanda() / (1 + i.getCantidad());
+            i.getProducto().setPrecio(precio);
+
+            InformacionVentaProductoDTO venta = new InformacionVentaProductoDTO(i.getProducto().getTipo(),
+                    i.getCantidad(), i.getfOfertaDemanda(), precio, i.getId());
+            listaProductosDTO.add(venta);
         }
         return listaProductosDTO;
 

@@ -27,7 +27,11 @@ public interface InventarioNaveRepository extends JpaRepository<InventarioNave, 
     // findAllByNombreStartingWithIgnoreCase(String nombre,
     // org.springframework.data.domain.Pageable pageable);
 
-    @Query("SELECT Producto FROM InventarioPlaneta as ip JOIN Planeta as p WHERE (ip.id = p.id) and p.id = :id")
-    List<InventarioNave> buscarProductos(@Param("id") Long id);
+    /*
+     * @Query("SELECT inv FROM InventarioNave inv WHERE inv.nave.id = :id")
+     * List<InventarioNave> buscarProductos(@Param("id") Long id);
+     */
+    @Query("SELECT inv FROM InventarioNave inv WHERE inv.nave.nombre = :nombre")
+    List<InventarioNave> buscarProductosPorNombreNave(@Param("nombre") String nombreNave);
 
 }

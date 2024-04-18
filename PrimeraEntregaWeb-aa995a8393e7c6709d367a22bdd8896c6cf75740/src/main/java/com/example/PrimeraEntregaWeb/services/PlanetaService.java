@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 
@@ -45,5 +46,10 @@ public class PlanetaService {
 
     public void eliminarPlaneta(Long id) {
         planetaRepositorio.deleteById(id);
+    }
+
+    public void crearInventario(InventarioPlaneta iplaneta, Planeta planeta) {
+        planeta.addInventario(iplaneta);
+        planetaRepositorio.save(planeta);
     }
 }
