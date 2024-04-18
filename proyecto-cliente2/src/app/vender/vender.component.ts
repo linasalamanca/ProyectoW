@@ -50,12 +50,12 @@ export class VenderComponent implements OnInit {
       this.router.navigate([`/inventario/${planetaId}`]);
     }
   
-    realizarVenta(inventarioId: number) {
-      console.log('Inventario ID:', inventarioId);
+    realizarVenta(idInventario: number) {
+      console.log('Inventario ID:', idInventario);
       this.infoService.obtenerPuntaje().pipe(
         switchMap(t => {
           this.infoService.setInfoPuntaje(t);
-          return this.venderService.realizarVenta(inventarioId);
+          return this.venderService.realizarVenta(idInventario);
         })
       ).subscribe({
         next: () => this.location.back(),
