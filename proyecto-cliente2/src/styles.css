@@ -6,9 +6,20 @@ body {
     background-size: cover;
 }
 
+div{
+    font-family: 'Teko';
+}
+
 h1 {
     font-family: 'Jersey 20';
     font-size: 100px;
+    text-align: center;
+    color: #FFCB7A;
+}
+
+h2{
+    font-family: 'Jersey 20';
+    font-size: 80px;
     text-align: center;
     color: #FFCB7A;
 }
@@ -31,6 +42,11 @@ th{
     font-family: 'Teko';
     font-size: 25px;
     text-align: center;
+    border-collapse:separate;
+    border-spacing: 5px;
+    border-radius:10px;
+    -moz-border-radius:5px;
+    -webkit-border-radius: 5px; 
 }
 
 td{
@@ -39,45 +55,8 @@ td{
     text-align: center;
 }
 
-.timer {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    background-color: white;
-    padding: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    font-size: 16px;
-    z-index: 1000;
-  }
-
-  .tiempoFinal{
-    display: flex;
-    position: fixed;
-    min-width: 150px;
-    max-width: 250px;
-    top: 65%;
-    right:27%;
+button{
     font-family: 'Teko';
-    font-size: 35px;
-    text-align: center;
-    color: #FFCB7A;
-    background-color: white;
-    padding: 10px;
-    margin-left: 40px;
-  }
-
-  .puntaje{
-    display: flex;
-    position: fixed;
-    min-width: 150px;
-    max-width: 250px;
-    top: 65%;
-    left: 27%;
-    font-family: 'Teko';
-    font-size: 35px;
-    text-align: center;
-    color: #FFCB7A;
-    background-color: white;
-    padding: 10px;
-    margin-right: 40px;
-  }
+    background-color: #FFD7FB !important;
+    color: black !important;
+}
