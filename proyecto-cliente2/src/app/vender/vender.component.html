@@ -1,3 +1,10 @@
+<div class="timer">
+    Tiempo de juego: {{ infoService.getInfoTiempo()}}
+</div>
+
+<div class="puntaje">
+    Puntaje: {{ infoService.getInfoPuntaje()}}
+</div>
 
 <div>
     <table>
@@ -7,9 +14,9 @@
         <h1>Escoge un producto para vender</h1>
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Producto</th>
                 <th>Cantidad</th>
+                <th>Precio</th>
             </tr>
         </thead>
         <tbody>
@@ -17,6 +24,10 @@
                 <td>{{producto.nombreProducto}}</td>
                 <td>{{producto.cantidad}}</td>
                 <td>{{producto.precio}}</td>
+                <td>
+                    <button (click)="realizarVenta(producto.inventarioId)">Vender</button>
+                    
+                </td>
             </tr>
         </tbody>
     </table>

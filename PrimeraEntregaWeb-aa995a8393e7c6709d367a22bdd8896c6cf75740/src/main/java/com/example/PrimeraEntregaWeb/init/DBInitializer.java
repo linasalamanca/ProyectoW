@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import org.hibernate.mapping.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,15 +177,17 @@ public class DBInitializer implements CommandLineRunner {
                 }
 
                 /* Inventario */
-                InventarioNave inave1 = new InventarioNave(615.7);
-                InventarioNave inave2 = new InventarioNave(200.4);
-                InventarioNave inave3 = new InventarioNave(300.6);
-                InventarioNave inave4 = new InventarioNave(400.4);
-                InventarioNave inave5 = new InventarioNave(500.6);
-
-                List<InventarioNave> inventarioNave = Arrays.asList(inave1, inave2, inave3,
-                                inave4, inave5);
-                inventarioNaveRepository.saveAll(inventarioNave);
+                /*
+                 * InventarioNave inave1 = new InventarioNave(615.7);
+                 * InventarioNave inave2 = new InventarioNave(200.4);
+                 * InventarioNave inave3 = new InventarioNave(300.6);
+                 * InventarioNave inave4 = new InventarioNave(400.4);
+                 * InventarioNave inave5 = new InventarioNave(500.6);
+                 * 
+                 * List<InventarioNave> inventarioNave = Arrays.asList(inave1, inave2, inave3,
+                 * inave4, inave5);
+                 * inventarioNaveRepository.saveAll(inventarioNave);
+                 */
 
                 Partida partida = new Partida(0.0, naves.get(0).getDinero(), 5.0);
                 partidaRepository.save(partida);
