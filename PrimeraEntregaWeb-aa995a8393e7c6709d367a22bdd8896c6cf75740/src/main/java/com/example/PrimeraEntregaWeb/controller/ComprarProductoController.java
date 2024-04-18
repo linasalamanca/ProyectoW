@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
 import com.example.PrimeraEntregaWeb.model.Nave;
+import com.example.PrimeraEntregaWeb.services.InventarioNaveService;
 import com.example.PrimeraEntregaWeb.services.InventarioPlanetaService;
 import com.example.PrimeraEntregaWeb.services.NaveService;
 import com.example.PrimeraEntregaWeb.services.PartidaService;
@@ -22,6 +23,9 @@ public class ComprarProductoController {
 
     @Autowired
     private InventarioPlanetaService inventarioPlanetaService;
+
+    @Autowired
+    private InventarioNaveService inventarioNaveService;
 
     @Autowired
     private PartidaService partidaService;
@@ -39,9 +43,11 @@ public class ComprarProductoController {
 
     @PostMapping("/realizar-compra/{id}")
     public void realizarCompra(@PathVariable Long id) {
-        /*Double puntaje = partidaService.buscar((long) 1).getPuntaje()
-                - inventarioPlanetaService.buscarInventario(id).getProducto().getPrecio();
-        partidaService.actualizarPuntaje(puntaje, partidaService.buscar((long) 1));*/
+        Double capacidadMaxima = naveService.buscarNave("nave0").getCapacidadMax();
+
+        // Double volumenActual = inventarioNaveService
+        // .calcularVolumenTotal(naveService.buscarNave("nave0").getInventario());
+
         inventarioNave = new InventarioNave(inventarioPlanetaService.buscarInventario(id).getCantidad(),
                 inventarioPlanetaService.buscarInventario(id).getfOfertaDemanda());
         inventarioNave.setProducto(inventarioPlanetaService.buscarInventario(id).getProducto());
@@ -55,7 +61,7 @@ public class ComprarProductoController {
     @PostMapping("/actualizar-puntaje/{id}")
     public void actualizarPuntaje(@PathVariable Long id) {
         Double puntaje = partidaService.buscar((long) 1).getPuntaje()
-        - inventarioPlanetaService.buscarInventario(id).getProducto().getPrecio();
+                - inventarioPlanetaService.buscarInventario(id).getProducto().getPrecio();
         partidaService.actualizarPuntaje(puntaje, partidaService.buscar((long) 1));
     }
 

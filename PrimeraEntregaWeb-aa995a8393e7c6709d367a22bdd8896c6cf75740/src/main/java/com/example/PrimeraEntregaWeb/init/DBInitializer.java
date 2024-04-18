@@ -88,7 +88,7 @@ public class DBInitializer implements CommandLineRunner {
                                         random.nextDouble() * (90 - 10) + 10,
                                         random.nextDouble() * (90 - 10) + 10,
                                         "nave" + i,
-                                        random.nextDouble() * 200 + 15);
+                                        random.nextDouble() * 200 + 15, random.nextDouble() * 500.5);
                         nave.setTipo(tipoNaves.get(i));
                         naves.add(nave);
 

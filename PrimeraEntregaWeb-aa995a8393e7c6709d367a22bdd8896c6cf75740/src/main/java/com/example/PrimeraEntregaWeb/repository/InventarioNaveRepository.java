@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.PrimeraEntregaWeb.dto.InformacionVentaProductoDTO;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
+import com.example.PrimeraEntregaWeb.model.Producto;
 
 public interface InventarioNaveRepository extends JpaRepository<InventarioNave, Long> {
 
@@ -33,5 +34,8 @@ public interface InventarioNaveRepository extends JpaRepository<InventarioNave, 
      */
     @Query("SELECT inv FROM InventarioNave inv WHERE inv.nave.nombre = :nombre")
     List<InventarioNave> buscarProductosPorNombreNave(@Param("nombre") String nombreNave);
+
+    @Query("SELECT prod FROM InventarioNave inv JOIN inv.productos prod WHERE inv.nave.nombre = :nombre")
+    List<Producto> findByNombreNave(@Param("nombre") String nombreNave);
 
 }

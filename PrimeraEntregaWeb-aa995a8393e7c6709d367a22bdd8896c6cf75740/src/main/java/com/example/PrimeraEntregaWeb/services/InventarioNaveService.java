@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.PrimeraEntregaWeb.dto.InformacionVentaProductoDTO;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
+import com.example.PrimeraEntregaWeb.model.Nave;
+import com.example.PrimeraEntregaWeb.model.Producto;
 import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
 import io.micrometer.common.lang.NonNull;
 
@@ -68,5 +70,14 @@ public class InventarioNaveService {
         }
         return listaProductosDTO;
 
+    }
+
+    public Double calcularVolumenTotal(InventarioNave inave) {
+        Double vol = 0.0;
+        List<Producto> productos = inventarioNaveRepositorio.findByNombreNave("nave0");
+        for (Producto p : productos) {
+            vol += p.getVolumen();
+        }
+        return vol;
     }
 }

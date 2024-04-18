@@ -38,6 +38,18 @@ public class Nave {
     @NotBlank(message = "no puede estar en blanco")
     private Double velocidad;
 
+    public Double getCapacidadMax() {
+        return capacidadMax;
+    }
+
+    public void setCapacidadMax(Double capacidadMax) {
+        this.capacidadMax = capacidadMax;
+    }
+
+    @Column(name = "capacidadMax", nullable = false)
+    @NotBlank(message = "no puede estar en blanco")
+    private Double capacidadMax;
+
     @OneToMany(mappedBy = "nave")
     private List<Jugador> jugadores = new ArrayList<>();
 
@@ -142,12 +154,13 @@ public class Nave {
     }
 
     public Nave(Double dinero, Double coordenadaX, Double coordenadaY, Double coordenadaZ, String nombre,
-            Double velocidad) {
+            Double velocidad, Double capacidadMax) {
         this.dinero = dinero;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
         this.coordenadaZ = coordenadaZ;
         this.nombre = nombre;
         this.velocidad = velocidad;
+        this.capacidadMax = capacidadMax;
     }
 }
