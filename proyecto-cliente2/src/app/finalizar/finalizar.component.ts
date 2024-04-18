@@ -17,13 +17,7 @@ export class FinalizarComponent {
 
   ngOnInit(): void {
     this.infoService.obtenerTiempo().subscribe(t => this.infoService.setInfoTiempo(t));
-    /*this.infoService.obtenerPuntaje().subscribe(puntaje => 
-      if(puntaje>10){
-        respuesta="Ganaste";
-      }else{
-        respuesta="Perdiste";
-      }
-    );*/
+    this.infoService.obtenerPuntajeCompra().subscribe(puntaje => this.infoService.setInfoPuntaje(puntaje));
   }
 
 }

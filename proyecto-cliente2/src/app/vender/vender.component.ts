@@ -51,7 +51,7 @@ export class VenderComponent implements OnInit {
     }
   
     realizarVenta(idInventario: number) {
-      console.log('Inventario ID:', idInventario);
+      /*console.log('Inventario ID:', idInventario);
       this.infoService.obtenerPuntaje().pipe(
         switchMap(t => {
           this.infoService.setInfoPuntaje(t);
@@ -62,6 +62,12 @@ export class VenderComponent implements OnInit {
         error: err => {
           console.error('Ocurrió un error al realizar la venta:', err);
         }
-      });
+      });*/
+
+      this.venderService.actualizarPuntaje(idInventario).subscribe(_=> 
+        this.infoService.obtenerPuntajeVenta().subscribe(
+          puntaje => this.infoService.setInfoPuntaje(puntaje)));
+          
+      this.venderService.realizarVenta(idInventario).subscribe(() => this.location.back());
   }
 }
