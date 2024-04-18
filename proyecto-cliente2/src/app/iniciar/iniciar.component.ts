@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { InformacionJuegoService } from '../shared/informacion-juego.service';
 
 @Component({
   selector: 'app-iniciar',
@@ -9,8 +10,10 @@ import { Observable } from 'rxjs';
 })
 export class IniciarComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    public infoService: InformacionJuegoService,) { }
   iniciarJuego() {
+    this.infoService.obtenerPuntaje().subscribe(puntaje => this.infoService.setInfoPuntaje(puntaje));
     this.router.navigate(['/escoger-estrella/list']); 
   }
 }

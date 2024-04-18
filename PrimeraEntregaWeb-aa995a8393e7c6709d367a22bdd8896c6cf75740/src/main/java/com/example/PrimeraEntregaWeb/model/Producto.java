@@ -30,7 +30,7 @@ public class Producto {
     private Double precio;
 
     @Column(name = "tipo", nullable = false)
-    @NotBlank(message = "no puede estar en blanco")
+    @NotBlank(message = "no puede esta r en blanco")
     private String tipo;
 
     @OneToMany(mappedBy = "producto")

@@ -18,7 +18,8 @@ const routes: Routes = [
   { path: 'estrellas/:estrellaId/planetas', component: EscogerPlanetaComponent },
   { path: 'escoger-planeta/list/:id', component: EscogerPlanetaComponent },
   { path: 'escoger-planeta/:planetaId/comprar/list', component: ComprarComponent},
-  { path: 'finalizar', component: FinalizarComponent}
+  { path: 'finalizar', component: FinalizarComponent},
+  { path: '', pathMatch: 'full', redirectTo: 'iniciar' },
 
 ];
 
