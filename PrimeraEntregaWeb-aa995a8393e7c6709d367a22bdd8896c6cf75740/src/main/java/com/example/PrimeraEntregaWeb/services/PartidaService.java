@@ -26,6 +26,10 @@ public class PartidaService {
         return partidaRepository.findTiempoPartida(id);
     }
 
+    public Double obtenerPuntajePartida(Long id) {
+        return partidaRepository.findPuntajePartida(id);
+    }
+
     public void actualizarTiempoPartida(Double tiempo, Partida partida) {
         partida.setTiempo(tiempo);
         partidaRepository.save(partida);

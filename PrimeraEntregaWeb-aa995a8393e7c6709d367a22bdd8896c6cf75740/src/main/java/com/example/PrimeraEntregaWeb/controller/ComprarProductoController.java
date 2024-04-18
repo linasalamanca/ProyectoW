@@ -52,9 +52,9 @@ public class ComprarProductoController {
                 inventarioPlanetaService.buscarInventario(id));
     }
 
-    @GetMapping("/obtener-puntaje/{id}")
-    public Double obtenerPuntaje(@PathVariable Long id) {
-        return 0.0;
+    @GetMapping("/obtener-puntaje")
+    public Double obtenerPuntaje() {
+        return partidaService.obtenerPuntajePartida((long) 1);
     }
 
     // https://www.baeldung.com/spring-rest-openapi-documentation

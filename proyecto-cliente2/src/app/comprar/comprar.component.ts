@@ -5,6 +5,8 @@ import { VenderService } from '../shared/vender.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { InformacionJuegoService } from '../shared/informacion-juego.service';
+import { Location } from '@angular/common';
+
 
 
 @Component({
@@ -21,6 +23,7 @@ export class ComprarComponent implements OnInit {
     private comprarService: ComprarService,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +53,8 @@ export class ComprarComponent implements OnInit {
   }
 
   realizarCompra(inventarioId: number){
-    
+    this.infoService.obtenerPuntaje().subscribe(t => this.infoService.setInfoPuntaje(t))
+    this.comprarService.realizarCompra(inventarioId).subscribe(_=>this.location.back());
   }
 
 

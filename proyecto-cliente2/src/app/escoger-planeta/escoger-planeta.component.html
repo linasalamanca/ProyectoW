@@ -1,6 +1,9 @@
 <div class="timer">
     Tiempo de juego: {{ infoService.getInfoTiempo()}}
 </div>    
+<div class="puntaje">
+    Puntaje: {{ infoService.getInfoPuntaje()}}
+</div>
 <div>
     <a [routerLink]="['/escoger-estrella/list']" class="boton-fijo">
         Volver a Viajar

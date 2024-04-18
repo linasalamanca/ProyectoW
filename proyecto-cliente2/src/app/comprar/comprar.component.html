@@ -1,6 +1,10 @@
 <div class="timer">
     Tiempo de juego: {{ infoService.getInfoTiempo()}}
-</div>   
+</div>
+
+<div class="puntaje">
+    Puntaje: {{ infoService.getInfoPuntaje()}}
+</div>
 
 <div>
     <a [routerLink]="['/escoger-estrella/list']" class="boton-fijo">
@@ -22,7 +26,7 @@
                 <td>{{ producto.cantidad }}</td>
                 <td>{{ producto.precio }}</td>
                 <td>
-                    <!--<button (click)="verInventario(producto.inventarioId)">Ver Detalles del Inventario</button>-->
+                    <button (click)="realizarCompra(producto.inventarioId)">Comprar</button>
                 </td>
             </tr>
         </tbody>

@@ -17,4 +17,8 @@ export class ComprarService {
     return this.http.get<InformacionVentaProducto[]>(`${environment.serverUrl}/api/comprar/list/${planetaId}`)
       .pipe(tap(data => console.log('Data from API:', data)));
   }
+
+  realizarCompra(id: number): Observable<any> {
+    return this.http.post<any>(`${environment.serverUrl}/api/comprar/realizar-compra/${id}`,id);
+  }
 }
