@@ -43,10 +43,15 @@ export class ComprarComponent implements OnInit {
       console.error('Error al obtener productos:', error);
     });
   }
-  
-  // comprar.component.ts
-/*verInventario(planetaId: number): void {
-  this.router.navigate([`/inventario/${planetaId}`]);
-}*/
+
+
+  verInventario(planetaId: number): void {
+    this.router.navigate([`/inventario/${planetaId}`]);
+  }
+
+  realizarCompra(inventarioId: number){
+    
+  }
+
 
 }

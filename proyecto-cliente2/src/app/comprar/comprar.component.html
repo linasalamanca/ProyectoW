@@ -1,14 +1,19 @@
 <div class="timer">
     Tiempo de juego: {{ infoService.getInfoTiempo()}}
 </div>   
+
 <div>
+    <a [routerLink]="['/escoger-estrella/list']" class="boton-fijo">
+        Volver a Viajar
+    </a>
+    
     <h1>Escoge un producto para comprar</h1>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Producto</th>
                 <th>Cantidad</th>
+                <th>Precio</th>
             </tr>
         </thead>
         <tbody>

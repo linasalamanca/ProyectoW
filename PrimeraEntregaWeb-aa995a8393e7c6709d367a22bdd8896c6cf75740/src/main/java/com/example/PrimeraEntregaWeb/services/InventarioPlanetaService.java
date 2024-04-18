@@ -39,6 +39,11 @@ public class InventarioPlanetaService {
         inventarioPlanetaRepositorio.save(ip);
     }
 
+    public void cambiarCantidadInventario(Double cantidad, InventarioPlaneta ip) {
+        ip.setCantidad(cantidad);
+        inventarioPlanetaRepositorio.save(ip);
+    }
+
     public void guardarInventario(InventarioPlaneta inventario) {
         inventarioPlanetaRepositorio.save(inventario);
     }
@@ -52,8 +57,13 @@ public class InventarioPlanetaService {
         // FALTA PASAR LO QUE RECIBE LA QUERY A LA LISTA
         List<InventarioPlaneta> list = inventarioPlanetaRepositorio.buscarProductosPorPlaneta(id);
         for (InventarioPlaneta i : list) {
+            // i.getProducto().setPrecio(i.getfOfertaDemanda() / (1 + i.getCantidad()));
+            Double precio = i.getfOfertaDemanda() / (1 + i.getCantidad());
+            i.getProducto().setPrecio(precio);
+            // inventarioPlanetaRepositorio.save(i);
             InformacionCompraProductoDTO compra = new InformacionCompraProductoDTO(i.getProducto().getTipo(),
-                    i.getCantidad(), i.getfOfertaDemanda());
+                    i.getCantidad(), i.getfOfertaDemanda(), precio, i.getId());
+
             listaProductosDTO.add(compra);
         }
         return listaProductosDTO;

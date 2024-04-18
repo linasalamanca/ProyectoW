@@ -8,7 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
+import com.example.PrimeraEntregaWeb.model.InventarioNave;
+import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.services.InventarioPlanetaService;
+import com.example.PrimeraEntregaWeb.services.NaveService;
+import com.example.PrimeraEntregaWeb.services.PartidaService;
+
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/api/comprar")
@@ -17,10 +23,38 @@ public class ComprarProductoController {
     @Autowired
     private InventarioPlanetaService inventarioPlanetaService;
 
+    @Autowired
+    private PartidaService partidaService;
+
+    @Autowired
+    private NaveService naveService;
+
+    private InventarioNave inventarioNave;
+
     // http://localhost:8080/api/comprar/list
     @GetMapping("/list/{id}")
     public List<InformacionCompraProductoDTO> listarProductos(@PathVariable Long id) {
         return inventarioPlanetaService.listarInformacionCompraProducto(id);
+    }
+
+    @PostMapping("/realizar-compra/{id}")
+    public void realizarCompra(@PathVariable Long id) {
+        Double puntaje = partidaService.buscar((long) 1).getPuntaje()
+                - inventarioPlanetaService.buscarInventario(id).getProducto().getPrecio();
+        partidaService.actualizarPuntaje(puntaje, partidaService.buscar((long) 1));
+        inventarioNave = new InventarioNave(inventarioPlanetaService.buscarInventario(id).getCantidad(),
+                inventarioPlanetaService.buscarInventario(id).getfOfertaDemanda());
+        inventarioNave.setProducto(inventarioPlanetaService.buscarInventario(id).getProducto());
+        inventarioNave.setNave(naveService.buscarNave("nave0"));
+        naveService.crearInventario(inventarioNave, naveService.buscarNave("nave0"));
+        inventarioPlanetaService.cambiarCantidadInventario(
+                inventarioPlanetaService.buscarInventario(id).getCantidad() - 1,
+                inventarioPlanetaService.buscarInventario(id));
+    }
+
+    @GetMapping("/obtener-puntaje/{id}")
+    public Double obtenerPuntaje(@PathVariable Long id) {
+        return 0.0;
     }
 
     // https://www.baeldung.com/spring-rest-openapi-documentation

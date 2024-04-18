@@ -13,7 +13,7 @@ public class PartidaService {
 
     @Autowired
     private PartidaRepository partidaRepository;
-    
+
     public Partida buscar(@NonNull Long id) {
         return partidaRepository.findById(id).orElseThrow();
     }
@@ -21,13 +21,14 @@ public class PartidaService {
     public void guardarPartida(Partida partida) {
         partidaRepository.save(partida);
     }
+
     public Double obtenerTiempoPartida(Long id) {
         return partidaRepository.findTiempoPartida(id);
     }
 
     public void actualizarTiempoPartida(Double tiempo, Partida partida) {
         partida.setTiempo(tiempo);
-        partidaRepository.save(partida);   
+        partidaRepository.save(partida);
     }
 
     public boolean CalcularTiempo(Double tiempo, Double tiempoMax) {
@@ -35,5 +36,10 @@ public class PartidaService {
             return true;
         }
         return false;
+    }
+
+    public void actualizarPuntaje(Double puntaje, Partida partida) {
+        partida.setPuntaje(puntaje);
+        partidaRepository.save(partida);
     }
 }

@@ -5,16 +5,14 @@ public class InformacionCompraProductoDTO {
     private Double cantidad;
     private Double precio;
     private Double oferta;
+    private Long idInventario;
 
-    public InformacionCompraProductoDTO(String nombreProducto, Double cantidad, Double oferta) {
+    public InformacionCompraProductoDTO(String nombreProducto, Double cantidad, Double oferta, Double precio,
+            Long idInventario) {
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
         this.oferta = oferta;
-    }
-
-    public InformacionCompraProductoDTO(String nombreProducto, Double cantidad, Double precio, Double oferta) {
-        this.nombreProducto = nombreProducto;
-        this.cantidad = cantidad;
+        this.idInventario = idInventario;
         this.precio = precio;
     }
 
@@ -47,6 +45,14 @@ public class InformacionCompraProductoDTO {
 
     public Double getPrecio() {
         return precio;
+    }
+
+    public Long getIdInventario() {
+        return idInventario;
+    }
+
+    public void setIdInventario(Long idInventario) {
+        this.idInventario = idInventario;
     }
 
     public void setPrecio(Double precio) {
