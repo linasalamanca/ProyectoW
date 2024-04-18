@@ -15,6 +15,7 @@
     <table>
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Producto</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
@@ -22,11 +23,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let producto of productos">
+                <td>{{producto.idInventario}}</td>
                 <td>{{ producto.nombreProducto }}</td>
                 <td>{{ producto.cantidad }}</td>
                 <td>{{ producto.precio }}</td>
                 <td>
-                    <button (click)="realizarCompra(producto.inventarioId)">Comprar</button>
+                    <button (click)="realizarCompra(producto.idInventario)">Comprar</button>
                     
                 </td>
             </tr>

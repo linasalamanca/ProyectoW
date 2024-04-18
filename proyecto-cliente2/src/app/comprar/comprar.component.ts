@@ -42,9 +42,8 @@ export class ComprarComponent implements OnInit {
     ).subscribe(productos => {
       console.log('Productos loaded:', productos); // Log the products after subscription
       this.productos = productos;
-    }, error => {
-      console.error('Error al obtener productos:', error);
-    });
+    }
+    );
   }
 
 
@@ -53,7 +52,7 @@ export class ComprarComponent implements OnInit {
   }
 
   realizarCompra(inventarioId: number) {
-    console.log('Inventario ID:', inventarioId);
+   /* console.log('Inventario ID:', inventarioId);
     this.infoService.obtenerPuntaje().pipe(
       switchMap(t => {
         this.infoService.setInfoPuntaje(t);
@@ -64,7 +63,13 @@ export class ComprarComponent implements OnInit {
       error: err => {
         console.error('Ocurrió un error al realizar la compra:', err);
       }
-    });
+    });*/
+    this.comprarService.actualizarPuntaje(inventarioId).subscribe(_=> 
+      this.infoService.obtenerPuntaje().subscribe(
+        puntaje => this.infoService.setInfoPuntaje(puntaje)));
+        
+    this.comprarService.realizarCompra(inventarioId).subscribe(() => this.location.back());
+   
   }
 
 

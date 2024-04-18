@@ -1,18 +1,19 @@
 package com.example.PrimeraEntregaWeb.dto;
 
 public class InformacionCompraProductoDTO {
+    private Long idInventario;
+
     private String nombreProducto;
     private Double cantidad;
     private Double precio;
     private Double oferta;
-    private Long idInventario;
-
-    public InformacionCompraProductoDTO(String nombreProducto, Double cantidad, Double oferta, Double precio,
-            Long idInventario) {
+    
+    public InformacionCompraProductoDTO(Long idInventario,String nombreProducto, Double cantidad, Double oferta, 
+    Double precio) {
+        this.idInventario = idInventario;
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
         this.oferta = oferta;
-        this.idInventario = idInventario;
         this.precio = precio;
     }
 

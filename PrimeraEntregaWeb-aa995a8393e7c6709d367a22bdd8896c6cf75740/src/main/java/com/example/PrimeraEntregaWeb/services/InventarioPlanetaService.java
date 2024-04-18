@@ -54,15 +54,15 @@ public class InventarioPlanetaService {
 
     public List<InformacionCompraProductoDTO> listarInformacionCompraProducto(Long id) {
         List<InformacionCompraProductoDTO> listaProductosDTO = new ArrayList<>();
-        // FALTA PASAR LO QUE RECIBE LA QUERY A LA LISTA
+        
         List<InventarioPlaneta> list = inventarioPlanetaRepositorio.buscarProductosPorPlaneta(id);
         for (InventarioPlaneta i : list) {
-            // i.getProducto().setPrecio(i.getfOfertaDemanda() / (1 + i.getCantidad()));
+            
             Double precio = i.getfOfertaDemanda() / (1 + i.getCantidad());
             i.getProducto().setPrecio(precio);
-            // inventarioPlanetaRepositorio.save(i);
-            InformacionCompraProductoDTO compra = new InformacionCompraProductoDTO(i.getProducto().getTipo(),
-                    i.getCantidad(), i.getfOfertaDemanda(), precio, i.getId());
+            inventarioPlanetaRepositorio.save(i);
+            InformacionCompraProductoDTO compra = new InformacionCompraProductoDTO(i.getId(),i.getProducto().getTipo(),
+                    i.getCantidad(), i.getfOfertaDemanda(), precio );
 
             listaProductosDTO.add(compra);
         }

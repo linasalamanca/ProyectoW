@@ -39,9 +39,9 @@ public class ComprarProductoController {
 
     @PostMapping("/realizar-compra/{id}")
     public void realizarCompra(@PathVariable Long id) {
-        Double puntaje = partidaService.buscar((long) 1).getPuntaje()
+        /*Double puntaje = partidaService.buscar((long) 1).getPuntaje()
                 - inventarioPlanetaService.buscarInventario(id).getProducto().getPrecio();
-        partidaService.actualizarPuntaje(puntaje, partidaService.buscar((long) 1));
+        partidaService.actualizarPuntaje(puntaje, partidaService.buscar((long) 1));*/
         inventarioNave = new InventarioNave(inventarioPlanetaService.buscarInventario(id).getCantidad(),
                 inventarioPlanetaService.buscarInventario(id).getfOfertaDemanda());
         inventarioNave.setProducto(inventarioPlanetaService.buscarInventario(id).getProducto());
@@ -50,6 +50,13 @@ public class ComprarProductoController {
         inventarioPlanetaService.cambiarCantidadInventario(
                 inventarioPlanetaService.buscarInventario(id).getCantidad() - 1,
                 inventarioPlanetaService.buscarInventario(id));
+    }
+
+    @PostMapping("/actualizar-puntaje/{id}")
+    public void actualizarPuntaje(@PathVariable Long id) {
+        Double puntaje = partidaService.buscar((long) 1).getPuntaje()
+        - inventarioPlanetaService.buscarInventario(id).getProducto().getPrecio();
+        partidaService.actualizarPuntaje(puntaje, partidaService.buscar((long) 1));
     }
 
     @GetMapping("/obtener-puntaje")
