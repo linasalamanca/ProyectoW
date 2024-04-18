@@ -45,8 +45,8 @@ public class ComprarProductoController {
     public void realizarCompra(@PathVariable Long id) {
         Double capacidadMaxima = naveService.buscarNave("nave0").getCapacidadMax();
 
-        // Double volumenActual = inventarioNaveService
-        // .calcularVolumenTotal(naveService.buscarNave("nave0").getInventario());
+        Double volumenActual = inventarioNaveService
+                .calcularVolumenTotal(naveService.buscarNave("nave0").getInventario());
 
         inventarioNave = new InventarioNave(inventarioPlanetaService.buscarInventario(id).getCantidad(),
                 inventarioPlanetaService.buscarInventario(id).getfOfertaDemanda());

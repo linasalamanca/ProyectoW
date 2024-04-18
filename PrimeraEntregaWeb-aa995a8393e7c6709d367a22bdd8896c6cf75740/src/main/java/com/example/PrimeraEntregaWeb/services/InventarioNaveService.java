@@ -72,12 +72,14 @@ public class InventarioNaveService {
 
     }
 
-    public Double calcularVolumenTotal(InventarioNave inave) {
+    public Double calcularVolumenTotal(List<InventarioNave> list) {
         Double vol = 0.0;
-        List<Producto> productos = inventarioNaveRepositorio.findByNombreNave("nave0");
-        for (Producto p : productos) {
-            vol += p.getVolumen();
+        List<InventarioNave> productos = inventarioNaveRepositorio.buscarProductosPorNombreNave("nave0");
+
+        for (InventarioNave p : productos) {
+            vol += p.getProducto().getVolumen();
         }
+
         return vol;
     }
 }
