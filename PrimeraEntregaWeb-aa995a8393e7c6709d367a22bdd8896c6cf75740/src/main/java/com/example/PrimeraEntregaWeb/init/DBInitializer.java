@@ -58,6 +58,15 @@ public class DBInitializer implements CommandLineRunner {
 
                 Logger loggy = LoggerFactory.getLogger(getClass());
 
+                List<Producto> productos = new ArrayList<>();
+                /* Generar productos */
+                for (int i = 0; i < 10; i++) {
+                        Producto producto = new Producto((i * 3.6), "tipo" + (i + 10));
+                        productos.add(producto);
+
+                }
+                productoRepository.saveAll(productos);
+
                 /* Crear tipos de nave */
                 List<TipoNave> tipoNaves = new ArrayList<>();
                 Random random = new Random();
@@ -72,7 +81,7 @@ public class DBInitializer implements CommandLineRunner {
                 /* Crear lista de naves */
                 List<Nave> naves = new ArrayList<>();
                 int min = 1000000;
-
+                int cont = 0;
                 for (int i = 0; i < 5; i++) {
                         Nave nave = new Nave(
                                         random.nextDouble() + min,
@@ -83,6 +92,19 @@ public class DBInitializer implements CommandLineRunner {
                                         random.nextDouble() * 200 + 15);
                         nave.setTipo(tipoNaves.get(i));
                         naves.add(nave);
+
+                }
+                naveRepository.saveAll(naves);
+
+                for (Nave nave : naves) {
+                        for (int k = 0; k < productos.size(); k++) {
+                                InventarioNave inventarioNave = new InventarioNave();
+                                inventarioNave.setNave(nave);
+                                inventarioNave.setCantidad(20.2 + k * 2);
+                                inventarioNave.setfOfertaDemanda(random.nextDouble() * 1000000);
+                                inventarioNave.setProducto(productos.get(k));
+                                inventarioNaveRepository.save(inventarioNave);
+                        }
                 }
 
                 /* Crear lista de jugadores */
@@ -112,19 +134,9 @@ public class DBInitializer implements CommandLineRunner {
                         }
                 }
 
-                naveRepository.saveAll(naves);
                 jugadorRepository.saveAll(jugadores);
 
-                List<Producto> productos = new ArrayList<>();
-                /* Generar productos */
-                for (int i = 0; i < 10; i++) {
-                        Producto producto = new Producto((i * 3.6), "tipo" + (i + 10));
-                        productos.add(producto);
-
-                }
-                productoRepository.saveAll(productos);
-
-                int cont = 0;
+                int cont2 = 0;
                 /* Generar las estrellas */
                 for (int i = 0; i < 100; i++) {
                         Estrella estrella = new Estrella(
@@ -150,12 +162,12 @@ public class DBInitializer implements CommandLineRunner {
                                                 Double randomNumber = random.nextDouble(1000001);
                                                 inventarioPlaneta.setfOfertaDemanda(randomNumber);
 
-                                                if (cont == 10) {
-                                                        cont = 0;
+                                                if (cont2 == 10) {
+                                                        cont2 = 0;
                                                 }
-                                                if (cont < 10) {
-                                                        inventarioPlaneta.setProducto(productos.get(cont));
-                                                        cont++;
+                                                if (cont2 < 10) {
+                                                        inventarioPlaneta.setProducto(productos.get(cont2));
+                                                        cont2++;
                                                 }
                                                 inventarioPlanetaRepository.save(inventarioPlaneta);
                                         }

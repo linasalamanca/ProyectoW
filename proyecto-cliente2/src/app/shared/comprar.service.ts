@@ -19,6 +19,6 @@ export class ComprarService {
   }
 
   realizarCompra(id: number): Observable<any> {
-    return this.http.post<any>(`${environment.serverUrl}/api/comprar/realizar-compra/${id}`,id);
+    return this.http.post<any>(`${environment.serverUrl}/api/comprar/realizar-compra/${id}`, null);
   }
 }
