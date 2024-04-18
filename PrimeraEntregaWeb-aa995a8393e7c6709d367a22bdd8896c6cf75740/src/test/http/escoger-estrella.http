@@ -2,7 +2,7 @@ GET http://localhost:8080/api/escoger-estrella/list
 
 ###
 
-POST http://localhost:8080/api/escoger-estrella/cambiar-coordenadas-nave/1
+POST http://localhost:8080/api/escoger-estrella/cambiar-coordenadas-nave/2
 
 ###
 
