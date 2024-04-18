@@ -189,7 +189,7 @@ public class DBInitializer implements CommandLineRunner {
                  * inventarioNaveRepository.saveAll(inventarioNave);
                  */
 
-                Partida partida = new Partida(0.0, naves.get(0).getDinero(), 5.0);
+                Partida partida = new Partida(0.0, naves.get(0).getDinero(), 1.0);
                 partidaRepository.save(partida);
 
                 /*
