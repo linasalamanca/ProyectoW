@@ -13,7 +13,7 @@ export class IniciarComponent {
   constructor(private router: Router,
     public infoService: InformacionJuegoService,) { }
   iniciarJuego() {
-    this.infoService.obtenerPuntaje().subscribe(puntaje => this.infoService.setInfoPuntaje(puntaje));
+    this.infoService.obtenerPuntajeCompra().subscribe(puntaje => this.infoService.setInfoPuntaje(puntaje));
     this.router.navigate(['/escoger-estrella/list']); 
   }
 }

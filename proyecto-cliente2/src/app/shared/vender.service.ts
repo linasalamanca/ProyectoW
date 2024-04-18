@@ -25,5 +25,9 @@ export class VenderService {
   realizarVenta(id: number): Observable<any> {
     return this.http.post<any>(`${environment.serverUrl}/api/vender/realizar-venta/${id}`, null);
   }
+  actualizarPuntaje(id: number): Observable<any> {
+    return this.http.post<any>(`${environment.serverUrl}/api/vender/actualizar-puntaje/${id}`, id);
+  }
+
 }
 

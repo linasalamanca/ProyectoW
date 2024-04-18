@@ -39,9 +39,7 @@ public class ComprarProductoController {
 
     @PostMapping("/realizar-compra/{id}")
     public void realizarCompra(@PathVariable Long id) {
-        /*Double puntaje = partidaService.buscar((long) 1).getPuntaje()
-                - inventarioPlanetaService.buscarInventario(id).getProducto().getPrecio();
-        partidaService.actualizarPuntaje(puntaje, partidaService.buscar((long) 1));*/
+       
         inventarioNave = new InventarioNave(inventarioPlanetaService.buscarInventario(id).getCantidad(),
                 inventarioPlanetaService.buscarInventario(id).getfOfertaDemanda());
         inventarioNave.setProducto(inventarioPlanetaService.buscarInventario(id).getProducto());

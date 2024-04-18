@@ -65,12 +65,10 @@ export class ComprarComponent implements OnInit {
       }
     });*/
     this.comprarService.actualizarPuntaje(inventarioId).subscribe(_=> 
-      this.infoService.obtenerPuntaje().subscribe(
+      this.infoService.obtenerPuntajeCompra().subscribe(
         puntaje => this.infoService.setInfoPuntaje(puntaje)));
-        
+
     this.comprarService.realizarCompra(inventarioId).subscribe(() => this.location.back());
    
   }
-
-
 }
