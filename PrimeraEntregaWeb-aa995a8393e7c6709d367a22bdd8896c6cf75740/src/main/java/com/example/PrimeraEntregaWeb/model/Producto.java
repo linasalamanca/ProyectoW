@@ -39,6 +39,15 @@ public class Producto {
     @OneToMany(mappedBy = "producto")
     private List<InventarioPlaneta> planeta = new ArrayList<>();
 
+    public Producto(Double volumen, String tipo) {
+        this.volumen = volumen;
+        this.tipo = tipo;
+        this.precio = 0.0;
+    }
+
+    public Producto() {
+
+    }
     public Long getId() {
         return id;
     }
@@ -77,16 +86,6 @@ public class Producto {
 
     public void setPlaneta(List<InventarioPlaneta> planeta) {
         this.planeta = planeta;
-    }
-
-    public Producto(Double volumen, String tipo) {
-        this.volumen = volumen;
-        this.tipo = tipo;
-        this.precio = 0.0;
-    }
-
-    public Producto() {
-
     }
 
     public Double getPrecio() {

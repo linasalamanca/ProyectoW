@@ -35,6 +35,15 @@ public class InventarioPlaneta {
     @JsonIgnore
     private Planeta planeta;
 
+    public InventarioPlaneta(Double i, Double fOfertaDemanda) {
+        this.cantidad = i;
+        this.fOfertaDemanda = fOfertaDemanda;
+    }
+
+    public InventarioPlaneta() {
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -65,15 +74,6 @@ public class InventarioPlaneta {
 
     public void setPlaneta(Planeta planeta) {
         this.planeta = planeta;
-    }
-
-    public InventarioPlaneta(Double i, Double fOfertaDemanda) {
-        this.cantidad = i;
-        this.fOfertaDemanda = fOfertaDemanda;
-    }
-
-    public InventarioPlaneta() {
-
     }
 
     public Producto getProducto() {
