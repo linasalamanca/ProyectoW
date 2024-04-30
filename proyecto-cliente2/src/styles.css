@@ -12,7 +12,7 @@ div{
 
 h1 {
     font-family: 'Jersey 20';
-    font-size: 100px;
+    font-size: 90px;
     text-align: center;
     color: #FFCB7A;
 }
@@ -131,3 +131,22 @@ button{
 .boton-fijo:hover {
     background-color: #FFD7FB;
 }
+
+.estrellas-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.estrella-item {
+    margin: 10px;
+    text-align: center;
+}
+
+.estrella-imagen {
+    width: 100px; /* Ajusta el tamaño como lo necesites */
+    height: auto;
+    border: 1px solid #ccc; /* Agrega un borde si es necesario */
+    border-radius: 50%; /* Opcional: para hacer la imagen circular */
+}
+
