@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'vender/list', component: VenderComponent},
   { path: 'comprar/list', component: ComprarComponent},
   { path: 'iniciar', component: IniciarComponent},
-  { path: 'escoger-estrella/list', component: EscogerEstrellaComponent},
+  
   { path: 'escoger-planeta/:planetaId/comprar/list', component: ComprarComponent},
   { path: 'escoger-planeta/:planetaId/vender/list', component: VenderComponent},
   { path: 'estrella/planeta-list/:id', component: EscogerPlanetaComponent },
