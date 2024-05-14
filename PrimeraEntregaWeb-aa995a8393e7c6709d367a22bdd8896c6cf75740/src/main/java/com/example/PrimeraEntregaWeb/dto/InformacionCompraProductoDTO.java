@@ -7,9 +7,9 @@ public class InformacionCompraProductoDTO {
     private Double cantidad;
     private Double precio;
     private Double oferta;
-    
-    public InformacionCompraProductoDTO(Long idInventario,String nombreProducto, Double cantidad, Double oferta, 
-    Double precio) {
+
+    public InformacionCompraProductoDTO(Long idInventario, String nombreProducto, Double cantidad, Double oferta,
+            Double precio) {
         this.idInventario = idInventario;
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;

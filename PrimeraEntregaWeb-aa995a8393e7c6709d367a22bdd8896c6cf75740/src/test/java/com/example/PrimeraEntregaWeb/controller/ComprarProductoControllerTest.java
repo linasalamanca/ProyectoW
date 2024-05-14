@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.h2.mvstore.tx.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,13 @@ import com.example.PrimeraEntregaWeb.repository.PartidaRepository;
 import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.ProductoRepository;
 import com.example.PrimeraEntregaWeb.repository.TipoNaveRepository;
-
+import org.springframework.http.RequestEntity;
 
 @ActiveProfiles("integration-testing")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class ComprarProductoControllerTest {
-    private static final String SERVER_URL = "http://localhost:8081";
+        private static final String SERVER_URL = "http://localhost:8081";
 
         @Autowired
         private NaveRepository naveRepository;
@@ -58,56 +59,55 @@ public class ComprarProductoControllerTest {
         @Autowired
         private PartidaRepository partidaRepository;
 
+        @BeforeEach
+        void init() {
 
-    @BeforeEach
-    void init(){
-
-         List<TipoNave> tipoNaves = new ArrayList<>();
+                List<TipoNave> tipoNaves = new ArrayList<>();
                 Random random = new Random();
                 for (int i = 0; i < 5; i++) {
-                        TipoNave tipoNave = new TipoNave("tipoNave" + i, random.nextDouble() ,
+                        TipoNave tipoNave = new TipoNave("tipoNave" + i, random.nextDouble(),
                                         random.nextDouble());
                         tipoNaves.add(tipoNave);
                 }
 
                 tipoNaveRepository.saveAll(tipoNaves);
 
-        List<Producto> productos = new ArrayList<>();
-        for(int i=0; i<3; i++){
-            productos.add(new Producto((double) i+1, "producto-prueba"+i));
-            productos.get(i).setPrecio((i+2)*10.5);
-        }
-        productoRepository.saveAll(productos);
-
-        List<Nave> naves = new ArrayList<>();
-        int min = 100;
-        int cont = 0;
-        for (int i = 0; i < 5; i++) {
-                Nave nave = new Nave(
-                                random.nextDouble() + min,
-                                random.nextDouble() * (90 - 10) + 10,
-                                random.nextDouble() * (90 - 10) + 10,
-                                random.nextDouble() * (90 - 10) + 10,
-                                "nave" + i,
-                                random.nextDouble() * 200 + 15, random.nextDouble() * 500.5);
-                nave.setTipo(tipoNaves.get(i));
-                naves.add(nave);
-
-        }
-        naveRepository.saveAll(naves);
-
-        for (Nave nave : naves) {
-                for (int k = 0; k < productos.size(); k++) {
-                        InventarioNave inventarioNave = new InventarioNave();
-                        inventarioNave.setNave(nave);
-                        inventarioNave.setCantidad(20.2 + k * 2);
-                        inventarioNave.setfOfertaDemanda(random.nextDouble() * 1000000);
-                        inventarioNave.setProducto(productos.get(k));
-                        inventarioNaveRepository.save(inventarioNave);
+                List<Producto> productos = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                        productos.add(new Producto((double) i + 1, "producto-prueba" + i));
+                        productos.get(i).setPrecio((i + 2) * 10.5);
                 }
-        }
+                productoRepository.saveAll(productos);
 
-        int cont2 = 0;
+                List<Nave> naves = new ArrayList<>();
+                int min = 100;
+                int cont = 0;
+                for (int i = 0; i < 5; i++) {
+                        Nave nave = new Nave(
+                                        random.nextDouble() + min,
+                                        random.nextDouble() * (90 - 10) + 10,
+                                        random.nextDouble() * (90 - 10) + 10,
+                                        random.nextDouble() * (90 - 10) + 10,
+                                        "nave" + i,
+                                        random.nextDouble() * 200 + 15, random.nextDouble() * 500.5);
+                        nave.setTipo(tipoNaves.get(i));
+                        naves.add(nave);
+
+                }
+                naveRepository.saveAll(naves);
+
+                for (Nave nave : naves) {
+                        for (int k = 0; k < productos.size(); k++) {
+                                InventarioNave inventarioNave = new InventarioNave();
+                                inventarioNave.setNave(nave);
+                                inventarioNave.setCantidad(20.2 + k * 2);
+                                inventarioNave.setfOfertaDemanda(random.nextDouble() * 1000000);
+                                inventarioNave.setProducto(productos.get(k));
+                                inventarioNaveRepository.save(inventarioNave);
+                        }
+                }
+
+                int cont2 = 0;
                 /* Generar las estrellas */
                 for (int i = 0; i < 5; i++) {
                         Estrella estrella = new Estrella(
@@ -147,15 +147,20 @@ public class ComprarProductoControllerTest {
                         }
                 }
 
-        Partida partida = new Partida(0.0, naves.get(0).getDinero(), 1.0);
-        partidaRepository.save(partida);
-    }
+                Partida partida = new Partida(0.0, naves.get(0).getDinero(), 1.0);
+                partidaRepository.save(partida);
+        }
 
-    @Autowired
-    private TestRestTemplate rest;
+        @Autowired
+        private TestRestTemplate rest;
 
-    @Test
-    void testComprar() {
-        
-    }
+        @Test
+        void testComprar() {
+                Double puntajeActual = rest.getForObject(SERVER_URL + "/api/vender/obtener-puntaje", Double.class);
+                InventarioNave transaccionActual = rest.postForObject(SERVER_URL + "/realizar-compra/1",
+                                new InventarioNave(), InventarioNave.class);
+
+                InventarioNave inventarioEsperado = new InventarioNave();
+
+        }
 }
