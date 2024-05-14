@@ -11,8 +11,8 @@
     <div class="estrellas-container">
         <div *ngFor="let estrella of estrellas" class="estrella-item">
             <img src="assets/estrella.png" alt="Estrella" class="estrella-imagen">
-            <div>ID: {{ estrella.id }}</div>
-            <div>Coordenadas: [{{ estrella.coordenadaX }}, {{ estrella.coordenadaY }}, {{ estrella.coordenadaZ }}]</div>
+            <div coordenadas>ID: {{ estrella.id }}</div>
+            <div coordenadas>Coordenadas: [{{ estrella.coordenadaX }}, {{ estrella.coordenadaY }}, {{ estrella.coordenadaZ }}]</div>
             <button (click)="realizarViaje(estrella.id)">Viajar a esta estrella</button>
         </div>
     </div>
