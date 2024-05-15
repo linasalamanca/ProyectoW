@@ -36,7 +36,7 @@ public class Partida {
     @JsonIgnore
     private Nave nave;
 
-    public Partida( Double tiempo, Double puntaje, Double tiempoMax) {
+    public Partida(Double tiempo, Double puntaje, Double tiempoMax) {
         this.tiempo = tiempo;
         this.puntaje = puntaje;
         this.tiempoMax = tiempoMax;

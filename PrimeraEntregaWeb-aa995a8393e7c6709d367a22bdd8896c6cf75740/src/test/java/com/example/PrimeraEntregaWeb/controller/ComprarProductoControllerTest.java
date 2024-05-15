@@ -1,5 +1,7 @@
 package com.example.PrimeraEntregaWeb.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,6 +35,17 @@ import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.ProductoRepository;
 import com.example.PrimeraEntregaWeb.repository.TipoNaveRepository;
 import org.springframework.http.RequestEntity;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.server.LocalServerPort;
+
+import com.example.PrimeraEntregaWeb.controller.ComprarProductoController;
+import com.example.PrimeraEntregaWeb.model.Partida;
 
 @ActiveProfiles("integration-testing")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -84,7 +97,7 @@ public class ComprarProductoControllerTest {
                 int cont = 0;
                 for (int i = 0; i < 5; i++) {
                         Nave nave = new Nave(
-                                        random.nextDouble() + min,
+                                        1000.52,
                                         random.nextDouble() * (90 - 10) + 10,
                                         random.nextDouble() * (90 - 10) + 10,
                                         random.nextDouble() * (90 - 10) + 10,
@@ -154,13 +167,25 @@ public class ComprarProductoControllerTest {
         @Autowired
         private TestRestTemplate rest;
 
+        /*
+         * @Test
+         * void testComprar() {
+         * Double puntajeActual = rest.getForObject(SERVER_URL +
+         * "/api/vender/obtener-puntaje", Double.class);
+         * InventarioNave transaccionActual = rest.postForObject(SERVER_URL +
+         * "/realizar-compra/1",
+         * new InventarioNave(), InventarioNave.class);
+         * 
+         * InventarioNave inventarioEsperado = new InventarioNave();
+         * 
+         * }
+         */
+
+        // prueba de get, comando para correr mvn test
+        // -Dtest=ComprarProductoControllerTest#traerPuntaje
         @Test
-        void testComprar() {
-                Double puntajeActual = rest.getForObject(SERVER_URL + "/api/vender/obtener-puntaje", Double.class);
-                InventarioNave transaccionActual = rest.postForObject(SERVER_URL + "/realizar-compra/1",
-                                new InventarioNave(), InventarioNave.class);
-
-                InventarioNave inventarioEsperado = new InventarioNave();
-
+        void traerPuntaje() {
+                Partida puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Partida.class);
+                assertEquals("1000.52", puntaje.getPuntaje());
         }
 }
