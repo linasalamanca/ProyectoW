@@ -46,6 +46,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import com.example.PrimeraEntregaWeb.controller.ComprarProductoController;
 import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
+import com.example.PrimeraEntregaWeb.dto.InformacionVentaProductoDTO;
 import com.example.PrimeraEntregaWeb.model.Partida;
 
 @ActiveProfiles("integration-testing")
@@ -168,19 +169,6 @@ public class ComprarProductoControllerTest {
         @Autowired
         private TestRestTemplate rest;
 
-        /*
-         * @Test
-         * void testComprar() {
-         * Double puntajeActual = rest.getForObject(SERVER_URL +
-         * "/api/vender/obtener-puntaje", Double.class);
-         * InventarioNave transaccionActual = rest.postForObject(SERVER_URL +
-         * "/realizar-compra/1",
-         * new InventarioNave(), InventarioNave.class);
-         * 
-         * InventarioNave inventarioEsperado = new InventarioNave();
-         * 
-         * }
-         */
 
         // prueba de get, comando para correr mvn test -Dtest=ComprarProductoControllerTest#traerPuntaje
         @Test
@@ -189,20 +177,20 @@ public class ComprarProductoControllerTest {
                 assertEquals(1000.52, puntaje);
         }
 
-        /*
-        //prueba de get, comando para correr mvn test -Dtest=ComprarProductoControllerTest#traerInfoCompra
-        @Test
-        void traerInfoCompra() {
-                List<InformacionCompraProductoDTO> informacion = rest.getForObject(SERVER_URL + "/api/comprar/list/1", List.class);
-                assertEquals(3, informacion.size());
-        } */
-
         
         //prueba de get para traer el tiempo, comando para correr: mvn test -Dtest=ComprarProductoControllerTest#traerTiempo
         @Test
         void traerTiempo() {
             Double tiempo = rest.getForObject(SERVER_URL + "/api/escoger-estrella/tiempo", Double.class);
             assertEquals(0.0, tiempo);
+        }
+
+
+        //prueba de get, comando para correr mvn test -Dtest=ComprarProductoControllerTest#infoVentaProducto
+        @Test
+        void infoVentaProducto(){
+                List <InformacionVentaProductoDTO> informacion = rest.getForObject(SERVER_URL + "/api/comprar/list/1", List.class);
+                assertEquals(3, informacion.size());
         }
         
 
