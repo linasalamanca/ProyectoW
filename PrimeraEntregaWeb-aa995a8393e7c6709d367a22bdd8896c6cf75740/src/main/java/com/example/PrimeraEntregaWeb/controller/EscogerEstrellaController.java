@@ -78,3 +78,4 @@ public class EscogerEstrellaController {
         return partidaService.obtenerTiempoPartida((long) 1);
     }
 }
+    
