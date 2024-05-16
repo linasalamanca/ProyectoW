@@ -45,6 +45,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import com.example.PrimeraEntregaWeb.controller.ComprarProductoController;
+import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
 import com.example.PrimeraEntregaWeb.model.Partida;
 
 @ActiveProfiles("integration-testing")
@@ -145,10 +146,10 @@ public class ComprarProductoControllerTest {
                                                 Double randomNumber = random.nextDouble(1000001);
                                                 inventarioPlaneta.setfOfertaDemanda(randomNumber);
 
-                                                if (cont2 == 10) {
+                                                if (cont2 == 3) {
                                                         cont2 = 0;
                                                 }
-                                                if (cont2 < 10) {
+                                                if (cont2 < 3) {
                                                         inventarioPlaneta.setProducto(productos.get(cont2));
                                                         cont2++;
                                                 }
@@ -181,11 +182,30 @@ public class ComprarProductoControllerTest {
          * }
          */
 
-        // prueba de get, comando para correr mvn test
-        // -Dtest=ComprarProductoControllerTest#traerPuntaje
+        // prueba de get, comando para correr mvn test -Dtest=ComprarProductoControllerTest#traerPuntaje
         @Test
         void traerPuntaje() {
-                Partida puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Partida.class);
-                assertEquals("1000.52", puntaje.getPuntaje());
+                Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Double.class);
+                assertEquals(1000.52, puntaje);
         }
+
+        /*
+        //prueba de get, comando para correr mvn test -Dtest=ComprarProductoControllerTest#traerInfoCompra
+        @Test
+        void traerInfoCompra() {
+                List<InformacionCompraProductoDTO> informacion = rest.getForObject(SERVER_URL + "/api/comprar/list/1", List.class);
+                assertEquals(3, informacion.size());
+        } */
+
+        
+        //prueba de get para traer el tiempo, comando para correr: mvn test -Dtest=ComprarProductoControllerTest#traerTiempo
+        @Test
+        void traerTiempo() {
+            Double tiempo = rest.getForObject(SERVER_URL + "/api/escoger-estrella/tiempo", Double.class);
+            assertEquals(0.0, tiempo);
+        }
+        
+
+
+        
 }
