@@ -16,6 +16,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.http.HttpStatus;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
@@ -35,6 +36,7 @@ import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.ProductoRepository;
 import com.example.PrimeraEntregaWeb.repository.TipoNaveRepository;
 import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -90,7 +92,7 @@ public class ComprarProductoControllerTest {
                 List<Producto> productos = new ArrayList<>();
                 for (int i = 0; i < 3; i++) {
                         productos.add(new Producto((double) i + 1, "producto-prueba" + i));
-                        productos.get(i).setPrecio((i + 2) * 10.5);
+                        productos.get(i).setPrecio(50.0);
                 }
                 productoRepository.saveAll(productos);
 
@@ -169,31 +171,42 @@ public class ComprarProductoControllerTest {
         @Autowired
         private TestRestTemplate rest;
 
-
-        // prueba de get, comando para correr mvn test -Dtest=ComprarProductoControllerTest#traerPuntaje
+        // prueba de get, comando para correr mvn test
+        // -Dtest=ComprarProductoControllerTest#traerPuntaje
         @Test
         void traerPuntaje() {
                 Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Double.class);
                 assertEquals(1000.52, puntaje);
         }
 
-        
-        //prueba de get para traer el tiempo, comando para correr: mvn test -Dtest=ComprarProductoControllerTest#traerTiempo
+        // prueba de get para traer el tiempo, comando para correr: mvn test
+        // -Dtest=ComprarProductoControllerTest#traerTiempo
         @Test
         void traerTiempo() {
-            Double tiempo = rest.getForObject(SERVER_URL + "/api/escoger-estrella/tiempo", Double.class);
-            assertEquals(0.0, tiempo);
+                Double tiempo = rest.getForObject(SERVER_URL + "/api/escoger-estrella/tiempo", Double.class);
+                assertEquals(0.0, tiempo);
         }
 
-
-        //prueba de get, comando para correr mvn test -Dtest=ComprarProductoControllerTest#infoVentaProducto
+        // prueba de get, comando para correr mvn test
+        // -Dtest=ComprarProductoControllerTest#infoVentaProducto
         @Test
-        void infoVentaProducto(){
-                List <InformacionVentaProductoDTO> informacion = rest.getForObject(SERVER_URL + "/api/comprar/list/1", List.class);
+        void infoVentaProducto() {
+                List<InformacionVentaProductoDTO> informacion = rest.getForObject(SERVER_URL + "/api/comprar/list/1",
+                                List.class);
                 assertEquals(3, informacion.size());
         }
-        
 
+        // prueba de patch, para acceder usar comando .\mvnw test
+        // -Dtest=ComprarProductoControllerTest#puntajeActualizado
 
-        
+        @Test
+        void puntajeActualizado() {
+                RequestEntity<Void> request = RequestEntity.patch(SERVER_URL + "/api/comprar/actualizar-puntaje/1")
+                                .build();
+                ResponseEntity<Double> response = rest.exchange(request, Double.class);
+                assertEquals(HttpStatus.OK, response.getStatusCode());
+                Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Double.class);
+                assertEquals(950.52, puntaje);
+        }
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,7 +59,7 @@ public class ComprarProductoController {
                 inventarioPlanetaService.buscarInventario(id));
     }
 
-    @PostMapping("/actualizar-puntaje/{id}")
+    @PatchMapping("/actualizar-puntaje/{id}")
     public void actualizarPuntaje(@PathVariable Long id) {
         Double puntaje = partidaService.buscar((long) 1).getPuntaje()
                 - inventarioPlanetaService.buscarInventario(id).getProducto().getPrecio();
