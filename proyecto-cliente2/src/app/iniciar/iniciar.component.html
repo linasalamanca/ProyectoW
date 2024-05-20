@@ -4,5 +4,15 @@
 <div class="inicio-container">
     <h1>Comerciante Espacial</h1>
     <h2>¡Inicia el juego!</h2>
-    <button (click)="iniciarJuego()">Iniciar Juego</button>
+    <form (ngSubmit)="iniciarJuego()">
+      <div>
+        <label for="usuario">Usuario</label>
+        <input type="text" id="usuario" [(ngModel)]="usuario" name="usuario" required>
+      </div>
+      <div>
+        <label for="contraseña">Contraseña</label>
+        <input type="password" id="contraseña" [(ngModel)]="contrasena" name="contrasena" required>
+      </div>
+      <button type="submit">Iniciar Juego</button>
+    </form>
 </div>

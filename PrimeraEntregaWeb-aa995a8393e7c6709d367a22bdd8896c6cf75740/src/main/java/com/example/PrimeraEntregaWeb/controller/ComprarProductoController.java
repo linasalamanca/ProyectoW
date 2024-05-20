@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
+import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
+import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.services.InventarioNaveService;
 import com.example.PrimeraEntregaWeb.services.InventarioPlanetaService;
 import com.example.PrimeraEntregaWeb.services.NaveService;
 import com.example.PrimeraEntregaWeb.services.PartidaService;
+import com.example.PrimeraEntregaWeb.services.JugadorService;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -33,6 +38,9 @@ public class ComprarProductoController {
 
     @Autowired
     private NaveService naveService;
+
+    @Autowired
+    private JugadorService jugadorService;
 
     private InventarioNave inventarioNave;
 
@@ -54,9 +62,13 @@ public class ComprarProductoController {
         inventarioNave.setProducto(inventarioPlanetaService.buscarInventario(id).getProducto());
         inventarioNave.setNave(naveService.buscarNave("nave0"));
         naveService.crearInventario(inventarioNave, naveService.buscarNave("nave0"));
-        inventarioPlanetaService.cambiarCantidadInventario(
+        if(inventarioPlanetaService.buscarInventario(id).getCantidad() - 1 < 0){
+            inventarioPlanetaService.eliminarInventario(id);
+        }else{
+            inventarioPlanetaService.cambiarCantidadInventario(
                 inventarioPlanetaService.buscarInventario(id).getCantidad() - 1,
                 inventarioPlanetaService.buscarInventario(id));
+        }    
     }
 
     @PatchMapping("/actualizar-puntaje/{id}")

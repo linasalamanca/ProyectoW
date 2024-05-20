@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.PrimeraEntregaWeb.dto.InformacionVentaProductoDTO;
 import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
+import com.example.PrimeraEntregaWeb.model.InventarioNave;
 import com.example.PrimeraEntregaWeb.services.InventarioNaveService;
 import com.example.PrimeraEntregaWeb.services.InventarioPlanetaService;
 import com.example.PrimeraEntregaWeb.services.PartidaService;
@@ -47,10 +48,15 @@ public class VenderProductoController {
         inventarioPlaneta.setProducto(inventarioNaveService.buscarInventario(id).getProducto());
         inventarioPlaneta.setPlaneta(planetaService.buscarPlaneta(id));
         planetaService.crearInventario(inventarioPlaneta, planetaService.buscarPlaneta(id));
-
-        inventarioPlanetaService.cambiarCantidadInventario(
-                inventarioPlanetaService.buscarInventario(id).getCantidad() - 1,
-                inventarioPlanetaService.buscarInventario(id));
+        
+        if (inventarioNaveService.buscarInventario(id).getCantidad() - 1 < 0) {
+            inventarioNaveService.eliminarInventario(id);
+        } else {
+            inventarioNaveService.cambiarCantidadInventario(
+                    inventarioNaveService.buscarInventario(id).getCantidad() - 1,
+                    inventarioNaveService.buscarInventario(id));
+            
+        }
     }
 
     @PatchMapping("/actualizar-puntaje/{id}")

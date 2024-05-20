@@ -10,6 +10,9 @@ import { IniciarComponent } from './iniciar/iniciar.component';
 import { FinalizarComponent } from './finalizar/finalizar.component';
 import { EscogerEstrellaComponent } from './escoger-estrella/escoger-estrella.component';
 import { EscogerPlanetaComponent } from './escoger-planeta/escoger-planeta.component';
+import { AuthService } from './shared/auth.service';
+import { FormsModule } from '@angular/forms';
+import { InformacionJuegoService } from './shared/informacion-juego.service';
 
 @NgModule({
   declarations: [
@@ -24,9 +27,10 @@ import { EscogerPlanetaComponent } from './escoger-planeta/escoger-planeta.compo
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [AuthService, InformacionJuegoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

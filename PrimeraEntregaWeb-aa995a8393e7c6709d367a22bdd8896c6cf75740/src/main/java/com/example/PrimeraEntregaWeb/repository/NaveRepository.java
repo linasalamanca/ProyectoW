@@ -1,6 +1,7 @@
 package com.example.PrimeraEntregaWeb.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,6 @@ public interface NaveRepository extends JpaRepository<Nave, String> {
 
     @Query("SELECT DISTINCT p FROM Nave e JOIN e.jugadores p WHERE SIZE(e.jugadores) > 0")
     List<Jugador> findEquipo();
+
+    //Optional<Nave> findByUsuario(String usuario);
 }
