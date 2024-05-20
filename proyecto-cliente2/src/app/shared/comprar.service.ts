@@ -23,6 +23,6 @@ export class ComprarService {
   }
 
   actualizarPuntaje(id: number): Observable<any> {
-    return this.http.post<any>(`${environment.serverUrl}/api/comprar/actualizar-puntaje/${id}`, id);
+    return this.http.patch<any>(`${environment.serverUrl}/api/comprar/actualizar-puntaje/${id}`, id);
   }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,56 +71,7 @@ public class ComprarProductoController {
         }    
     }
 
-    /*@PostMapping("/realizar-compra/{id}")
-public void realizarCompra(@PathVariable Long id, HttpSession session) {
-    // Obtener el usuario de la sesión
-    String usuario = (String) session.getAttribute("usuario");
-    if (usuario == null) {
-        throw new RuntimeException("Usuario no autenticado");
-    }
-
-    // Buscar el jugador por usuario
-    Jugador jugador = jugadorService.buscarJugadorPorUsuario(usuario);
-    if (jugador == null) {
-        throw new RuntimeException("Jugador no encontrado");
-    }
-
-    // Buscar la nave del jugador
-    Nave nave = naveService.buscarNavePorUsuario(usuario);
-    if (nave == null) {
-        throw new RuntimeException("Nave no encontrada para el usuario: " + usuario);
-    }
-
-    // Calcular la capacidad máxima y el volumen actual de la nave
-    Double capacidadMaxima = nave.getCapacidadMax();
-    Double volumenActual = inventarioNaveService.calcularVolumenTotal(nave.getInventario());
-
-    // Buscar el inventario del planeta
-    InventarioPlaneta inventarioPlaneta = inventarioPlanetaService.buscarInventario(id);
-
-    // Crear el nuevo inventario de la nave
-    InventarioNave inventarioNave = new InventarioNave(inventarioPlaneta.getCantidad(), inventarioPlaneta.getfOfertaDemanda());
-    inventarioNave.setProducto(inventarioPlaneta.getProducto());
-    inventarioNave.setNave(nave);
-
-    // Guardar el nuevo inventario en la nave
-    if(volumenActual + inventarioPlaneta.getProducto().getVolumen() > capacidadMaxima){
-        throw new RuntimeException("No hay suficiente espacio en la nave");
-    }else{
-        naveService.crearInventario(inventarioNave, nave);
-
-        // Actualizar o eliminar el inventario del planeta
-        if (inventarioPlaneta.getCantidad() - 1 < 0) {
-            inventarioPlanetaService.eliminarInventario(id);
-        } else {
-            inventarioPlanetaService.cambiarCantidadInventario(inventarioPlaneta.getCantidad() - 1, inventarioPlaneta);
-        }
-    }
-    
-}*/
-
-
-    @PostMapping("/actualizar-puntaje/{id}")
+    @PatchMapping("/actualizar-puntaje/{id}")
     public void actualizarPuntaje(@PathVariable Long id) {
         Double puntaje = partidaService.buscar((long) 1).getPuntaje()
                 - inventarioPlanetaService.buscarInventario(id).getProducto().getPrecio();
