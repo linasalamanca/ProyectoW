@@ -1,22 +1,29 @@
 package com.example.PrimeraEntregaWeb.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.h2.mvstore.tx.Transaction;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.http.HttpStatus;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
@@ -35,51 +42,41 @@ import com.example.PrimeraEntregaWeb.repository.PartidaRepository;
 import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.ProductoRepository;
 import com.example.PrimeraEntregaWeb.repository.TipoNaveRepository;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.server.LocalServerPort;
-
-import com.example.PrimeraEntregaWeb.controller.ComprarProductoController;
-import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
-import com.example.PrimeraEntregaWeb.dto.InformacionVentaProductoDTO;
-import com.example.PrimeraEntregaWeb.model.Partida;
-
-@ActiveProfiles("integration-testing")
+@ActiveProfiles("systemtest")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-public class ComprarProductoControllerTest {
-        private static final String SERVER_URL = "http://localhost:8081";
+public class ComprarSystemTest {
+    // Para descargar ChromeDriver:
+    // https://googlechromelabs.github.io/chrome-for-testing/
+    private ChromeDriver driver;
+    private WebDriverWait wait;
 
-        @Autowired
-        private NaveRepository naveRepository;
-        @Autowired
-        private EstrellaRepository estrellaRepository;
-        @Autowired
-        private JugadorRepository jugadorRepository;
-        @Autowired
-        private PlanetaRepository planetaRepository;
-        @Autowired
-        private ProductoRepository productoRepository;
-        @Autowired
-        private TipoNaveRepository tipoNaveRepository;
-        @Autowired
-        private InventarioNaveRepository inventarioNaveRepository;
-        @Autowired
-        private InventarioPlanetaRepository inventarioPlanetaRepository;
-        @Autowired
-        private PartidaRepository partidaRepository;
+    private String baseUrl;
 
-        @BeforeEach
-        void init() {
+    @Autowired
+    private NaveRepository naveRepository;
+    @Autowired
+    private EstrellaRepository estrellaRepository;
+    @Autowired
+    private JugadorRepository jugadorRepository;
+    @Autowired
+    private PlanetaRepository planetaRepository;
+    @Autowired
+    private ProductoRepository productoRepository;
+    @Autowired
+    private TipoNaveRepository tipoNaveRepository;
+    @Autowired
+    private InventarioNaveRepository inventarioNaveRepository;
+    @Autowired
+    private InventarioPlanetaRepository inventarioPlanetaRepository;
+    @Autowired
+    private PartidaRepository partidaRepository;
 
-                List<TipoNave> tipoNaves = new ArrayList<>();
+    @BeforeEach
+    void init() {
+    
+        List<TipoNave> tipoNaves = new ArrayList<>();
                 Random random = new Random();
                 for (int i = 0; i < 5; i++) {
                         TipoNave tipoNave = new TipoNave("tipoNave" + i, random.nextDouble(),
@@ -166,47 +163,52 @@ public class ComprarProductoControllerTest {
 
                 Partida partida = new Partida(0.0, naves.get(0).getDinero(), 1.0);
                 partidaRepository.save(partida);
+
+                 // Boilerplate
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--no-sandbox"); // Bypass OS security model, MUST BE THE VERY FIRST OPTION
+                // options.addArguments("--headless"); // To hide Chrome window
+                options.addArguments("--disable-gpu"); // applicable to windows os only
+                options.addArguments("--disable-extensions"); // disabling extensions
+                options.addArguments("start-maximized"); // open Browser in maximized mode
+              
+                this.driver = new ChromeDriver(options);
+
+                this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+                this.baseUrl = "http://localhost:4200"; 
         }
 
-        @Autowired
-        private TestRestTemplate rest;
+    @Test
+    void comprarTest() {
+        this.driver.get(baseUrl + "/login");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("usename")));
+        WebElement username = driver.findElement(By.id("usename"));
+        username.sendKeys("jugador1");
+        WebElement password = driver.findElement(By.id("password"));
+        password.sendKeys("1234");
+        WebElement buttonIniciarSesion = driver.findElement(By.tagName("iniciarSesion"));
+        buttonIniciarSesion.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iniciarJuego")));
 
-        // prueba de get, comando para correr mvn test
-        // -Dtest=ComprarProductoControllerTest#traerPuntaje
-        @Test
-        void traerPuntaje() {
-                Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Double.class);
-                assertEquals(1000.52, puntaje);
+        WebElement buttonIniciarJuego = this.driver.findElement(By.id("iniciarJuego"));
+        buttonIniciarJuego.click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("botonComprar")));
+        WebElement buttonComprar = this.driver.findElement(By.id("botonComprar"));
+        buttonComprar.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("cantidadProductoCompra")));
+        WebElement cantidad = this.driver.findElement(By.id("cantidadProductoCompra"));
+        String cantidadEsperada = "Cantidad: 2";
+        try {
+            wait.until(ExpectedConditions.textToBePresentInElement(cantidad, cantidadEsperada));
+        } catch (TimeoutException e) {
+            fail("No se pudo comprar, " + cantidad.getText());
         }
+    }
 
-        // prueba de get para traer el tiempo, comando para correr: mvn test
-        // -Dtest=ComprarProductoControllerTest#traerTiempo
-        @Test
-        void traerTiempo() {
-                Double tiempo = rest.getForObject(SERVER_URL + "/api/escoger-estrella/tiempo", Double.class);
-                assertEquals(0.0, tiempo);
-        }
-
-        // pr ueba de get, comando para correr mvn test
-        // -Dtest=ComprarProductoControllerTest#infoVentaProducto
-        @Test
-        void infoVentaProducto() {
-                List<InformacionVentaProductoDTO> informacion = rest.getForObject(SERVER_URL + "/api/comprar/list/1",
-                                List.class);
-                assertEquals(3, informacion.size());
-        }
-
-        // prueba de patch, para acceder usar comando .\mvnw test
-        // -Dtest=ComprarProductoControllerTest#puntajeActualizado
-
-        @Test
-        void puntajeActualizado() {
-                RequestEntity<Void> request = RequestEntity.patch(SERVER_URL + "/api/comprar/actualizar-puntaje/1")
-                                .build();
-                ResponseEntity<Double> response = rest.exchange(request, Double.class);
-                assertEquals(HttpStatus.OK, response.getStatusCode());
-                Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Double.class);
-                assertEquals(950.52, puntaje);
-        }
-
+    @AfterEach
+    void end() {
+        driver.quit();
+    }
 }
