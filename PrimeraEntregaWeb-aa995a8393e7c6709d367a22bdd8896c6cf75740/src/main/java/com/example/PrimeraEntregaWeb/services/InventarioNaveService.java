@@ -37,6 +37,11 @@ public class InventarioNaveService {
         inventarioNaveRepositorio.save(in);
     }
 
+    public void cambiarCantidadInventario(Double cantidad, InventarioNave in) {
+        in.setCantidad(cantidad);
+        inventarioNaveRepositorio.save(in);
+    }
+
     public void guardarInventario(InventarioNave inventario) {
         inventarioNaveRepositorio.save(inventario);
     }

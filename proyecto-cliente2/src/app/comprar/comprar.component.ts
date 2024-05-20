@@ -52,21 +52,16 @@ export class ComprarComponent implements OnInit {
   }
 
   realizarCompra(inventarioId: number) {
-   /* console.log('Inventario ID:', inventarioId);
-    this.infoService.obtenerPuntaje().pipe(
-      switchMap(t => {
-        this.infoService.setInfoPuntaje(t);
-        return this.comprarService.realizarCompra(inventarioId);
-      })
-    ).subscribe({
-      next: () => this.location.back(),
-      error: err => {
-        console.error('Ocurrió un error al realizar la compra:', err);
-      }
-    });*/
+    
     this.comprarService.actualizarPuntaje(inventarioId).subscribe(_=> 
       this.infoService.obtenerPuntajeCompra().subscribe(
         puntaje => this.infoService.setInfoPuntaje(puntaje)));
+
+    /*this.comprarService.actualizarPuntaje(inventarioId).subscribe(() =>
+          this.infoService.obtenerPuntajeCompra().subscribe(
+            puntaje => this.infoService.setInfoPuntaje(puntaje))
+        );*/
+    
 
     this.comprarService.realizarCompra(inventarioId).subscribe(() => this.location.back());
    

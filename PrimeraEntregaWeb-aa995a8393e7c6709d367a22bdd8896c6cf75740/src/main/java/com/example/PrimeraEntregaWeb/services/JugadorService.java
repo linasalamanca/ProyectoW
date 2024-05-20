@@ -40,4 +40,16 @@ public class JugadorService {
         jugadorRepositorio.deleteById(id);
     }
 
+    public Jugador authenticate(String usuario, String contrasena) {
+        Jugador jugador = jugadorRepositorio.findByUsuario(usuario);
+        if (jugador != null && jugador.getContrasena().equals(contrasena)) {
+            return jugador;
+        }
+        return null;
+    }
+
+    public Jugador buscarJugadorPorUsuario(String usuario) {
+        return jugadorRepositorio.findByUsuario(usuario);
+    }
+
 }

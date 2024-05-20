@@ -61,6 +61,17 @@ button{
     color: black !important;
 }
 
+label{
+    font-family: 'Teko';
+    font-size: 25px;
+    color: #FFD7FB !important;
+}
+
+input{
+    font-family: 'Assistant';
+    color: black !important;
+}
+
 .timer {
     position: fixed;
     bottom: 10px;

@@ -69,4 +69,9 @@ public class NaveService {
         naveRepositorio.save(nave);
     }
 
+    /*public Nave buscarNavePorUsuario(String usuario){
+        return naveRepositorio.findByUsuario(usuario)
+                .orElseThrow(() -> new EntityNotFoundException("Nave no encontrada para el usuario: " + usuario));
+    }*/
+
 }

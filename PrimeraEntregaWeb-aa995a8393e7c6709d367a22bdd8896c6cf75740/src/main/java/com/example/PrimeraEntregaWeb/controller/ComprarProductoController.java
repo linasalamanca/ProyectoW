@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
+import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
+import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.services.InventarioNaveService;
 import com.example.PrimeraEntregaWeb.services.InventarioPlanetaService;
 import com.example.PrimeraEntregaWeb.services.NaveService;
 import com.example.PrimeraEntregaWeb.services.PartidaService;
+import com.example.PrimeraEntregaWeb.services.JugadorService;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -32,6 +37,9 @@ public class ComprarProductoController {
 
     @Autowired
     private NaveService naveService;
+
+    @Autowired
+    private JugadorService jugadorService;
 
     private InventarioNave inventarioNave;
 
@@ -53,10 +61,63 @@ public class ComprarProductoController {
         inventarioNave.setProducto(inventarioPlanetaService.buscarInventario(id).getProducto());
         inventarioNave.setNave(naveService.buscarNave("nave0"));
         naveService.crearInventario(inventarioNave, naveService.buscarNave("nave0"));
-        inventarioPlanetaService.cambiarCantidadInventario(
+        if(inventarioPlanetaService.buscarInventario(id).getCantidad() - 1 < 0){
+            inventarioPlanetaService.eliminarInventario(id);
+        }else{
+            inventarioPlanetaService.cambiarCantidadInventario(
                 inventarioPlanetaService.buscarInventario(id).getCantidad() - 1,
                 inventarioPlanetaService.buscarInventario(id));
+        }    
     }
+
+    /*@PostMapping("/realizar-compra/{id}")
+public void realizarCompra(@PathVariable Long id, HttpSession session) {
+    // Obtener el usuario de la sesión
+    String usuario = (String) session.getAttribute("usuario");
+    if (usuario == null) {
+        throw new RuntimeException("Usuario no autenticado");
+    }
+
+    // Buscar el jugador por usuario
+    Jugador jugador = jugadorService.buscarJugadorPorUsuario(usuario);
+    if (jugador == null) {
+        throw new RuntimeException("Jugador no encontrado");
+    }
+
+    // Buscar la nave del jugador
+    Nave nave = naveService.buscarNavePorUsuario(usuario);
+    if (nave == null) {
+        throw new RuntimeException("Nave no encontrada para el usuario: " + usuario);
+    }
+
+    // Calcular la capacidad máxima y el volumen actual de la nave
+    Double capacidadMaxima = nave.getCapacidadMax();
+    Double volumenActual = inventarioNaveService.calcularVolumenTotal(nave.getInventario());
+
+    // Buscar el inventario del planeta
+    InventarioPlaneta inventarioPlaneta = inventarioPlanetaService.buscarInventario(id);
+
+    // Crear el nuevo inventario de la nave
+    InventarioNave inventarioNave = new InventarioNave(inventarioPlaneta.getCantidad(), inventarioPlaneta.getfOfertaDemanda());
+    inventarioNave.setProducto(inventarioPlaneta.getProducto());
+    inventarioNave.setNave(nave);
+
+    // Guardar el nuevo inventario en la nave
+    if(volumenActual + inventarioPlaneta.getProducto().getVolumen() > capacidadMaxima){
+        throw new RuntimeException("No hay suficiente espacio en la nave");
+    }else{
+        naveService.crearInventario(inventarioNave, nave);
+
+        // Actualizar o eliminar el inventario del planeta
+        if (inventarioPlaneta.getCantidad() - 1 < 0) {
+            inventarioPlanetaService.eliminarInventario(id);
+        } else {
+            inventarioPlanetaService.cambiarCantidadInventario(inventarioPlaneta.getCantidad() - 1, inventarioPlaneta);
+        }
+    }
+    
+}*/
+
 
     @PostMapping("/actualizar-puntaje/{id}")
     public void actualizarPuntaje(@PathVariable Long id) {
