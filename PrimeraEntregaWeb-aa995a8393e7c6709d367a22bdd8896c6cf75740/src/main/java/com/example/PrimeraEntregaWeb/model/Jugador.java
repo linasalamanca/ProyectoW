@@ -2,6 +2,8 @@ package com.example.PrimeraEntregaWeb.model;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ public class Jugador {
     private String contrasena;
 
     @ManyToOne
+    @JsonIgnore
     private Nave nave;
 
     public String getRol() {

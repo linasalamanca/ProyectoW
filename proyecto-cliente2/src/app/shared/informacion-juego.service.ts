@@ -35,9 +35,10 @@ export class InformacionJuegoService {
     this.info.tiempo = tiempo;
   }
 
-  obtenerPuntajeCompra(): Observable<number> {
-    return this.http.get<number>(`${environment.serverUrl}/api/comprar/obtener-puntaje`);
+  obtenerPuntajeCompra(jugadorId: number): Observable<number> {
+    return this.http.get<number>(`${environment.serverUrl}/api/comprar/obtener-puntaje/${jugadorId}`);
   }
+
 
   obtenerPuntajeVenta(): Observable<number> {
     return this.http.get<number>(`${environment.serverUrl}/api/vender/obtener-puntaje`);

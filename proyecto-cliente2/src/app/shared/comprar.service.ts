@@ -18,11 +18,12 @@ export class ComprarService {
       .pipe(tap(data => console.log('Data from API:', data)));
   }
 
-  realizarCompra(id: number): Observable<any> {
-    return this.http.post<any>(`${environment.serverUrl}/api/comprar/realizar-compra/${id}`, id);
+  realizarCompra(idInventario: number, idJugador: number): Observable<any> {
+    return this.http.post(`${environment.serverUrl}/api/comprar/realizar-compra`, { idInventario, idJugador });
   }
 
-  actualizarPuntaje(id: number): Observable<any> {
-    return this.http.patch<any>(`${environment.serverUrl}/api/comprar/actualizar-puntaje/${id}`, id);
+  actualizarPuntaje(idJugador: number, idInventario: number): Observable<any> {
+    return this.http.patch(`${environment.serverUrl}/api/comprar/actualizar-puntaje/${idJugador}/${idInventario}`, {});
   }
+  
 }

@@ -1,7 +1,7 @@
 <div class="timer">
     Tiempo de juego: {{ infoService.getInfoTiempo()}}
 </div>    
-<div class="puntaje">
+<div class="puntaje" id ="puntaje">
     Puntaje: {{ infoService.getInfoPuntaje()}}
 </div>
 <div>
@@ -21,8 +21,8 @@
                 <td>{{ planeta.id }}</td>
                 <td>{{ planeta.nombre}}</td>
                 <td>
-                    <button (click)="irAComprar(planeta.id)">Comprar</button>
-                    <button (click)="irAVender(planeta.id)">Vender</button>
+                    <button (click)="irAComprar(planeta.id)" id ="botonComprar">Comprar</button>
+                    <button (click)="irAVender(planeta.id)" id ="botonVender">Vender</button>
                 </td>
             </tr>
         </tbody>

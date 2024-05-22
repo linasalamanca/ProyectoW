@@ -14,4 +14,6 @@ public interface PartidaRepository extends JpaRepository<Partida, Long> {
     @Query(value = "SELECT puntaje FROM partida WHERE id = :id", nativeQuery = true)
     public Double findPuntajePartida(@Param("id") Long id);
 
+    
+
 }

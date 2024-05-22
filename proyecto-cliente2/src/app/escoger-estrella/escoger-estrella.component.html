@@ -2,7 +2,7 @@
     Tiempo de juego: {{ infoService.getInfoTiempo() }}
 </div>
 
-<div class="puntaje">
+<div class="puntaje" id ="puntaje">
     Dinero: {{ infoService.getInfoPuntaje() }}
 </div>
 
@@ -13,7 +13,7 @@
             <img src="assets/estrella.png" alt="Estrella" class="estrella-imagen">
             <div coordenadas>ID: {{ estrella.id }}</div>
             <div coordenadas>Coordenadas: [{{ estrella.coordenadaX }}, {{ estrella.coordenadaY }}, {{ estrella.coordenadaZ }}]</div>
-            <button (click)="realizarViaje(estrella.id)">Viajar a esta estrella</button>
+            <button (click)="realizarViaje(estrella.id)" id ="botonViajarEstrella">Viajar a esta estrella</button>
         </div>
     </div>
 </div>

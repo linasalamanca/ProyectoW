@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -57,10 +60,31 @@ public class Nave {
     private List<InventarioNave> inventario = new ArrayList<>();
 
     @ManyToOne
+    @JsonIgnore
     private TipoNave tipo;
 
     @ManyToOne
+    @JsonIgnore
     private Planeta planeta;
+
+    @OneToOne
+    @JsonIgnore
+    private Partida partida;
+
+    
+    public Nave() {
+    }
+
+    public Nave(Double dinero, Double coordenadaX, Double coordenadaY, Double coordenadaZ, String nombre,
+            Double velocidad, Double capacidadMax) {
+        this.dinero = dinero;
+        this.coordenadaX = coordenadaX;
+        this.coordenadaY = coordenadaY;
+        this.coordenadaZ = coordenadaZ;
+        this.nombre = nombre;
+        this.velocidad = velocidad;
+        this.capacidadMax = capacidadMax;
+    }
 
     public Double getDinero() {
         return dinero;
@@ -150,17 +174,12 @@ public class Nave {
         this.inventario = inventario;
     }
 
-    public Nave() {
+    public Partida getPartida() {
+        return partida;
     }
 
-    public Nave(Double dinero, Double coordenadaX, Double coordenadaY, Double coordenadaZ, String nombre,
-            Double velocidad, Double capacidadMax) {
-        this.dinero = dinero;
-        this.coordenadaX = coordenadaX;
-        this.coordenadaY = coordenadaY;
-        this.coordenadaZ = coordenadaZ;
-        this.nombre = nombre;
-        this.velocidad = velocidad;
-        this.capacidadMax = capacidadMax;
+    public void setPartida(Partida partida) {
+        this.partida = partida;
     }
+
 }

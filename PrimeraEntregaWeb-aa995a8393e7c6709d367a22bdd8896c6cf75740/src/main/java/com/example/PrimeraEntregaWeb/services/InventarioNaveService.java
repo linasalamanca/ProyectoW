@@ -2,6 +2,7 @@ package com.example.PrimeraEntregaWeb.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
@@ -10,16 +11,34 @@ import org.springframework.stereotype.Service;
 
 import com.example.PrimeraEntregaWeb.dto.InformacionVentaProductoDTO;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
+import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
+import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
+import com.example.PrimeraEntregaWeb.model.Partida;
 import com.example.PrimeraEntregaWeb.model.Producto;
 import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
+import com.example.PrimeraEntregaWeb.repository.InventarioPlanetaRepository;
+import com.example.PrimeraEntregaWeb.repository.JugadorRepository;
+import com.example.PrimeraEntregaWeb.repository.PartidaRepository;
+
 import io.micrometer.common.lang.NonNull;
+import jakarta.transaction.Transactional;
 
 @Service
 public class InventarioNaveService {
 
     @Autowired
     private InventarioNaveRepository inventarioNaveRepositorio;
+
+    @Autowired
+    private JugadorRepository jugadorRepositorio;
+
+    @Autowired
+    private PartidaRepository partidaRepositorio;
+
+    @Autowired
+    private InventarioPlanetaRepository inventarioPlanetaRepositorio;
+
     private InventarioNave in;
 
     public List<InventarioNave> listarInventarioNave() {
@@ -87,4 +106,56 @@ public class InventarioNaveService {
 
         return vol;
     }
+
+    @Transactional
+    public void realizarCompra(Long idInventario, Long idJugador) {
+        InventarioPlaneta inventarioPlaneta = inventarioPlanetaRepositorio.findById(idInventario).orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
+        Jugador jugador = jugadorRepositorio.findById(idJugador).orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
+
+        double precio = inventarioPlaneta.getProducto().getPrecio();
+        if (jugador.getNave().getDinero() >= precio) {
+            // Verificar si la nave tiene capacidad suficiente
+            double capacidadUsada = jugador.getNave().getInventario().stream().mapToDouble(InventarioNave::getCantidad).sum();
+            double capacidadProducto = inventarioPlaneta.getProducto().getVolumen();
+            
+            if (jugador.getNave().getCapacidadMax() >= capacidadUsada + capacidadProducto) {
+                // Actualizar el dinero de la nave
+                jugador.getNave().setDinero(jugador.getNave().getDinero() - precio);
+
+                // Actualizar la cantidad en el inventario del planeta
+                if (inventarioPlaneta.getCantidad() > 0) {
+                    inventarioPlaneta.setCantidad(inventarioPlaneta.getCantidad() - 1);
+                } else {
+                    throw new RuntimeException("Producto agotado en el planeta");
+                }
+
+                // Añadir el producto al inventario de la nave
+                Optional<InventarioNave> inventarioNaveOpt = jugador.getNave().getInventario().stream()
+                    .filter(invNave -> invNave.getProducto().getId().equals(inventarioPlaneta.getProducto().getId()))
+                    .findFirst();
+
+                if (inventarioNaveOpt.isPresent()) {
+                    InventarioNave inventarioNave = inventarioNaveOpt.get();
+                    inventarioNave.setCantidad(inventarioNave.getCantidad() + 1);
+                    inventarioNaveRepositorio.save(inventarioNave);
+                } else {
+                    InventarioNave nuevoInventarioNave = new InventarioNave();
+                    nuevoInventarioNave.setCantidad(1.0);
+                    nuevoInventarioNave.setfOfertaDemanda(inventarioPlaneta.getfOfertaDemanda());
+                    nuevoInventarioNave.setNave(jugador.getNave());
+                    nuevoInventarioNave.setProducto(inventarioPlaneta.getProducto());
+                    inventarioNaveRepositorio.save(nuevoInventarioNave);
+                }
+
+                inventarioPlanetaRepositorio.save(inventarioPlaneta);
+                jugadorRepositorio.save(jugador);
+            } else {
+                throw new RuntimeException("Capacidad insuficiente en la nave");
+            }
+        } else {
+            throw new RuntimeException("Dinero insuficiente");
+        }
+    }
+
+
 }

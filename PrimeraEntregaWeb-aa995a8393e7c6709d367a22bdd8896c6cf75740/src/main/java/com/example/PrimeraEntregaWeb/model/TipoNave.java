@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +35,7 @@ public class TipoNave {
     private Double velocidad;
 
     @OneToMany(mappedBy = "tipo")
+    @JsonIgnore
     private List<Nave> naves = new ArrayList<>();
 
     public Long getId() {

@@ -2,6 +2,8 @@ package com.example.PrimeraEntregaWeb.model;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,9 +35,11 @@ public class InventarioNave {
     }
 
     @ManyToOne
+    @JsonIgnore
     private Nave nave;
 
     @ManyToOne
+    @JsonIgnore
     private Producto producto;
 
     public Long getId() {

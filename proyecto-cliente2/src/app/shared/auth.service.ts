@@ -1,8 +1,7 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
@@ -16,9 +15,8 @@ export class AuthService {
   login(usuario: string, contrasena: string): Observable<any> {
     return this.http.post<any>(this.apiUrl, { usuario, contrasena })
       .pipe(tap(response => {
-        if (response) {
-          // Guardar el usuario en el almacenamiento local
-          localStorage.setItem('usuario', usuario);
+        if (response && response.id) {
+          localStorage.setItem('usuario', JSON.stringify({ id: response.id, nombre: usuario }));
         }
       }));
   }
@@ -27,7 +25,12 @@ export class AuthService {
     localStorage.removeItem('usuario');
   }
 
-  getUsuario(): string | null {
-    return localStorage.getItem('usuario');
+  getCurrentUser(): { id: number, nombre: string } | null {
+    const user = localStorage.getItem('usuario');
+    return user ? JSON.parse(user) : null;
+  }
+
+  setCurrentUser(user: { id: number, nombre: string }): void {
+    localStorage.setItem('usuario', JSON.stringify(user));
   }
 }

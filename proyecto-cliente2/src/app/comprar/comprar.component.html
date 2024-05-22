@@ -2,7 +2,7 @@
     Tiempo de juego: {{ infoService.getInfoTiempo()}}
 </div>
 
-<div class="puntaje">
+<div class="puntaje" id ="puntaje">
     Puntaje: {{ infoService.getInfoPuntaje()}}
 </div>
 
@@ -24,11 +24,11 @@
         <tbody>
             <tr *ngFor="let producto of productos">
                 <td>{{producto.idInventario}}</td>
-                <td>{{ producto.nombreProducto }}</td>
-                <td>{{ producto.cantidad }}</td>
-                <td>{{ producto.precio }}</td>
+                <td id ="nombre">{{ producto.nombreProducto }}</td>
+                <td id ="cantidad">{{ producto.cantidad }}</td>
+                <td id ="precio">{{ producto.precio }}</td>
                 <td>
-                    <button (click)="realizarCompra(producto.idInventario)">Comprar</button>
+                    <button (click)="realizarCompra(producto.idInventario)" id ="comprar">Comprar</button>
                     
                 </td>
             </tr>

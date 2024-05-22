@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.aspectj.weaver.Lint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,9 +36,11 @@ public class Producto {
     private String tipo;
 
     @OneToMany(mappedBy = "producto")
+    @JsonIgnore
     private List<InventarioNave> naves = new ArrayList<>();
 
     @OneToMany(mappedBy = "producto")
+    @JsonIgnore
     private List<InventarioPlaneta> planeta = new ArrayList<>();
 
     public Producto(Double volumen, String tipo) {
