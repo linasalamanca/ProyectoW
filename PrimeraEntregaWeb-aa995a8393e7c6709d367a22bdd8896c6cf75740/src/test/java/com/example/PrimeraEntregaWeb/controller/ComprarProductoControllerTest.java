@@ -1,9 +1,11 @@
 package com.example.PrimeraEntregaWeb.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.h2.mvstore.tx.Transaction;
@@ -56,7 +58,7 @@ import com.example.PrimeraEntregaWeb.model.Partida;
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class ComprarProductoControllerTest {
         private static final String SERVER_URL = "http://localhost:8081";
-
+        private InformacionCompraProductoDTO informacion = new InformacionCompraProductoDTO();
         @Autowired
         private NaveRepository naveRepository;
         @Autowired
@@ -117,10 +119,17 @@ public class ComprarProductoControllerTest {
                         for (int k = 0; k < productos.size(); k++) {
                                 InventarioNave inventarioNave = new InventarioNave();
                                 inventarioNave.setNave(nave);
-                                inventarioNave.setCantidad(20.2 + k * 2);
+                                inventarioNave.setCantidad(20.2);
                                 inventarioNave.setfOfertaDemanda(random.nextDouble() * 1000000);
                                 inventarioNave.setProducto(productos.get(k));
                                 inventarioNaveRepository.save(inventarioNave);
+                                informacion = new InformacionCompraProductoDTO(
+                                                (long) 1,
+                                                productos.get(k).getTipo(),
+                                                inventarioNave.getCantidad(),
+                                                inventarioNave.getfOfertaDemanda(),
+                                                (inventarioNave.getfOfertaDemanda()
+                                                                / (1 + inventarioNave.getCantidad())));
                         }
                 }
 
@@ -187,10 +196,11 @@ public class ComprarProductoControllerTest {
                 assertEquals(0.0, tiempo);
         }
 
-        // pr ueba de get, comando para correr mvn test
+        // prueba de get, comando para correr mvn test
         // -Dtest=ComprarProductoControllerTest#infoVentaProducto
         @Test
         void infoVentaProducto() {
+                @SuppressWarnings("unchecked")
                 List<InformacionVentaProductoDTO> informacion = rest.getForObject(SERVER_URL + "/api/comprar/list/1",
                                 List.class);
                 assertEquals(3, informacion.size());
@@ -207,6 +217,31 @@ public class ComprarProductoControllerTest {
                 assertEquals(HttpStatus.OK, response.getStatusCode());
                 Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Double.class);
                 assertEquals(950.52, puntaje);
+        }
+
+        // prueba de post, para acceder usar comando .\mvnw test
+        // -Dtest=ComprarProductoControllerTest#realizarCompra
+        @Test
+        void realizarCompra() {
+                Long productoId = 1L;
+                Optional<InventarioPlaneta> inventarioPlanetaOpt = inventarioPlanetaRepository.findById(productoId);
+                assertTrue(inventarioPlanetaOpt.isPresent());
+                double precioProducto = inventarioPlanetaOpt.get().getProducto().getPrecio();
+
+                System.out.println("Precio del producto: " + precioProducto);
+
+                Partida partidaInicial = partidaRepository.findById(1L).orElseThrow();
+                double puntajeInicial = partidaInicial.getPuntaje();
+
+                RequestEntity<Void> request = RequestEntity.post(SERVER_URL + "/api/comprar/realizar-compra/1")
+                                .build();
+                ResponseEntity<String> response = rest.exchange(request, String.class);
+                assertEquals(HttpStatus.OK, response.getStatusCode());
+
+                Partida partidaFinal = partidaRepository.findById(1L).orElseThrow();
+                double puntajeFinal = partidaFinal.getPuntaje();
+
+                assertEquals(puntajeInicial - precioProducto, puntajeFinal);
         }
 
 }

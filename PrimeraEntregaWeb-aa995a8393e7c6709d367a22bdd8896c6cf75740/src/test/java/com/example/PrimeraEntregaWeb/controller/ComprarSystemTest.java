@@ -17,6 +17,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -74,10 +76,12 @@ public class ComprarSystemTest {
 
     @BeforeEach
     void init() {
+
         List<TipoNave> tipoNaves = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            TipoNave tipoNave = new TipoNave("tipoNave" + i, random.nextDouble(), random.nextDouble());
+            TipoNave tipoNave = new TipoNave("tipoNave" + i, random.nextDouble(),
+                    random.nextDouble());
             tipoNaves.add(tipoNave);
         }
         tipoNaveRepository.saveAll(tipoNaves);
@@ -91,8 +95,10 @@ public class ComprarSystemTest {
 
         List<Nave> naves = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            Nave nave = new Nave(1000.00, random.nextDouble() * (90 - 10) + 10, random.nextDouble() * (90 - 10) + 10,
-                    random.nextDouble() * (90 - 10) + 10, "nave" + i, random.nextDouble() * 200 + 15,
+            Nave nave = new Nave(1000.00, random.nextDouble() * (90 - 10) + 10,
+                    random.nextDouble() * (90 - 10) + 10,
+                    random.nextDouble() * (90 - 10) + 10, "nave" + i, random.nextDouble() * 200 +
+                            15,
                     random.nextDouble() * 500.5);
             nave.setTipo(tipoNaves.get(i));
             naves.add(nave);
@@ -137,7 +143,8 @@ public class ComprarSystemTest {
         jugadorRepository.saveAll(jugadores);
 
         for (int i = 0; i < 5; i++) {
-            Estrella estrella = new Estrella(random.nextDouble() * (90 - 10) + 10, random.nextDouble() * (90 - 10) + 10,
+            Estrella estrella = new Estrella(random.nextDouble() * (90 - 10) + 10,
+                    random.nextDouble() * (90 - 10) + 10,
                     random.nextDouble() * (90 - 10) + 10);
             estrellaRepository.save(estrella);
             if (random.nextDouble() < 1) {
@@ -159,13 +166,13 @@ public class ComprarSystemTest {
                 }
             }
         }
-        
-        for(Nave nave : naves){ 
-                Partida partida = new Partida(0.0, nave.getDinero(), 1.0);
-                partida.setNave(nave);
-                nave.setPartida(partida);
-                partidaRepository.save(partida);
-                naveRepository.save(nave);
+
+        for (Nave nave : naves) {
+            Partida partida = new Partida(0.0, nave.getDinero(), 1.0);
+            partida.setNave(nave);
+            nave.setPartida(partida);
+            partidaRepository.save(partida);
+            naveRepository.save(nave);
         }
 
         ChromeOptions options = new ChromeOptions();
@@ -177,6 +184,7 @@ public class ComprarSystemTest {
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Incremento del tiempo de espera
         this.baseUrl = "http://localhost:4200";
+
     }
 
     @Test

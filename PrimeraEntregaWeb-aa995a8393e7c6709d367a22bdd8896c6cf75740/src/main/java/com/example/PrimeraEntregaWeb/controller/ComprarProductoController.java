@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -61,30 +63,41 @@ public class ComprarProductoController {
         return inventarioPlanetaService.listarInformacionCompraProducto(id);
     }
 
-    //@PostMapping("/realizar-compra/{id}")
-   /*  public void realizarCompra(@PathVariable Long id) {
-        Double capacidadMaxima = naveService.buscarNave("nave0").getCapacidadMax();
-
-        Double volumenActual = inventarioNaveService
-                .calcularVolumenTotal(naveService.buscarNave("nave0").getInventario());
-
-        inventarioNave = new InventarioNave(inventarioPlanetaService.buscarInventario(id).getCantidad(),
-                inventarioPlanetaService.buscarInventario(id).getfOfertaDemanda());
-        inventarioNave.setProducto(inventarioPlanetaService.buscarInventario(id).getProducto());
-        inventarioNave.setNave(naveService.buscarNave("nave0"));
-        naveService.crearInventario(inventarioNave, naveService.buscarNave("nave0"));
-        if(inventarioPlanetaService.buscarInventario(id).getCantidad() - 1 < 0){
-            inventarioPlanetaService.eliminarInventario(id);
-        }else{
-            inventarioPlanetaService.cambiarCantidadInventario(
-                inventarioPlanetaService.buscarInventario(id).getCantidad() - 1,
-                inventarioPlanetaService.buscarInventario(id));
-        }    
-    }*/
+    // @PostMapping("/realizar-compra/{id}")
+    /*
+     * public void realizarCompra(@PathVariable Long id) {
+     * Double capacidadMaxima = naveService.buscarNave("nave0").getCapacidadMax();
+     * 
+     * Double volumenActual = inventarioNaveService
+     * .calcularVolumenTotal(naveService.buscarNave("nave0").getInventario());
+     * 
+     * inventarioNave = new
+     * InventarioNave(inventarioPlanetaService.buscarInventario(id).getCantidad(),
+     * inventarioPlanetaService.buscarInventario(id).getfOfertaDemanda());
+     * inventarioNave.setProducto(inventarioPlanetaService.buscarInventario(id).
+     * getProducto());
+     * inventarioNave.setNave(naveService.buscarNave("nave0"));
+     * naveService.crearInventario(inventarioNave, naveService.buscarNave("nave0"));
+     * if(inventarioPlanetaService.buscarInventario(id).getCantidad() - 1 < 0){
+     * inventarioPlanetaService.eliminarInventario(id);
+     * }else{
+     * inventarioPlanetaService.cambiarCantidadInventario(
+     * inventarioPlanetaService.buscarInventario(id).getCantidad() - 1,
+     * inventarioPlanetaService.buscarInventario(id));
+     * }
+     * }
+     */
     @PostMapping("/realizar-compra")
     @CrossOrigin(origins = "http://localhost:4200")
-    public void realizarCompra(@RequestBody CompraDTO objeto) {
-        inventarioNaveService.realizarCompra(objeto.getIdInventario(), objeto.getIdJugador());
+    public ResponseEntity<?> realizarCompra(@RequestBody CompraDTO objeto) {
+        try {
+            inventarioNaveService.realizarCompra(objeto.getIdInventario(), objeto.getIdJugador());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("Error al realizar la compra: " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al realizar la compra: " + e.getMessage());
+        }
     }
 
     @PatchMapping("/actualizar-puntaje/{idJugador}/{idInventario}")
@@ -98,12 +111,12 @@ public class ComprarProductoController {
         Partida partida = nave.getPartida();
 
         // Calcular el nuevo puntaje basado en el precio del producto
-        Double puntaje = partida.getPuntaje() - inventarioPlanetaService.buscarInventario(idInventario).getProducto().getPrecio();
-         log.info("puntaje"+puntaje);
+        Double puntaje = partida.getPuntaje()
+                - inventarioPlanetaService.buscarInventario(idInventario).getProducto().getPrecio();
+        log.info("puntaje" + puntaje);
         // Actualizar el puntaje de la partida
         partidaService.actualizarPuntaje(puntaje, partida);
     }
-
 
     @GetMapping("/obtener-puntaje/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
