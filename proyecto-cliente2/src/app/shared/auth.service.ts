@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment.development';
-import { UsuarioDto } from '../dto/usuariodto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,6 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    public usuario: UsuarioDto
   ) {
     
    }
@@ -25,7 +23,7 @@ export class AuthService {
       .pipe(
         tap(response => {
           if (response && response.id) {
-            localStorage.setItem('usuario', JSON.stringify({ id: response.id, nombre: usuario }));
+            sessionStorage.setItem('usuario', JSON.stringify({ id: response.id, nombre: usuario }));
           }
         }),
         catchError(this.handleError)
@@ -41,20 +39,10 @@ export class AuthService {
     localStorage.removeItem('usuario');
   }
 
-  getCurrentUser(): UsuarioDto | null {
-    const userString = sessionStorage.getItem('usuario');
-  
-    if (userString) {
-      const userObj = JSON.parse(userString);
-      this.usuario.id = userObj.id;
-      this.usuario.nombre = userObj.nombre;
-      return this.usuario;
-    }
-    return null;
+  getCurrentUser(): { id: number, nombre: string } | null {
+    const user = sessionStorage.getItem('usuario');
+    return user ? JSON.parse(user) : null;
   }
-  
-
-  
 
   setCurrentUser(user: { id: number, nombre: string }): void {
     sessionStorage.setItem('usuario', JSON.stringify(user));

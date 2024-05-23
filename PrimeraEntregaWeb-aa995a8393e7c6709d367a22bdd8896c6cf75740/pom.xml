@@ -68,6 +68,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -79,8 +80,12 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-chrome-driver</artifactId>
 			<scope>test</scope>
-			
+			<version>4.14.1</version>
+
 		</dependency>
+		
+        
+        <!-- Dependencia específica del CDP para la versión de Chrome que estás usando -->
 
 		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>

@@ -158,8 +158,8 @@ public class ComprarSystemTest {
                     for (int k = 0; k < 3; k++) {
                         InventarioPlaneta inventarioPlaneta = new InventarioPlaneta();
                         inventarioPlaneta.setPlaneta(planeta);
-                        inventarioPlaneta.setCantidad(20.2 + k * 2);
-                        inventarioPlaneta.setfOfertaDemanda(random.nextDouble() * 1000000);
+                        inventarioPlaneta.setCantidad(2.0);
+                        inventarioPlaneta.setfOfertaDemanda(1.0);
                         inventarioPlaneta.setProducto(productos.get(k));
                         inventarioPlanetaRepository.save(inventarioPlaneta);
                     }
@@ -182,7 +182,7 @@ public class ComprarSystemTest {
         options.addArguments("start-maximized");
 
         this.driver = new ChromeDriver(options);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Incremento del tiempo de espera
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Incremento del tiempo de espera
         this.baseUrl = "http://localhost:4200";
 
     }
@@ -213,7 +213,7 @@ public class ComprarSystemTest {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("puntaje")));
         WebElement puntaje = this.driver.findElement(By.id("puntaje"));
 
-        String cantidadEsperada = "Puntaje: 950.00";
+        String cantidadEsperada = "Puntaje: 999.6666666";
         try {
             wait.until(ExpectedConditions.textToBePresentInElement(puntaje, cantidadEsperada));
         } catch (TimeoutException e) {

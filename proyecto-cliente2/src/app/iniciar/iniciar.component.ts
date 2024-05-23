@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/auth.service';
 import { InformacionJuegoService } from '../shared/informacion-juego.service';
-import { UsuarioDto } from '../dto/usuariodto';
+
 
 @Component({
   selector: 'app-iniciar',
@@ -17,21 +17,19 @@ export class IniciarComponent {
     private router: Router,
     private authService: AuthService,
     public infoService: InformacionJuegoService,
-    public currentUser: UsuarioDto|null
   ) { }
   iniciarJuego() {
    
     console.log('Intentando iniciar sesión con', this.usuario, this.contrasena);
     this.authService.login(this.usuario, this.contrasena).subscribe(jugador => {
       
-    //while(!this.currentUser){
-      this.currentUser = this.authService.getCurrentUser();
-      if (this.currentUser) {
-        this.idJugador = this.currentUser.id;
+      const currentUser = this.authService.getCurrentUser();
+      if (currentUser) {
+        this.idJugador = currentUser.id;
       } else {
         console.error('No hay un usuario autenticado');
       }
-    //}
+
       console.log('Autenticado:', jugador);
       if (jugador) {
         // Aquí obtenemos el puntaje y luego navegamos
