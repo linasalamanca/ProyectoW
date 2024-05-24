@@ -5,6 +5,7 @@ import { Observable, switchMap } from 'rxjs';
 import { InformacionJuegoService } from '../shared/informacion-juego.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { AuthService } from '../shared/auth.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { Location } from '@angular/common';
 export class VenderComponent implements OnInit {
   timeElapsed: Observable<number>| undefined;
   productos: InformacionVentaProducto[] = [];
+  idJugador: number | undefined
  
 
   constructor(
@@ -24,9 +26,17 @@ export class VenderComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      this.idJugador = currentUser.id;
+    } else {
+      console.error('No hay un usuario autenticado');
+    }
+
     this.route.paramMap.pipe(
       switchMap(params => {
         const idStr = params.get('planetaId'); 
@@ -51,23 +61,16 @@ export class VenderComponent implements OnInit {
     }
   
     realizarVenta(idInventario: number) {
-      /*console.log('Inventario ID:', idInventario);
-      this.infoService.obtenerPuntaje().pipe(
-        switchMap(t => {
-          this.infoService.setInfoPuntaje(t);
-          return this.venderService.realizarVenta(idInventario);
-        })
-      ).subscribe({
-        next: () => this.location.back(),
-        error: err => {
-          console.error('Ocurrió un error al realizar la venta:', err);
-        }
-      });*/
+      if (this.idJugador === undefined) {
+        console.error('No hay un ID de jugador disponible');
+        return;
+      }
 
-      this.venderService.actualizarPuntaje(idInventario).subscribe(_=> 
-        this.infoService.obtenerPuntajeVenta().subscribe(
+      this.venderService.actualizarPuntaje(this.idJugador!,idInventario).subscribe(_=> 
+        this.infoService.obtenerPuntajeVenta(this.idJugador!).subscribe(
           puntaje => this.infoService.setInfoPuntaje(puntaje)));
           
-      this.venderService.realizarVenta(idInventario).subscribe(() => this.location.back());
+      this.venderService.realizarVenta(idInventario,this.idJugador).subscribe(() => this.location.back());
   }
+
 }

@@ -40,8 +40,8 @@ export class InformacionJuegoService {
   }
 
 
-  obtenerPuntajeVenta(): Observable<number> {
-    return this.http.get<number>(`${environment.serverUrl}/api/vender/obtener-puntaje`);
+  obtenerPuntajeVenta(jugadorId: number): Observable<number> {
+    return this.http.get<number>(`${environment.serverUrl}/api/vender/obtener-puntaje/${jugadorId}`);
   }
 
   obtenerTiempo(): Observable<number> {
