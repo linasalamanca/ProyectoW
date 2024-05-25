@@ -45,7 +45,7 @@ import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.ProductoRepository;
 import com.example.PrimeraEntregaWeb.repository.TipoNaveRepository;
 
-@ActiveProfiles("systemtest")
+@ActiveProfiles("internal-test")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class ComprarSystemTest {
@@ -187,6 +187,7 @@ public class ComprarSystemTest {
 
     }
 
+    // .\mvnw -Dtest=ComprarSystemTest#comprarTest test
     @Test
     void comprarTest() {
         this.driver.get(baseUrl + "/iniciar");

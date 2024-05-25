@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.h2.mvstore.tx.Transaction;
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
 import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
+import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.model.Partida;
 import com.example.PrimeraEntregaWeb.model.Planeta;
@@ -37,6 +40,9 @@ import com.example.PrimeraEntregaWeb.repository.PartidaRepository;
 import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.ProductoRepository;
 import com.example.PrimeraEntregaWeb.repository.TipoNaveRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
@@ -49,6 +55,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import com.example.PrimeraEntregaWeb.controller.ComprarProductoController;
+import com.example.PrimeraEntregaWeb.dto.CompraDTO;
 import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
 import com.example.PrimeraEntregaWeb.dto.InformacionVentaProductoDTO;
 import com.example.PrimeraEntregaWeb.model.Partida;
@@ -58,6 +65,7 @@ import com.example.PrimeraEntregaWeb.model.Partida;
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class ComprarProductoControllerTest {
         private static final String SERVER_URL = "http://localhost:8081";
+
         private InformacionCompraProductoDTO informacion = new InformacionCompraProductoDTO();
         @Autowired
         private NaveRepository naveRepository;
@@ -77,6 +85,9 @@ public class ComprarProductoControllerTest {
         private InventarioPlanetaRepository inventarioPlanetaRepository;
         @Autowired
         private PartidaRepository partidaRepository;
+
+        @LocalServerPort
+        private int port;
 
         @BeforeEach
         void init() {
@@ -173,18 +184,25 @@ public class ComprarProductoControllerTest {
                         }
                 }
 
+                Jugador jugador = new Jugador("CAPITAN", "Usuario1", "hola");
+                jugador.setNave(naves.get(0));
+                jugadorRepository.save(jugador);
+
                 Partida partida = new Partida(0.0, naves.get(0).getDinero(), 1.0);
+                partida.setNave(naves.get(0));
                 partidaRepository.save(partida);
+                naves.get(0).setPartida(partida);
+                naveRepository.save(naves.get(0));
         }
 
         @Autowired
         private TestRestTemplate rest;
 
         // prueba de get, comando para correr mvn test
-        // -Dtest=ComprarProductoControllerTest#traerPuntaje
+        // .\mvnw test -Dtest=ComprarProductoControllerTest#traerPuntaje
         @Test
         void traerPuntaje() {
-                Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Double.class);
+                Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje/1", Double.class);
                 assertEquals(1000.52, puntaje);
         }
 
@@ -211,37 +229,50 @@ public class ComprarProductoControllerTest {
 
         @Test
         void puntajeActualizado() {
-                RequestEntity<Void> request = RequestEntity.patch(SERVER_URL + "/api/comprar/actualizar-puntaje/1")
+                RequestEntity<Void> request = RequestEntity.patch(SERVER_URL + "/api/comprar/actualizar-puntaje/1/1")
                                 .build();
                 ResponseEntity<Double> response = rest.exchange(request, Double.class);
                 assertEquals(HttpStatus.OK, response.getStatusCode());
-                Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje", Double.class);
+                Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje/1", Double.class);
                 assertEquals(950.52, puntaje);
         }
 
         // prueba de post, para acceder usar comando .\mvnw test
         // -Dtest=ComprarProductoControllerTest#realizarCompra
+
         @Test
         void realizarCompra() {
                 Long productoId = 1L;
+                Long jugadorId = 1L;
+
                 Optional<InventarioPlaneta> inventarioPlanetaOpt = inventarioPlanetaRepository.findById(productoId);
                 assertTrue(inventarioPlanetaOpt.isPresent());
-                double precioProducto = inventarioPlanetaOpt.get().getProducto().getPrecio();
+                double capacidadProducto = inventarioPlanetaOpt.get().getProducto().getVolumen();
 
-                System.out.println("Precio del producto: " + precioProducto);
+                Jugador jugador = jugadorRepository.findById(jugadorId).orElseThrow();
+                Nave nave = jugador.getNave();
 
-                Partida partidaInicial = partidaRepository.findById(1L).orElseThrow();
-                double puntajeInicial = partidaInicial.getPuntaje();
+                nave = naveRepository.findInventarioByNombre(nave.getNombre()).orElseThrow();
 
-                RequestEntity<Void> request = RequestEntity.post(SERVER_URL + "/api/comprar/realizar-compra/1")
-                                .build();
+                double capacidadUsadaInicial = nave.getInventario().stream().mapToDouble(InventarioNave::getCantidad)
+                                .sum();
+                double capacidadMaxima = nave.getCapacidadMax();
+
+                CompraDTO compraDTO = new CompraDTO(jugadorId, productoId);
+
+                RequestEntity<CompraDTO> request = RequestEntity.post(SERVER_URL + "/api/comprar/realizar-compra")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(compraDTO);
                 ResponseEntity<String> response = rest.exchange(request, String.class);
                 assertEquals(HttpStatus.OK, response.getStatusCode());
 
-                Partida partidaFinal = partidaRepository.findById(1L).orElseThrow();
-                double puntajeFinal = partidaFinal.getPuntaje();
+                nave = naveRepository.findInventarioByNombre(nave.getNombre()).orElseThrow();
+                double capacidadUsadaFinal = nave.getInventario().stream().mapToDouble(InventarioNave::getCantidad)
+                                .sum();
 
-                assertEquals(puntajeInicial - precioProducto, puntajeFinal);
+                assertEquals(capacidadUsadaInicial + capacidadProducto, capacidadUsadaFinal);
+
+                assertTrue(capacidadUsadaFinal <= capacidadMaxima);
         }
 
 }

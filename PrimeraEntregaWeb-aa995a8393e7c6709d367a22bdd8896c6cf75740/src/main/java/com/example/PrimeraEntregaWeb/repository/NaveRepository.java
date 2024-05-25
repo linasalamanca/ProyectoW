@@ -18,5 +18,8 @@ public interface NaveRepository extends JpaRepository<Nave, String> {
     @Query("SELECT DISTINCT p FROM Nave e JOIN e.jugadores p WHERE SIZE(e.jugadores) > 0")
     List<Jugador> findEquipo();
 
-    //Optional<Nave> findByUsuario(String usuario);
+    // Optional<Nave> findByUsuario(String usuario);
+
+    @Query("SELECT n FROM Nave n LEFT JOIN FETCH n.inventario WHERE n.nombre = ?1")
+    Optional<Nave> findInventarioByNombre(String nombre);
 }

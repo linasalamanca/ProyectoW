@@ -1,3 +1,11 @@
 GET http://localhost:8080/api/comprar/list/4
 ###
 POST http://localhost:8080/api/comprar/realizar-compra/2
+
+###
+
+GET http://localhost:8080/api/comprar/obtener-puntaje/1
+
+###
+
+POST http://localhost:8080/api/comprar/realizar-compra

@@ -3,10 +3,13 @@ package com.example.PrimeraEntregaWeb.dto;
 public class CompraDTO {
     private Long idJugador;
     private Long idInventario;
-    
+
     public CompraDTO(Long idJugador, Long idInventario) {
         this.idJugador = idJugador;
         this.idInventario = idInventario;
+    }
+
+    public CompraDTO() {
     }
 
     public Long getIdJugador() {

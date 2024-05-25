@@ -29,7 +29,6 @@ import jakarta.transaction.Transactional;
 @Service
 public class InventarioNaveService {
 
-    
     Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -114,17 +113,20 @@ public class InventarioNaveService {
 
     @Transactional
     public void realizarCompra(Long idInventario, Long idJugador) {
-        InventarioPlaneta inventarioPlaneta = inventarioPlanetaRepositorio.findById(idInventario).orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
-        Jugador jugador = jugadorRepositorio.findById(idJugador).orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
+        InventarioPlaneta inventarioPlaneta = inventarioPlanetaRepositorio.findById(idInventario)
+                .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
+        Jugador jugador = jugadorRepositorio.findById(idJugador)
+                .orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
 
         double precio = inventarioPlaneta.getProducto().getPrecio();
         if (jugador.getNave().getDinero() >= precio) {
             // Verificar si la nave tiene capacidad suficiente
-            double capacidadUsada = jugador.getNave().getInventario().stream().mapToDouble(InventarioNave::getCantidad).sum();
+            double capacidadUsada = jugador.getNave().getInventario().stream().mapToDouble(InventarioNave::getCantidad)
+                    .sum();
             double capacidadProducto = inventarioPlaneta.getProducto().getVolumen();
             log.info("Capacidad usada: " + capacidadUsada + " Capacidad producto: " + capacidadProducto);
             log.info("capacidad maxima nave: " + jugador.getNave().getCapacidadMax());
-            
+
             if (jugador.getNave().getCapacidadMax() >= capacidadUsada + capacidadProducto) {
                 // Actualizar el dinero de la nave
                 jugador.getNave().setDinero(jugador.getNave().getDinero() - precio);
@@ -138,8 +140,9 @@ public class InventarioNaveService {
 
                 // Añadir el producto al inventario de la nave
                 Optional<InventarioNave> inventarioNaveOpt = jugador.getNave().getInventario().stream()
-                    .filter(invNave -> invNave.getProducto().getId().equals(inventarioPlaneta.getProducto().getId()))
-                    .findFirst();
+                        .filter(invNave -> invNave.getProducto().getId()
+                                .equals(inventarioPlaneta.getProducto().getId()))
+                        .findFirst();
 
                 if (inventarioNaveOpt.isPresent()) {
                     InventarioNave inventarioNave = inventarioNaveOpt.get();
@@ -166,13 +169,15 @@ public class InventarioNaveService {
 
     @Transactional
     public void realizarVenta(Long idInventario, Long idJugador) {
-        InventarioPlaneta inventarioPlaneta = inventarioPlanetaRepositorio.findById(idInventario).orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
-        Jugador jugador = jugadorRepositorio.findById(idJugador).orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
+        InventarioPlaneta inventarioPlaneta = inventarioPlanetaRepositorio.findById(idInventario)
+                .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
+        Jugador jugador = jugadorRepositorio.findById(idJugador)
+                .orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
 
         // Verificar si la nave tiene el producto en su inventario
         Optional<InventarioNave> inventarioNaveOpt = jugador.getNave().getInventario().stream()
-            .filter(invNave -> invNave.getProducto().getId().equals(inventarioPlaneta.getProducto().getId()))
-            .findFirst();
+                .filter(invNave -> invNave.getProducto().getId().equals(inventarioPlaneta.getProducto().getId()))
+                .findFirst();
 
         if (inventarioNaveOpt.isPresent()) {
             InventarioNave inventarioNave = inventarioNaveOpt.get();
@@ -192,7 +197,8 @@ public class InventarioNaveService {
                 inventarioPlaneta.setCantidad(inventarioPlaneta.getCantidad() + 1);
                 inventarioPlanetaRepositorio.save(inventarioPlaneta);
 
-                // Si la cantidad del producto en la nave llega a 0, eliminarlo del inventario de la nave
+                // Si la cantidad del producto en la nave llega a 0, eliminarlo del inventario
+                // de la nave
                 if (inventarioNave.getCantidad() == 0) {
                     jugador.getNave().getInventario().remove(inventarioNave);
                     inventarioNaveRepositorio.delete(inventarioNave);
@@ -206,6 +212,5 @@ public class InventarioNaveService {
             throw new RuntimeException("Producto no encontrado en el inventario de la nave");
         }
     }
-
 
 }
