@@ -1,6 +1,7 @@
 package com.example.PrimeraEntregaWeb.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -41,11 +42,15 @@ import com.example.PrimeraEntregaWeb.repository.PlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.ProductoRepository;
 import com.example.PrimeraEntregaWeb.repository.TipoNaveRepository;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+
 import jakarta.transaction.Transactional;
 
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -53,11 +58,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
 
 import com.example.PrimeraEntregaWeb.controller.ComprarProductoController;
 import com.example.PrimeraEntregaWeb.dto.CompraDTO;
 import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
 import com.example.PrimeraEntregaWeb.dto.InformacionVentaProductoDTO;
+import com.example.PrimeraEntregaWeb.dto.JwtAuthenticationResponse;
+import com.example.PrimeraEntregaWeb.dto.LoginDTO;
 import com.example.PrimeraEntregaWeb.model.Partida;
 
 @ActiveProfiles("integration-testing")
@@ -88,6 +96,12 @@ public class ComprarProductoControllerTest {
 
         @LocalServerPort
         private int port;
+
+        @Autowired
+        private TestRestTemplate rest;
+
+        @Autowired
+        private PasswordEncoder passwordEncoder;
 
         @BeforeEach
         void init() {
@@ -184,7 +198,7 @@ public class ComprarProductoControllerTest {
                         }
                 }
 
-                Jugador jugador = new Jugador("CAPITAN", "Usuario1", "hola");
+                Jugador jugador = new Jugador("PILOTO", "pilot1", passwordEncoder.encode("hola1"));
                 jugador.setNave(naves.get(0));
                 jugadorRepository.save(jugador);
 
@@ -195,14 +209,51 @@ public class ComprarProductoControllerTest {
                 naveRepository.save(naves.get(0));
         }
 
-        @Autowired
-        private TestRestTemplate rest;
+        private JwtAuthenticationResponse login(String usuario, String contrasena) {
+
+                LoginDTO loginRequest = new LoginDTO(usuario, contrasena);
+
+                RequestEntity<LoginDTO> request = RequestEntity.post(SERVER_URL + "/api/auth/login")
+                                .body(loginRequest);
+                ResponseEntity<JwtAuthenticationResponse> jwtResponse = rest.exchange(request,
+                                JwtAuthenticationResponse.class);
+
+                if (jwtResponse.getBody() == null) {
+                        System.out.println("Response body is null");
+                } else {
+                        System.out.println("Response token: " + jwtResponse.getBody().getToken());
+                }
+                assertNotNull(jwtResponse.getBody());
+
+                return jwtResponse.getBody();
+        }
 
         // prueba de get, comando para correr mvn test
         // .\mvnw test -Dtest=ComprarProductoControllerTest#traerPuntaje
+        /*
+         * @Test
+         * void traerPuntaje() {
+         * JwtAuthenticationResponse pilot1 = login("pilot1", "hola1");
+         * RequestEntity<Void> request = RequestEntity.get(SERVER_URL +
+         * "/api/comprar/obtener-puntaje/1")
+         * .header(HttpHeaders.AUTHORIZATION, "Bearer " + pilot1.getToken()).build();
+         * ResponseEntity<Double> puntaje = rest.exchange(request, Double.class);
+         * // Double puntaje = rest.getForObject(SERVER_URL +
+         * // "/api/comprar/obtener-puntaje/1", Double.class);
+         * assertEquals(1000.52, puntaje);
+         * 
+         * }
+         */
+
         @Test
         void traerPuntaje() {
-                Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje/1", Double.class);
+                JwtAuthenticationResponse pilot1 = login("pilot1", "hola1");
+                HttpHeaders headers = new HttpHeaders();
+                headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + pilot1.getToken());
+                HttpEntity<Void> request = new HttpEntity<>(headers);
+                ResponseEntity<Double> response = rest.exchange(SERVER_URL + "/api/comprar/obtener-puntaje/1",
+                                HttpMethod.GET, request, Double.class);
+                Double puntaje = response.getBody();
                 assertEquals(1000.52, puntaje);
         }
 
@@ -210,18 +261,42 @@ public class ComprarProductoControllerTest {
         // -Dtest=ComprarProductoControllerTest#traerTiempo
         @Test
         void traerTiempo() {
-                Double tiempo = rest.getForObject(SERVER_URL + "/api/escoger-estrella/tiempo", Double.class);
+                JwtAuthenticationResponse pilot1 = login("pilot1", "hola1");
+                HttpHeaders headers = new HttpHeaders();
+                headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + pilot1.getToken());
+                HttpEntity<Void> request = new HttpEntity<>(headers);
+                ResponseEntity<Double> response = rest.exchange(SERVER_URL + "/api/escoger-estrella/tiempo",
+                                HttpMethod.GET, request, Double.class);
+                Double tiempo = response.getBody();
                 assertEquals(0.0, tiempo);
+                // Double tiempo = rest.getForObject(SERVER_URL +
+                // "/api/escoger-estrella/tiempo", Double.class);
+                // assertEquals(0.0, tiempo);
         }
 
         // prueba de get, comando para correr mvn test
         // -Dtest=ComprarProductoControllerTest#infoVentaProducto
+        @SuppressWarnings("null")
         @Test
         void infoVentaProducto() {
-                @SuppressWarnings("unchecked")
-                List<InformacionVentaProductoDTO> informacion = rest.getForObject(SERVER_URL + "/api/comprar/list/1",
-                                List.class);
+
+                JwtAuthenticationResponse pilot1 = login("pilot1", "hola1");
+                HttpHeaders headers = new HttpHeaders();
+                headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + pilot1.getToken());
+                HttpEntity<Void> request = new HttpEntity<>(headers);
+                ResponseEntity<List<InformacionVentaProductoDTO>> response = rest.exchange(
+                                SERVER_URL + "/api/comprar/list/1",
+                                HttpMethod.GET, request,
+                                new ParameterizedTypeReference<List<InformacionVentaProductoDTO>>() {
+                                });
+                List<InformacionVentaProductoDTO> informacion = response.getBody();
                 assertEquals(3, informacion.size());
+
+                // @SuppressWarnings("unchecked")
+                // List<InformacionVentaProductoDTO> informacion = rest.getForObject(SERVER_URL
+                // + "/api/comprar/list/1",
+                // List.class);
+                // assertEquals(3, informacion.size());
         }
 
         // prueba de patch, para acceder usar comando .\mvnw test
@@ -229,19 +304,82 @@ public class ComprarProductoControllerTest {
 
         @Test
         void puntajeActualizado() {
-                RequestEntity<Void> request = RequestEntity.patch(SERVER_URL + "/api/comprar/actualizar-puntaje/1/1")
-                                .build();
-                ResponseEntity<Double> response = rest.exchange(request, Double.class);
+                JwtAuthenticationResponse pilot1 = login("pilot1", "hola1");
+                HttpHeaders headers = new HttpHeaders();
+                headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + pilot1.getToken());
+                HttpEntity<Void> request = new HttpEntity<>(headers);
+
+                ResponseEntity<Double> response = rest.exchange(SERVER_URL + "/api/comprar/actualizar-puntaje/1/1",
+                                HttpMethod.PATCH, request, Double.class);
                 assertEquals(HttpStatus.OK, response.getStatusCode());
                 Double puntaje = rest.getForObject(SERVER_URL + "/api/comprar/obtener-puntaje/1", Double.class);
                 assertEquals(950.52, puntaje);
+
+                // RequestEntity<Void> request = RequestEntity.patch(SERVER_URL +
+                // "/api/comprar/actualizar-puntaje/1/1")
+                // .build();
+                /*
+                 * ResponseEntity<Double> response = rest.exchange(request, Double.class);
+                 * assertEquals(HttpStatus.OK, response.getStatusCode());
+                 * Double puntaje = rest.getForObject(SERVER_URL +
+                 * "/api/comprar/obtener-puntaje/1", Double.class);
+                 * assertEquals(950.52, puntaje);
+                 */
         }
 
         // prueba de post, para acceder usar comando .\mvnw test
         // -Dtest=ComprarProductoControllerTest#realizarCompra
 
+        /*
+         * @Test
+         * void realizarCompra() {
+         * Long productoId = 1L;
+         * Long jugadorId = 1L;
+         * 
+         * Optional<InventarioPlaneta> inventarioPlanetaOpt =
+         * inventarioPlanetaRepository.findById(productoId);
+         * assertTrue(inventarioPlanetaOpt.isPresent());
+         * double capacidadProducto =
+         * inventarioPlanetaOpt.get().getProducto().getVolumen();
+         * 
+         * Jugador jugador = jugadorRepository.findById(jugadorId).orElseThrow();
+         * Nave nave = jugador.getNave();
+         * 
+         * nave = naveRepository.findInventarioByNombre(nave.getNombre()).orElseThrow();
+         * 
+         * double capacidadUsadaInicial =
+         * nave.getInventario().stream().mapToDouble(InventarioNave::getCantidad)
+         * .sum();
+         * double capacidadMaxima = nave.getCapacidadMax();
+         * 
+         * CompraDTO compraDTO = new CompraDTO(jugadorId, productoId);
+         * 
+         * RequestEntity<CompraDTO> request = RequestEntity.post(SERVER_URL +
+         * "/api/comprar/realizar-compra")
+         * .contentType(MediaType.APPLICATION_JSON)
+         * .body(compraDTO);
+         * ResponseEntity<String> response = rest.exchange(request, String.class);
+         * assertEquals(HttpStatus.OK, response.getStatusCode());
+         * 
+         * nave = naveRepository.findInventarioByNombre(nave.getNombre()).orElseThrow();
+         * double capacidadUsadaFinal =
+         * nave.getInventario().stream().mapToDouble(InventarioNave::getCantidad)
+         * .sum();
+         * 
+         * assertEquals(capacidadUsadaInicial + capacidadProducto, capacidadUsadaFinal);
+         * 
+         * assertTrue(capacidadUsadaFinal <= capacidadMaxima);
+         * }
+         */
+
         @Test
         void realizarCompra() {
+
+                JwtAuthenticationResponse pilot1 = login("pilot1", "hola1");
+                HttpHeaders headers = new HttpHeaders();
+                headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + pilot1.getToken());
+                headers.setContentType(MediaType.APPLICATION_JSON);
+
                 Long productoId = 1L;
                 Long jugadorId = 1L;
 
@@ -258,12 +396,14 @@ public class ComprarProductoControllerTest {
                                 .sum();
                 double capacidadMaxima = nave.getCapacidadMax();
 
-                CompraDTO compraDTO = new CompraDTO(jugadorId, productoId);
+                assertTrue(capacidadUsadaInicial + capacidadProducto <= capacidadMaxima,
+                                "Capacidad insuficiente en la nave");
 
-                RequestEntity<CompraDTO> request = RequestEntity.post(SERVER_URL + "/api/comprar/realizar-compra")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .body(compraDTO);
-                ResponseEntity<String> response = rest.exchange(request, String.class);
+                CompraDTO compraDTO = new CompraDTO(jugadorId, productoId);
+                HttpEntity<CompraDTO> request = new HttpEntity<>(compraDTO, headers);
+                ResponseEntity<String> response = rest.exchange(SERVER_URL + "/api/comprar/realizar-compra",
+                                HttpMethod.POST, request, String.class);
+
                 assertEquals(HttpStatus.OK, response.getStatusCode());
 
                 nave = naveRepository.findInventarioByNombre(nave.getNombre()).orElseThrow();
@@ -271,7 +411,6 @@ public class ComprarProductoControllerTest {
                                 .sum();
 
                 assertEquals(capacidadUsadaInicial + capacidadProducto, capacidadUsadaFinal);
-
                 assertTrue(capacidadUsadaFinal <= capacidadMaxima);
         }
 
