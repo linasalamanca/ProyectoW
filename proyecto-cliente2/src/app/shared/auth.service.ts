@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment.development';
+import { JwtAuthenticationResponse } from '../dto/jwt-authentication-response';
+import { LoginDto } from '../dto/login-dto';
+
+const JWT_TOKEN = "jwt-token";
+const USERNAME = "user-username";
+const ROLE = "user-role";
+const ID = "user-id";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = `${environment.serverUrl}/api/iniciar`;
+  private apiUrl = `${environment.serverUrl}/api/auth/login`;
 
 
 
@@ -18,15 +25,23 @@ export class AuthService {
     
    }
 
-  login(usuario: string, contrasena: string): Observable<any> {
-    return this.http.post<any>(this.apiUrl, { usuario, contrasena })
+  login(loginDto: LoginDto): Observable<JwtAuthenticationResponse> {
+    return this.http.post<JwtAuthenticationResponse>(this.apiUrl, loginDto)
       .pipe(
-        tap(response => {
+        map(jwt => {
+          // Importante: https://stackoverflow.com/questions/27067251/where-to-store-jwt-in-browser-how-to-protect-against-csrf
+          sessionStorage.setItem(JWT_TOKEN, jwt.token);
+          sessionStorage.setItem(USERNAME, jwt.user);
+          sessionStorage.setItem(ROLE, jwt.role);
+          sessionStorage.setItem(ID, jwt.id.toString());
+          return jwt;
+        })
+        /*tap(response => {
           if (response && response.id) {
             sessionStorage.setItem('usuario', JSON.stringify({ id: response.id, nombre: usuario }));
           }
         }),
-        catchError(this.handleError)
+        catchError(this.handleError)*/
       );
   }
 
@@ -36,15 +51,26 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('usuario');
+   // sessionStorage.removeItem('usuario');
+   sessionStorage.removeItem(JWT_TOKEN);
+   sessionStorage.removeItem(USERNAME);
+   sessionStorage.removeItem(ROLE);
   }
 
-  getCurrentUser(): { id: number, nombre: string } | null {
-    const user = sessionStorage.getItem('usuario');
-    return user ? JSON.parse(user) : null;
+
+  isAuthenticated() {
+    return sessionStorage.getItem(JWT_TOKEN) != null;
   }
 
-  setCurrentUser(user: { id: number, nombre: string }): void {
-    sessionStorage.setItem('usuario', JSON.stringify(user));
+  token() {
+    return sessionStorage.getItem(JWT_TOKEN);
+  }
+
+  role() {
+    return sessionStorage.getItem(ROLE);
+  }
+
+  id() {
+    return sessionStorage.getItem(ID) || '';
   }
 }

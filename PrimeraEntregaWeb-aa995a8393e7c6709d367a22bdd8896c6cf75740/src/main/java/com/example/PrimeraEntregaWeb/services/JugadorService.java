@@ -2,6 +2,9 @@ package com.example.PrimeraEntregaWeb.services;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.PrimeraEntregaWeb.model.Jugador;
 import com.example.PrimeraEntregaWeb.repository.JugadorRepository;
@@ -41,7 +44,8 @@ public class JugadorService {
     }
 
     public Jugador authenticate(String usuario, String contrasena) {
-        Jugador jugador = jugadorRepositorio.findByUsuario(usuario);
+        Jugador jugador = jugadorRepositorio.findByUsuario(usuario)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
         if (jugador != null && jugador.getContrasena().equals(contrasena)) {
             return jugador;
         }
@@ -49,7 +53,18 @@ public class JugadorService {
     }
 
     public Jugador buscarJugadorPorUsuario(String usuario) {
-        return jugadorRepositorio.findByUsuario(usuario);
+        return jugadorRepositorio.findByUsuario(usuario)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
+    }
+
+     public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) {
+                return jugadorRepositorio.findByUsuario(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            }
+        };
     }
 
 }

@@ -20,13 +20,8 @@ export class FinalizarComponent {
 
 
   ngOnInit(): void {
-    
-    const currentUser = this.authService.getCurrentUser();
-    if (currentUser) {
-      this.idJugador = currentUser.id;
-    } else {
-      console.error('No hay un usuario autenticado');
-    }
+    this.idJugador = isNaN(parseInt(this.authService.id())) ? undefined : parseInt(this.authService.id());
+
     this.infoService.obtenerTiempo().subscribe(t => this.infoService.setInfoTiempo(t));
     this.infoService.obtenerPuntajeCompra(this.idJugador!).subscribe(puntaje => this.infoService.setInfoPuntaje(puntaje));
   }
