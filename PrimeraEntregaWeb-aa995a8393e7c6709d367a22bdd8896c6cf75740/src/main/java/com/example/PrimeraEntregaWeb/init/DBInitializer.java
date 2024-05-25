@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 
@@ -56,6 +57,8 @@ private InventarioNaveRepository inventarioNaveRepository;
 private InventarioPlanetaRepository inventarioPlanetaRepository;
 @Autowired
 private PartidaRepository partidaRepository;
+@Autowired
+private PasswordEncoder passwordEncoder;
 
 @Override
 public void run(String... args) throws Exception {
@@ -113,17 +116,22 @@ public void run(String... args) throws Exception {
 
 /* Crear lista de jugadores */
     List<Jugador> jugadores = new ArrayList<>();
-    for (int i = 0; i < 25; i++) {
-        Jugador jugador = new Jugador("rol" + i, "jugador" + i, "hola" + i);
+    for (int i = 0; i < 12; i++) {
+        
+        Jugador jugador = new Jugador("PILOTO", "pilot" + i,  passwordEncoder.encode("hola" + i));
+        Jugador jugador2 = new Jugador("COMERCIANTE", "comerciant" + i,  passwordEncoder.encode("hola" + i));
+        Jugador jugador3 = new Jugador("CAPITAN", "capit" + i,  passwordEncoder.encode("hola" + i));
         jugadores.add(jugador);
+        jugadores.add(jugador2);
+        jugadores.add(jugador3);   
     }
 
     /* Dividir los jugadores en los equipos */
     List<List<Jugador>> equipos = new ArrayList<>();
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
         List<Jugador> equipo = new ArrayList<>();
-        for (int j = 0; j < 5; j++) {
-        equipo.add(jugadores.get(i * 5 + j));
+        for (int j = 0; j < 6; j++) {
+        equipo.add(jugadores.get(i * 6 + j));
         }
         equipos.add(equipo);
     }

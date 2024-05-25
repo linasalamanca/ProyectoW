@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/auth.service';
 import { InformacionJuegoService } from '../shared/informacion-juego.service';
+import { LoginDto } from '../dto/login-dto';
 
 
 @Component({
@@ -10,9 +11,10 @@ import { InformacionJuegoService } from '../shared/informacion-juego.service';
   styleUrls: ['./iniciar.component.css']
 })
 export class IniciarComponent {
+  loginDto: LoginDto = new LoginDto("", "");
   usuario: string = '';
   contrasena: string = '';
-  idJugador: number | undefined;
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -20,20 +22,13 @@ export class IniciarComponent {
   ) { }
   iniciarJuego() {
    
-    console.log('Intentando iniciar sesión con', this.usuario, this.contrasena);
-    this.authService.login(this.usuario, this.contrasena).subscribe(jugador => {
+    console.log('Intentando iniciar sesión con', this.loginDto);
+    this.authService.login(this.loginDto).subscribe(jugador => {
       
-      const currentUser = this.authService.getCurrentUser();
-      if (currentUser) {
-        this.idJugador = currentUser.id;
-      } else {
-        console.error('No hay un usuario autenticado');
-      }
-
       console.log('Autenticado:', jugador);
       if (jugador) {
         // Aquí obtenemos el puntaje y luego navegamos
-        this.infoService.obtenerPuntajeCompra(this.idJugador!).subscribe(puntaje => {
+        this.infoService.obtenerPuntajeCompra(jugador.id!).subscribe(puntaje => {
           this.infoService.setInfoPuntaje(puntaje);
           console.log('Navegando a /escoger-estrella/list');
           this.router.navigate(['/escoger-estrella/list']);

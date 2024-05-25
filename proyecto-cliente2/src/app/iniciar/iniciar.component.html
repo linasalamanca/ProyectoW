@@ -7,11 +7,11 @@
     <form (ngSubmit)="iniciarJuego()">
       <div>
         <label for="usuario">Usuario</label>
-        <input type="text" id="usuario" [(ngModel)]="usuario" name="usuario" required>
+        <input type="text" id="usuario" [(ngModel)]="loginDto.user" [(ngModel)]="usuario" name="usuario" required>
       </div>
       <div>
         <label for="contraseña">Contraseña</label>
-        <input type="password" id="contrasena" [(ngModel)]="contrasena" name="contrasena" required>
+        <input type="password" id="contrasena" [(ngModel)]="loginDto.password" [(ngModel)]="contrasena" name="contrasena" required>
       </div>
       <button type="submit" id="iniciarJuego">Iniciar Juego</button>
     </form>

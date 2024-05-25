@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/comprar")
 public class ComprarProductoController {
 
@@ -118,6 +120,7 @@ public class ComprarProductoController {
         // Actualizar el puntaje de la partida
         partidaService.actualizarPuntaje(puntaje, partida);
     }
+
 
     @GetMapping("/obtener-puntaje/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
