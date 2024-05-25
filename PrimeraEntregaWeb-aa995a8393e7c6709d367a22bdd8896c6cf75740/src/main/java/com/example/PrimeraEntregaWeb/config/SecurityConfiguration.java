@@ -40,27 +40,7 @@ public class SecurityConfiguration {
     private JugadorService userService;
 
     @Bean
-    /*public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector)
-            throws Exception {
-        MvcRequestMatcher h2RequestMatcher = new MvcRequestMatcher(introspector, "/**");
-        h2RequestMatcher.setServletPath("/h2");
-        http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(h2RequestMatcher).permitAll());
-        http.headers(headers -> headers.frameOptions(t -> t.disable()));
-
-        return http
-                .cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/auth/**", "/obtener-puntaje/**")
-                        .permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-
-    }*/
+   
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher h2RequestMatcher = new MvcRequestMatcher(introspector, "/**");
         h2RequestMatcher.setServletPath("/h2");

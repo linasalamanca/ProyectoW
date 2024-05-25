@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { InformacionJuego } from '../dto/informacion-juego';
 import { InformacionJuegoService } from '../shared/informacion-juego.service';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-escoger-estrella',
@@ -17,13 +18,16 @@ export class EscogerEstrellaComponent {
 
   estrellas:EscogerEstrella [] = [];
   
-
+  public viajar:boolean = false;
   constructor(
     public infoService: InformacionJuegoService,
     private estrellaService: EscogerEstrellaService,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+    private authService: AuthService,
+  ) { 
+    this.viajar =this.verificarRol();
+  }
 
   ngOnInit(): void {
     this.estrellaService.listarEstrellas().subscribe(estrella => this.estrellas = estrella)
@@ -43,4 +47,13 @@ export class EscogerEstrellaComponent {
       
   }
 
+  verificarRol():boolean{
+   const currentRole = this.authService.role();
+   if((currentRole === 'PILOTO')||(currentRole === 'CAPITAN')){
+     return true;
+    }else{
+      return false;
+    }
+
+  } 
 }

@@ -4,6 +4,7 @@ import { EscogerPlanetaService } from '../shared/escoger-planeta.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { InformacionJuegoService } from '../shared/informacion-juego.service';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-escoger-planeta',
@@ -12,13 +13,17 @@ import { InformacionJuegoService } from '../shared/informacion-juego.service';
 })
 export class EscogerPlanetaComponent implements OnInit {
   planetas: EscogerPlaneta [] = []
+  public comerciar:boolean = false;
 
   constructor(
     public infoService: InformacionJuegoService,
     private planetaServicio: EscogerPlanetaService,
     private router: Router,
-    private route: ActivatedRoute
-  ){}
+    private route: ActivatedRoute,
+    private authService: AuthService,
+  ){
+    this.comerciar =this.verificarRol();
+  }
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
@@ -51,4 +56,13 @@ export class EscogerPlanetaComponent implements OnInit {
   irAVender(planetaId: number): void{
     this.router.navigate([`/escoger-planeta/${planetaId}/vender/list`]);
   }
+  verificarRol():boolean{
+    const currentRole = this.authService.role();
+    if((currentRole === 'COMERCIANTE')||(currentRole === 'CAPITAN')){
+      return true;
+     }else{
+       return false;
+     }
+ 
+   } 
 }

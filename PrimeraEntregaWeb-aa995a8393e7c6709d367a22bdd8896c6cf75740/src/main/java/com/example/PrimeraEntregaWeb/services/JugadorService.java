@@ -26,7 +26,7 @@ public class JugadorService {
         return jugadorRepositorio.findById(id).orElseThrow();
     }
 
-    public void actualizarJuagdor(Jugador jugador) {
+    public void actualizarJugador(Jugador jugador) {
         Jugador j = jugadorRepositorio.findById(jugador.getId()).orElseThrow();
         j.setRol(jugador.getRol());
         j.setUsuario(jugador.getUsuario());

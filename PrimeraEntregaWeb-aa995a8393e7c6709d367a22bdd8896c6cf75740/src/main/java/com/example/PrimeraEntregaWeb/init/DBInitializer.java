@@ -23,6 +23,7 @@ import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.model.Partida;
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.model.Producto;
+import com.example.PrimeraEntregaWeb.model.Role;
 import com.example.PrimeraEntregaWeb.model.TipoNave;
 import com.example.PrimeraEntregaWeb.repository.EstrellaRepository;
 import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
@@ -118,9 +119,9 @@ public void run(String... args) throws Exception {
     List<Jugador> jugadores = new ArrayList<>();
     for (int i = 0; i < 12; i++) {
         
-        Jugador jugador = new Jugador("PILOTO", "pilot" + i,  passwordEncoder.encode("hola" + i));
-        Jugador jugador2 = new Jugador("COMERCIANTE", "comerciant" + i,  passwordEncoder.encode("hola" + i));
-        Jugador jugador3 = new Jugador("CAPITAN", "capit" + i,  passwordEncoder.encode("hola" + i));
+        Jugador jugador = new Jugador(Role.PILOTO, "pilot" + i,  passwordEncoder.encode("hola" + i));
+        Jugador jugador2 = new Jugador(Role.COMERCIANTE, "comerciant" + i,  passwordEncoder.encode("hola" + i));
+        Jugador jugador3 = new Jugador(Role.CAPITAN, "capit" + i,  passwordEncoder.encode("hola" + i));
         jugadores.add(jugador);
         jugadores.add(jugador2);
         jugadores.add(jugador3);   

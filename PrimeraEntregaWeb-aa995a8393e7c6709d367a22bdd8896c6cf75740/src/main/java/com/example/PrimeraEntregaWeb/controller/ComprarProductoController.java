@@ -89,6 +89,7 @@ public class ComprarProductoController {
      * }
      * }
      */
+    //@Secured({"COMERCIANTE", "CAPITAN"})
     @PostMapping("/realizar-compra")
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> realizarCompra(@RequestBody CompraDTO objeto) {
@@ -101,7 +102,9 @@ public class ComprarProductoController {
                     .body("Error al realizar la compra: " + e.getMessage());
         }
     }
+    
 
+    //@Secured({"COMERCIANTE", "CAPITAN"})
     @PatchMapping("/actualizar-puntaje/{idJugador}/{idInventario}")
     @CrossOrigin(origins = "http://localhost:4200")
     public void actualizarPuntaje(@PathVariable Long idJugador, @PathVariable Long idInventario) {

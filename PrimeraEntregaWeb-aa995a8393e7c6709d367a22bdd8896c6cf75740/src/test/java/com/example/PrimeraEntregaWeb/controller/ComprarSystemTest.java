@@ -34,6 +34,7 @@ import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.model.Partida;
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.model.Producto;
+import com.example.PrimeraEntregaWeb.model.Role;
 import com.example.PrimeraEntregaWeb.model.TipoNave;
 import com.example.PrimeraEntregaWeb.repository.EstrellaRepository;
 import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
@@ -118,8 +119,18 @@ public class ComprarSystemTest {
 
         List<Jugador> jugadores = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
-            Jugador jugador = new Jugador("rol" + i, "jugador" + i, "hola" + i);
+            Jugador jugador = new Jugador(Role.PILOTO, "pilot" + i,  "hola" + i);
+            Jugador jugador2 = new Jugador(Role.COMERCIANTE, "comerciant" + i,  "hola" + i);
+            Jugador jugador3 = new Jugador(Role.CAPITAN, "capit" + i,  "hola" + i);
             jugadores.add(jugador);
+            jugadores.add(jugador2);
+            jugadores.add(jugador3);
+           /*  Jugador jugador = new Jugador(Role.PILOTO, "pilot" + i,  passwordEncoder.encode("hola" + i));
+            Jugador jugador2 = new Jugador(Role.COMERCIANTE, "comerciant" + i,  passwordEncoder.encode("hola" + i));
+            Jugador jugador3 = new Jugador(Role.CAPITAN, "capit" + i,  passwordEncoder.encode("hola" + i));
+            jugadores.add(jugador);
+            jugadores.add(jugador2);
+            jugadores.add(jugador3);*/
         }
 
         List<List<Jugador>> equipos = new ArrayList<>();
