@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InformacionVentaProducto } from '../dto/informacion-venta-producto';
 import { VenderService } from '../shared/vender.service';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, mergeMap, switchMap } from 'rxjs';
 import { InformacionJuegoService } from '../shared/informacion-juego.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -42,7 +42,7 @@ export class VenderComponent implements OnInit {
         if (isNaN(planetaId)) {
           throw new Error('Planeta ID must be a number');
         }
-        return this.venderService.listarProductos(planetaId);
+        return this.venderService.listarProductos(this.idJugador!);
       })
     ).subscribe(productos => {
       console.log('Productos loaded:', productos); // Log the products after subscription
@@ -61,11 +61,18 @@ export class VenderComponent implements OnInit {
         return;
       }
 
-      this.venderService.actualizarPuntaje(this.idJugador!,idInventario).subscribe(_=> 
+     /* this.venderService.actualizarPuntaje(this.idJugador!,idInventario).subscribe(_=> 
         this.infoService.obtenerPuntajeVenta(this.idJugador!).subscribe(
           puntaje => this.infoService.setInfoPuntaje(puntaje)));
           
-      this.venderService.realizarVenta(idInventario,this.idJugador).subscribe(() => this.location.back());
+      this.venderService.realizarVenta(idInventario,this.idJugador).subscribe(() => this.location.back());*/
+      this.venderService.realizarVenta(idInventario, this.idJugador!).pipe(
+         mergeMap(() => this.venderService.actualizarPuntaje(this.idJugador!, idInventario)),
+         mergeMap(() => this.infoService.obtenerPuntajeVenta(this.idJugador!)),
+      ).subscribe(puntaje => {
+         this.infoService.setInfoPuntaje(puntaje);
+         this.location.back();
+      });
   }
 
 }

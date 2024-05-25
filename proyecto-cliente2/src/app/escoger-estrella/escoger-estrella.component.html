@@ -13,7 +13,8 @@
             <img src="assets/estrella.png" alt="Estrella" class="estrella-imagen">
             <div coordenadas>ID: {{ estrella.id }}</div>
             <div coordenadas>Coordenadas: [{{ estrella.coordenadaX }}, {{ estrella.coordenadaY }}, {{ estrella.coordenadaZ }}]</div>
-            <button (click)="realizarViaje(estrella.id)" id ="botonViajarEstrella">Viajar a esta estrella</button>
+            <button (click)="realizarViaje(estrella.id)" id ="botonViajarEstrella" *ngIf="viajar">Viajar a esta estrella</button>
+            <div *ngIf="!viajar" class ="no-viajar">No tienes permisos para viajar</div>
         </div>
     </div>
 </div>

@@ -20,9 +20,12 @@
             <tr *ngFor="let planeta of planetas">
                 <td>{{ planeta.id }}</td>
                 <td>{{ planeta.nombre}}</td>
-                <td>
+                <td *ngIf = "comerciar">
                     <button (click)="irAComprar(planeta.id)" id ="botonComprar">Comprar</button>
                     <button (click)="irAVender(planeta.id)" id ="botonVender">Vender</button>
+                </td>
+                <td *ngIf = "!comerciar">
+                    <div class ="no-comerciar">No tienes permisos para comerciar</div>
                 </td>
             </tr>
         </tbody>

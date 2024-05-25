@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,7 +29,8 @@ public class Jugador implements UserDetails{
 
     @Column(name = "rol", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
-    private String rol;
+    @Enumerated(EnumType.STRING)
+    private Role rol;
 
     @Column(name = "usuario", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
@@ -41,11 +44,11 @@ public class Jugador implements UserDetails{
     @JsonIgnore
     private Nave nave;
 
-    public String getRol() {
+    public Role getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
+    public void setRol(Role rol) {
         this.rol = rol;
     }
 
@@ -65,7 +68,7 @@ public class Jugador implements UserDetails{
         this.contrasena = contrasena;
     }
 
-    public Jugador(String rol, String usuario, String contrasena) {
+    public Jugador(Role rol, String usuario, String contrasena) {
         this.rol = rol;
         this.usuario = usuario;
         this.contrasena = contrasena;
@@ -93,7 +96,7 @@ public class Jugador implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // TODO Auto-generated method stub
-        return List.of(new SimpleGrantedAuthority(rol));
+        return List.of(new SimpleGrantedAuthority(rol.name()));
 
        // throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
     }

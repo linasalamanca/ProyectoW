@@ -1,16 +1,17 @@
 package com.example.PrimeraEntregaWeb.dto;
 
+import com.example.PrimeraEntregaWeb.model.Role;
 
 public class JwtAuthenticationResponse {
     private String token;
     private Long id;
     private String user;
-    private String role;
+    private Role role;
 
     public JwtAuthenticationResponse() {
     }
 
-    public JwtAuthenticationResponse(String token,Long id, String user, String role) {
+    public JwtAuthenticationResponse(String token,Long id, String user, Role role) {
         this.token = token;
         this.id = id;
         this.user = user;
@@ -33,11 +34,11 @@ public class JwtAuthenticationResponse {
         this.user = user;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

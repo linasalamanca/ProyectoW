@@ -23,6 +23,7 @@ import com.example.PrimeraEntregaWeb.model.Nave;
 import com.example.PrimeraEntregaWeb.model.Partida;
 import com.example.PrimeraEntregaWeb.model.Planeta;
 import com.example.PrimeraEntregaWeb.model.Producto;
+import com.example.PrimeraEntregaWeb.model.Role;
 import com.example.PrimeraEntregaWeb.model.TipoNave;
 import com.example.PrimeraEntregaWeb.repository.EstrellaRepository;
 import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
@@ -68,7 +69,7 @@ public void run(String... args) throws Exception {
     List<Producto> productos = new ArrayList<>();
     /* Generar productos */
     for (int i = 0; i < 10; i++) {
-        Producto producto = new Producto((i * 1.5), "tipo" + (i + 10));
+        Producto producto = new Producto(((i * 0.5)+2), "tipo" + (i + 10));
         productos.add(producto);
 
     }
@@ -96,7 +97,8 @@ public void run(String... args) throws Exception {
         random.nextDouble() * (90 - 10) + 10,
         random.nextDouble() * (90 - 10) + 10,
         "nave" + i,
-        random.nextDouble() * 200 + 15, random.nextDouble() * 500.5);
+        random.nextDouble() * 200 + 15, 
+        (random.nextDouble() * 850.0)+2500);
         nave.setTipo(tipoNaves.get(i));
         naves.add(nave);
 
@@ -107,7 +109,7 @@ public void run(String... args) throws Exception {
         for (int k = 0; k < productos.size(); k++) {
             InventarioNave inventarioNave = new InventarioNave();
             inventarioNave.setNave(nave);
-            inventarioNave.setCantidad(1.0 + k * 2);
+            inventarioNave.setCantidad((2.0 + k) * 2);
             inventarioNave.setfOfertaDemanda(random.nextDouble() * 1000000);
             inventarioNave.setProducto(productos.get(k));
             inventarioNaveRepository.save(inventarioNave);
@@ -118,9 +120,9 @@ public void run(String... args) throws Exception {
     List<Jugador> jugadores = new ArrayList<>();
     for (int i = 0; i < 12; i++) {
         
-        Jugador jugador = new Jugador("PILOTO", "pilot" + i,  passwordEncoder.encode("hola" + i));
-        Jugador jugador2 = new Jugador("COMERCIANTE", "comerciant" + i,  passwordEncoder.encode("hola" + i));
-        Jugador jugador3 = new Jugador("CAPITAN", "capit" + i,  passwordEncoder.encode("hola" + i));
+        Jugador jugador = new Jugador(Role.PILOTO, "pilot" + i,  passwordEncoder.encode("hola" + i));
+        Jugador jugador2 = new Jugador(Role.COMERCIANTE, "comerciant" + i,  passwordEncoder.encode("hola" + i));
+        Jugador jugador3 = new Jugador(Role.CAPITAN, "capit" + i,  passwordEncoder.encode("hola" + i));
         jugadores.add(jugador);
         jugadores.add(jugador2);
         jugadores.add(jugador3);   
@@ -169,7 +171,7 @@ public void run(String... args) throws Exception {
                 for (int k = 0; k < 3; k++) {
                 InventarioPlaneta inventarioPlaneta = new InventarioPlaneta();
                 inventarioPlaneta.setPlaneta(planeta);
-                inventarioPlaneta.setCantidad(5.0 + k * 2);
+                inventarioPlaneta.setCantidad((5.0 + k) * 2);
 
                 Double randomNumber = random.nextDouble(1000001);
                 inventarioPlaneta.setfOfertaDemanda(randomNumber);

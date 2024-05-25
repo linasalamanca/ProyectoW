@@ -55,7 +55,7 @@ public class JugadorController {
             return "jugador-edit";
         }
         try {
-            jugadorService.actualizarJuagdor(jugador);
+            jugadorService.actualizarJugador(jugador);
         } catch (Exception e) {
             loggy.error("Error al guardar el jugador", e);
             model.addAttribute("errorMensaje", "Error al guardar el jugudaor: " + e.getMessage());

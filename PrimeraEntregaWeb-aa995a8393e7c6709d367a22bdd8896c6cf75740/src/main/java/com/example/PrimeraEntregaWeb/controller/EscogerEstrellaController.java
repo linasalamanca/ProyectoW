@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +51,7 @@ public class EscogerEstrellaController {
         return estrellaService.listarEstrellasCercanas(x, y, z);
     }
 
+    //@Secured({"PILOTO", "CAPITAN"})
     @PostMapping("/cambiar-coordenadas-nave/{estrellaId}")
     @CrossOrigin(origins = "http://localhost:4200")
     public void cambiarCoordenadasNave(@PathVariable Long estrellaId) {
@@ -60,6 +62,7 @@ public class EscogerEstrellaController {
 
     }
 
+    //@Secured({"ROLE_PILOTO", "ROLE_CAPITAN"})
     @PostMapping("/calcular-tiempo/{estrellaId}")
     @CrossOrigin(origins = "http://localhost:4200")
     public boolean calcularTiempo(@PathVariable Long estrellaId) {
