@@ -55,7 +55,8 @@ public class VenderProductoController {
     @GetMapping("/list/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
     public List<InformacionVentaProductoDTO> listarProductos(@PathVariable Long id) {
-        return inventarioNaveService.listarInformacionVentaProducto("nave0");
+        String nave = jugadorService.buscarJugador(id).getNave().getNombre();
+        return inventarioNaveService.listarInformacionVentaProducto(nave);
     }
 
     /*@PostMapping("/realizar-venta/{id}")
@@ -102,7 +103,7 @@ public class VenderProductoController {
 
         // Calcular el nuevo puntaje basado en el precio del producto
         Double puntaje = partida.getPuntaje() 
-        - inventarioNaveService.buscarInventario(idInventario).getProducto().getPrecio();
+        + inventarioNaveService.buscarInventario(idInventario).getProducto().getPrecio();
         log.info("puntaje" + puntaje);
         log.info( "precio inventario" + inventarioNaveService.buscarInventario(idInventario).getProducto().getPrecio());
         log.info("id inventario"+ idInventario);

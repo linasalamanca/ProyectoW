@@ -18,8 +18,8 @@ export class VenderService {
     {"Content-Type": "application/json"}
   )
 
-  listarProductos(planetaId: number): Observable<InformacionVentaProducto[]>{
-    return this.http.get<InformacionVentaProducto[]>(`${environment.serverUrl}/api/vender/list/${planetaId}`)
+  listarProductos(jugadorId: number): Observable<InformacionVentaProducto[]>{
+    return this.http.get<InformacionVentaProducto[]>(`${environment.serverUrl}/api/vender/list/${jugadorId}`)
     .pipe(tap(data => console.log('Data from API:',data)));
   }
 

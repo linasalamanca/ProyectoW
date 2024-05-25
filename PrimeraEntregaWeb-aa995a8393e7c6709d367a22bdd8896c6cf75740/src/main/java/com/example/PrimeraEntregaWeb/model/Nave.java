@@ -41,17 +41,14 @@ public class Nave {
     @NotBlank(message = "no puede estar en blanco")
     private Double velocidad;
 
-    public Double getCapacidadMax() {
-        return capacidadMax;
-    }
-
-    public void setCapacidadMax(Double capacidadMax) {
-        this.capacidadMax = capacidadMax;
-    }
 
     @Column(name = "capacidadMax", nullable = false)
     @NotBlank(message = "no puede estar en blanco")
     private Double capacidadMax;
+
+    @Column(name = "capacidadUsada", nullable = false)
+    @NotBlank(message = "no puede estar en blanco")
+    private Double capacidadUsada;
 
     @OneToMany(mappedBy = "nave")
     private List<Jugador> jugadores = new ArrayList<>();
@@ -84,6 +81,7 @@ public class Nave {
         this.nombre = nombre;
         this.velocidad = velocidad;
         this.capacidadMax = capacidadMax;
+        this.capacidadUsada = 0.0;
     }
 
     public Double getDinero() {
@@ -181,5 +179,26 @@ public class Nave {
     public void setPartida(Partida partida) {
         this.partida = partida;
     }
+    public Double getCapacidadMax() {
+        return capacidadMax;
+    }
 
+    public void setCapacidadMax(Double capacidadMax) {
+        this.capacidadMax = capacidadMax;
+    }
+
+    public Double getCapacidadUsada() {
+        return this.calcularCapacidadUsada();
+    }
+
+    public void setCapacidadUsada(Double capacidadUsada) {
+        this.capacidadUsada = capacidadUsada;
+    }
+    public Double calcularCapacidadUsada(){
+        for (InventarioNave iNave : this.inventario) {
+            this.capacidadUsada += iNave.getCantidad() * iNave.getProducto().getVolumen();
+        }
+        return this.capacidadUsada;
+    }
+        
 }

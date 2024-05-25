@@ -69,7 +69,7 @@ public void run(String... args) throws Exception {
     List<Producto> productos = new ArrayList<>();
     /* Generar productos */
     for (int i = 0; i < 10; i++) {
-        Producto producto = new Producto((i * 1.5), "tipo" + (i + 10));
+        Producto producto = new Producto(((i * 0.5)+2), "tipo" + (i + 10));
         productos.add(producto);
 
     }
@@ -97,7 +97,8 @@ public void run(String... args) throws Exception {
         random.nextDouble() * (90 - 10) + 10,
         random.nextDouble() * (90 - 10) + 10,
         "nave" + i,
-        random.nextDouble() * 200 + 15, random.nextDouble() * 500.5);
+        random.nextDouble() * 200 + 15, 
+        (random.nextDouble() * 850.0)+2500);
         nave.setTipo(tipoNaves.get(i));
         naves.add(nave);
 
@@ -108,7 +109,7 @@ public void run(String... args) throws Exception {
         for (int k = 0; k < productos.size(); k++) {
             InventarioNave inventarioNave = new InventarioNave();
             inventarioNave.setNave(nave);
-            inventarioNave.setCantidad(1.0 + k * 2);
+            inventarioNave.setCantidad((2.0 + k) * 2);
             inventarioNave.setfOfertaDemanda(random.nextDouble() * 1000000);
             inventarioNave.setProducto(productos.get(k));
             inventarioNaveRepository.save(inventarioNave);
@@ -170,7 +171,7 @@ public void run(String... args) throws Exception {
                 for (int k = 0; k < 3; k++) {
                 InventarioPlaneta inventarioPlaneta = new InventarioPlaneta();
                 inventarioPlaneta.setPlaneta(planeta);
-                inventarioPlaneta.setCantidad(5.0 + k * 2);
+                inventarioPlaneta.setCantidad((5.0 + k) * 2);
 
                 Double randomNumber = random.nextDouble(1000001);
                 inventarioPlaneta.setfOfertaDemanda(randomNumber);

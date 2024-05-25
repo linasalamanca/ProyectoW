@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { InformacionVentaProducto } from '../dto/informacion-venta-producto';
 import { VenderService } from '../shared/vender.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, mergeMap, switchMap } from 'rxjs';
 import { InformacionJuegoService } from '../shared/informacion-juego.service';
 import { AuthService } from '../shared/auth.service';
 import { Location } from '@angular/common';
@@ -61,16 +61,17 @@ export class ComprarComponent implements OnInit {
       return;
     }
     
-    this.comprarService.actualizarPuntaje(this.idJugador!,inventarioId).subscribe(_=> 
+   /* this.comprarService.actualizarPuntaje(this.idJugador!,inventarioId).subscribe(_=> 
       this.infoService.obtenerPuntajeCompra(this.idJugador!).subscribe(
         puntaje => this.infoService.setInfoPuntaje(puntaje)));
-
-    /*this.comprarService.actualizarPuntaje(inventarioId).subscribe(() =>
-          this.infoService.obtenerPuntajeCompra().subscribe(
-            puntaje => this.infoService.setInfoPuntaje(puntaje))
-        );*/
-    
-
-    this.comprarService.realizarCompra(inventarioId,this.idJugador).subscribe(() => this.location.back());
+    this.comprarService.realizarCompra(inventarioId,this.idJugador).subscribe(() => this.location.back());*/
+    this.comprarService.realizarCompra(inventarioId, this.idJugador!).pipe(
+      mergeMap(() => this.comprarService.actualizarPuntaje(this.idJugador!, inventarioId)),
+      mergeMap(() => this.infoService.obtenerPuntajeCompra(this.idJugador!))
+    ).subscribe(puntaje => {
+      this.infoService.setInfoPuntaje(puntaje);
+      this.location.back();
+    });
   }
+  
 }

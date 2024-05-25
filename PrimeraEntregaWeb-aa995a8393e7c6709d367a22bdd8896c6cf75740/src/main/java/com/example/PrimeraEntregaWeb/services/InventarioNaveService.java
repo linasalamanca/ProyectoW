@@ -21,6 +21,7 @@ import com.example.PrimeraEntregaWeb.model.Producto;
 import com.example.PrimeraEntregaWeb.repository.InventarioNaveRepository;
 import com.example.PrimeraEntregaWeb.repository.InventarioPlanetaRepository;
 import com.example.PrimeraEntregaWeb.repository.JugadorRepository;
+import com.example.PrimeraEntregaWeb.repository.NaveRepository;
 import com.example.PrimeraEntregaWeb.repository.PartidaRepository;
 
 import io.micrometer.common.lang.NonNull;
@@ -43,6 +44,8 @@ public class InventarioNaveService {
 
     @Autowired
     private InventarioPlanetaRepository inventarioPlanetaRepositorio;
+    @Autowired
+    private NaveRepository naveRepositorio;
 
     private InventarioNave in;
 
@@ -92,7 +95,7 @@ public class InventarioNaveService {
 
             Double precio = i.getfOfertaDemanda() / (1 + i.getCantidad());
             i.getProducto().setPrecio(precio);
-
+            inventarioNaveRepositorio.save(i);
             InformacionVentaProductoDTO venta = new InformacionVentaProductoDTO(i.getProducto().getTipo(),
                     i.getCantidad(), i.getfOfertaDemanda(), precio, i.getId());
             listaProductosDTO.add(venta);
@@ -120,7 +123,8 @@ public class InventarioNaveService {
         double precio = inventarioPlaneta.getProducto().getPrecio();
         if (jugador.getNave().getDinero() >= precio) {
             // Verificar si la nave tiene capacidad suficiente
-            double capacidadUsada = jugador.getNave().getInventario().stream().mapToDouble(InventarioNave::getCantidad).sum();
+            //double capacidadUsada = jugador.getNave().getInventario().stream().mapToDouble(InventarioNave::getCantidad).sum();
+            double capacidadUsada = jugador.getNave().getCapacidadUsada();
             double capacidadProducto = inventarioPlaneta.getProducto().getVolumen();
             log.info("Capacidad usada: " + capacidadUsada + " Capacidad producto: " + capacidadProducto);
             log.info("capacidad maxima nave: " + jugador.getNave().getCapacidadMax());
@@ -143,7 +147,7 @@ public class InventarioNaveService {
 
                 if (inventarioNaveOpt.isPresent()) {
                     InventarioNave inventarioNave = inventarioNaveOpt.get();
-                    inventarioNave.setCantidad(inventarioNave.getCantidad() + capacidadProducto);
+                    inventarioNave.setCantidad(inventarioNave.getCantidad() + 1);
                     inventarioNaveRepositorio.save(inventarioNave);
                 } else {
                     InventarioNave nuevoInventarioNave = new InventarioNave();
@@ -191,11 +195,12 @@ public class InventarioNaveService {
                 // Actualizar la cantidad en el inventario del planeta
                 inventarioPlaneta.setCantidad(inventarioPlaneta.getCantidad() + 1);
                 inventarioPlanetaRepositorio.save(inventarioPlaneta);
+                
 
                 // Si la cantidad del producto en la nave llega a 0, eliminarlo del inventario de la nave
                 if (inventarioNave.getCantidad() == 0) {
-                    jugador.getNave().getInventario().remove(inventarioNave);
-                    inventarioNaveRepositorio.delete(inventarioNave);
+                   jugador.getNave().getInventario().remove(inventarioNave);
+                   inventarioNaveRepositorio.delete(inventarioNave);
                 }
 
                 jugadorRepositorio.save(jugador);
