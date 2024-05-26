@@ -14,6 +14,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -215,7 +216,7 @@ public class ComprarSystemTest {
     @SuppressWarnings("null")
     private String obtenerJwtToken() {
         RestTemplate restTemplate = new RestTemplate();
-        LoginDTO loginDto = new LoginDTO("pilot0", "hola0");
+        LoginDTO loginDto = new LoginDTO("capit0", "hola0");
         ResponseEntity<JwtAuthenticationResponse> response = restTemplate.postForEntity(
                 "http://localhost:8080/api/auth/login", loginDto, JwtAuthenticationResponse.class);
         return response.getBody().getToken();
@@ -238,7 +239,7 @@ public class ComprarSystemTest {
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("usuario")));
         WebElement username = driver.findElement(By.id("usuario"));
-        username.sendKeys("pilot0");
+        username.sendKeys("capit0");
 
         WebElement password = driver.findElement(By.id("contrasena"));
         password.sendKeys("hola0");
@@ -266,14 +267,18 @@ public class ComprarSystemTest {
 
         handleAlertIfPresent();
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("puntaje")));
-        WebElement puntaje = this.driver.findElement(By.id("puntaje"));
-
-        String cantidadEsperada = "Puntaje: 999.6666666";
         try {
-            wait.until(ExpectedConditions.textToBePresentInElement(puntaje, cantidadEsperada));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("puntaje")));
+            // Re-localizar el elemento puntaje antes de interactuar con él
+            WebElement puntaje = this.driver.findElement(By.id("puntaje"));
+
+            String cantidadEsperada = "Puntaje: 999.6666666";
+            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("puntaje"), cantidadEsperada));
+        } catch (UnhandledAlertException e) {
+            handleAlertIfPresent();
+            fail("Alerta inesperada: " + e.getAlertText());
         } catch (TimeoutException e) {
-            fail("No se pudo comprar, " + puntaje.getText());
+            fail("No se pudo comprar, elemento no encontrado o texto no coincide.");
         }
     }
 
