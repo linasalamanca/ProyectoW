@@ -10,7 +10,9 @@ import java.util.Random;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,10 +24,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.client.RestTemplate;
 
+import com.example.PrimeraEntregaWeb.dto.InformacionCompraProductoDTO;
+import com.example.PrimeraEntregaWeb.dto.JwtAuthenticationResponse;
+import com.example.PrimeraEntregaWeb.dto.LoginDTO;
 import com.example.PrimeraEntregaWeb.model.Estrella;
 import com.example.PrimeraEntregaWeb.model.InventarioNave;
 import com.example.PrimeraEntregaWeb.model.InventarioPlaneta;
@@ -74,15 +83,31 @@ public class ComprarSystemTest {
     private InventarioPlanetaRepository inventarioPlanetaRepository;
     @Autowired
     private PartidaRepository partidaRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    private InformacionCompraProductoDTO informacion = new InformacionCompraProductoDTO();
+
+    private String jwtToken;
 
     @BeforeEach
     void init() {
+        // Preparar datos
+        prepararDatos();
 
+        // Autenticar y obtener el token JWT
+        this.jwtToken = obtenerJwtToken();
+
+        // Configurar el navegador
+        configurarNavegador();
+
+        this.baseUrl = "http://localhost:4200";
+    }
+
+    private void prepararDatos() {
         List<TipoNave> tipoNaves = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            TipoNave tipoNave = new TipoNave("tipoNave" + i, random.nextDouble(),
-                    random.nextDouble());
+            TipoNave tipoNave = new TipoNave("tipoNave" + i, random.nextDouble(), random.nextDouble());
             tipoNaves.add(tipoNave);
         }
         tipoNaveRepository.saveAll(tipoNaves);
@@ -96,10 +121,8 @@ public class ComprarSystemTest {
 
         List<Nave> naves = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            Nave nave = new Nave(1000.00, random.nextDouble() * (90 - 10) + 10,
-                    random.nextDouble() * (90 - 10) + 10,
-                    random.nextDouble() * (90 - 10) + 10, "nave" + i, random.nextDouble() * 200 +
-                            15,
+            Nave nave = new Nave(1000.00, random.nextDouble() * (90 - 10) + 10, random.nextDouble() * (90 - 10) + 10,
+                    random.nextDouble() * (90 - 10) + 10, "nave" + i, random.nextDouble() * 200 + 15,
                     random.nextDouble() * 500.5);
             nave.setTipo(tipoNaves.get(i));
             naves.add(nave);
@@ -119,20 +142,13 @@ public class ComprarSystemTest {
 
         List<Jugador> jugadores = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
-            Jugador jugador = new Jugador(Role.PILOTO, "pilot" + i,  "hola" + i);
-            Jugador jugador2 = new Jugador(Role.COMERCIANTE, "comerciant" + i,  "hola" + i);
-            Jugador jugador3 = new Jugador(Role.CAPITAN, "capit" + i,  "hola" + i);
+            Jugador jugador = new Jugador(Role.PILOTO, "pilot" + i, passwordEncoder.encode("hola" + i));
+            Jugador jugador2 = new Jugador(Role.COMERCIANTE, "comerciant" + i, passwordEncoder.encode("hola" + i));
+            Jugador jugador3 = new Jugador(Role.CAPITAN, "capit" + i, passwordEncoder.encode("hola" + i));
             jugadores.add(jugador);
             jugadores.add(jugador2);
             jugadores.add(jugador3);
-           /*  Jugador jugador = new Jugador(Role.PILOTO, "pilot" + i,  passwordEncoder.encode("hola" + i));
-            Jugador jugador2 = new Jugador(Role.COMERCIANTE, "comerciant" + i,  passwordEncoder.encode("hola" + i));
-            Jugador jugador3 = new Jugador(Role.CAPITAN, "capit" + i,  passwordEncoder.encode("hola" + i));
-            jugadores.add(jugador);
-            jugadores.add(jugador2);
-            jugadores.add(jugador3);*/
         }
-
         List<List<Jugador>> equipos = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             List<Jugador> equipo = new ArrayList<>();
@@ -154,8 +170,7 @@ public class ComprarSystemTest {
         jugadorRepository.saveAll(jugadores);
 
         for (int i = 0; i < 5; i++) {
-            Estrella estrella = new Estrella(random.nextDouble() * (90 - 10) + 10,
-                    random.nextDouble() * (90 - 10) + 10,
+            Estrella estrella = new Estrella(random.nextDouble() * (90 - 10) + 10, random.nextDouble() * (90 - 10) + 10,
                     random.nextDouble() * (90 - 10) + 10);
             estrellaRepository.save(estrella);
             if (random.nextDouble() < 1) {
@@ -193,34 +208,63 @@ public class ComprarSystemTest {
         options.addArguments("start-maximized");
 
         this.driver = new ChromeDriver(options);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Incremento del tiempo de espera
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         this.baseUrl = "http://localhost:4200";
-
     }
 
-    // .\mvnw -Dtest=ComprarSystemTest#comprarTest test
+    @SuppressWarnings("null")
+    private String obtenerJwtToken() {
+        RestTemplate restTemplate = new RestTemplate();
+        LoginDTO loginDto = new LoginDTO("pilot0", "hola0");
+        ResponseEntity<JwtAuthenticationResponse> response = restTemplate.postForEntity(
+                "http://localhost:8080/api/auth/login", loginDto, JwtAuthenticationResponse.class);
+        return response.getBody().getToken();
+    }
+
+    private void configurarNavegador() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--disable-extensions");
+        options.addArguments("start-maximized");
+
+        this.driver = new ChromeDriver(options);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+    }
+
     @Test
     void comprarTest() {
         this.driver.get(baseUrl + "/iniciar");
+
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("usuario")));
         WebElement username = driver.findElement(By.id("usuario"));
-        username.sendKeys("jugador0");
+        username.sendKeys("pilot0");
+
         WebElement password = driver.findElement(By.id("contrasena"));
         password.sendKeys("hola0");
+
         WebElement buttonIniciarJuego = this.driver.findElement(By.id("iniciarJuego"));
         buttonIniciarJuego.click();
+
+        handleAlertIfPresent();
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("botonViajarEstrella")));
         WebElement buttonViajar = this.driver.findElement(By.id("botonViajarEstrella"));
         buttonViajar.click();
 
+        handleAlertIfPresent();
+
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("botonComprar")));
         WebElement buttonComprar = this.driver.findElement(By.id("botonComprar"));
         buttonComprar.click();
 
+        handleAlertIfPresent();
+
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("comprar")));
         WebElement buttonComprar2 = this.driver.findElement(By.id("comprar"));
         buttonComprar2.click();
+
+        handleAlertIfPresent();
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("puntaje")));
         WebElement puntaje = this.driver.findElement(By.id("puntaje"));
@@ -233,8 +277,23 @@ public class ComprarSystemTest {
         }
     }
 
+    private void handleAlertIfPresent() {
+        try {
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+            if (alert != null) {
+                String alertText = alert.getText();
+                System.out.println("Alerta presente: " + alertText);
+                alert.accept();
+            }
+        } catch (TimeoutException | NoAlertPresentException e) {
+            // No alert found, do nothing
+        }
+    }
+
     @AfterEach
     void end() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }

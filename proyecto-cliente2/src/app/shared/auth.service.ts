@@ -55,6 +55,7 @@ export class AuthService {
    sessionStorage.removeItem(JWT_TOKEN);
    sessionStorage.removeItem(USERNAME);
    sessionStorage.removeItem(ROLE);
+   sessionStorage.removeItem(ID);
   }
 
 

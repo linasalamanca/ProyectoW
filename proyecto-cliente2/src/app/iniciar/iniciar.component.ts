@@ -21,13 +21,10 @@ export class IniciarComponent {
     public infoService: InformacionJuegoService,
   ) { }
   iniciarJuego() {
-   
     console.log('Intentando iniciar sesión con', this.loginDto);
     this.authService.login(this.loginDto).subscribe(jugador => {
-      
       console.log('Autenticado:', jugador);
       if (jugador) {
-        // Aquí obtenemos el puntaje y luego navegamos
         this.infoService.obtenerPuntajeCompra(jugador.id!).subscribe(puntaje => {
           this.infoService.setInfoPuntaje(puntaje);
           console.log('Navegando a /escoger-estrella/list');
